@@ -82,7 +82,7 @@ function ProductFallback() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// MODELO 3D + ANIMAÇÃO DE IDLE VIA useFrame
+// MODELO 3D + ANIMAÇÃO DE FLOAT ELEGANTE VIA useFrame
 // ─────────────────────────────────────────────────────────────
 function ProductModel() {
   const { scene } = useGLTF("/models/ap001.glb");
@@ -95,28 +95,36 @@ function ProductModel() {
           ? child.material
           : [child.material];
         mats.forEach((mat) => {
-          if ("color" in mat && typeof mat.color?.set === "function")
-            mat.color.set(0xf2f2f2);
-          if ("roughness" in mat) mat.roughness = 0.18;
-          if ("metalness" in mat) mat.metalness = 0.05;
+          if ("color" in mat && typeof mat.color?.set === "function") {
+            // Branco premium, mais puro
+            mat.color.set(0xfafafa);
+          }
+          if ("roughness" in mat) mat.roughness = 0.12;
+          if ("metalness" in mat) mat.metalness = 0.08;
           mat.needsUpdate = true;
         });
       }
     });
   }, [scene]);
 
-  const clock = React.useRef({ theta: 0, floatT: 0 });
+  // Aumentamos levemente a escala (2.4) para destacar mais e melhorar o enquadramento "close-up"
+  const clock = React.useRef({ floatT: 0 });
 
   useFrame((_, delta) => {
     if (!groupRef.current) return;
-    clock.current.theta += delta * 0.35;
-    groupRef.current.rotation.y = clock.current.theta;
-    clock.current.floatT += delta * 0.6;
-    groupRef.current.position.y = Math.sin(clock.current.floatT) * 0.08 - 0.55;
+    
+    // Float orgânico muito suave no eixo Y
+    clock.current.floatT += delta * 0.8;
+    groupRef.current.position.y = Math.sin(clock.current.floatT) * 0.05 - 0.45;
+    
+    // Pequena inclinação para não ficar 100% rígido e complementar a iluminação
+    groupRef.current.rotation.z = Math.sin(clock.current.floatT * 0.5) * 0.015;
+    groupRef.current.rotation.x = Math.cos(clock.current.floatT * 0.5) * 0.01;
   });
 
+  // Escala contida (1.85) para maior respiro negativo no bounding box, deixando o design mais clean e refinado
   return (
-    <group ref={groupRef} position={[0, -0.55, 0]} scale={2.3}>
+    <group ref={groupRef} position={[0, -0.45, 0]} scale={1.85}>
       <primitive object={scene} />
     </group>
   );
@@ -127,14 +135,20 @@ function ProductModel() {
 // ─────────────────────────────────────────────────────────────
 function Scene() {
   const controlsRef = React.useRef<OrbitControlsImpl>(null);
+  
+  // Timer para reiniciar o autoRotate após interação do usuário
   const resumeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleStart = () => {
     if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    if (controlsRef.current) controlsRef.current.autoRotate = false;
   };
 
   const handleEnd = () => {
-    resumeTimer.current = setTimeout(() => {}, 2000);
+    // Retoma a rotação automática de forma elegante após 3 segundos
+    resumeTimer.current = setTimeout(() => {
+      if (controlsRef.current) controlsRef.current.autoRotate = true;
+    }, 3000);
   };
 
   return (
@@ -142,17 +156,22 @@ function Scene() {
       <color attach="background" args={["#ffffff"]} />
       <fog attach="fog" args={["#ffffff", 8, 28]} />
 
-      <ambientLight intensity={1.0} />
-      <Environment preset="studio" environmentIntensity={0.5} resolution={128} />
-      <directionalLight position={[3, 8, 5]} intensity={0.6} castShadow shadow-mapSize={[512, 512]} />
-      <directionalLight position={[-4, 4, -2]} intensity={0.3} />
+      <ambientLight intensity={1.1} />
+      <Environment preset="studio" environmentIntensity={0.6} resolution={256} />
+      {/* Ajuste suave nas luzes principais para destacar os vincos do frasco branco */}
+      <directionalLight position={[4, 10, 6]} intensity={0.7} castShadow shadow-mapSize={[1024, 1024]} />
+      <directionalLight position={[-5, 5, -2]} intensity={0.25} />
 
       <OrbitControls
         ref={controlsRef}
         enableZoom={false}
         enablePan={false}
         enableDamping
-        dampingFactor={0.05}
+        dampingFactor={0.04}
+        autoRotate={true}
+        autoRotateSpeed={0.8} // Rotação bem suave e premium
+        minPolarAngle={Math.PI / 2 - 0.3} // Limita a visão aérea
+        maxPolarAngle={Math.PI / 2 + 0.15} // Limita a visão inferior
         onStart={handleStart}
         onEnd={handleEnd}
         makeDefault
@@ -163,13 +182,13 @@ function Scene() {
       </React.Suspense>
 
       <ContactShadows
-        position={[0, -1.55, 0]}
-        opacity={0.22}
+        position={[0, -1.25, 0]} // Ajustado para a nova escala menor
+        opacity={0.15}
         scale={8}
-        blur={3.5}
+        blur={4.5}
         far={3.5}
-        resolution={256}
-        color="#1a1a1a"
+        resolution={512}
+        color="#171717"
       />
     </>
   );
