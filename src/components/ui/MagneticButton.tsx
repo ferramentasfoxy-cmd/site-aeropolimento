@@ -3,7 +3,11 @@ import * as React from "react";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
-import { Button, ButtonProps } from "@/components/ui/Button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import type { VariantProps } from "class-variance-authority";
+
+type ButtonProps = React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & { asChild?: boolean };
 
 interface MagneticButtonProps extends ButtonProps {
   children: React.ReactNode;

@@ -1,7 +1,7 @@
 'use client';
 import * as React from "react";
 import gsap from "gsap";
-import { Button } from "../ui/Button";
+import { Button } from "../ui/button";
 
 export function Header() {
   const headerRef = React.useRef<HTMLElement>(null);

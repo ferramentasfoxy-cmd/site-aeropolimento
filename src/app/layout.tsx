@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Geist } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/components/layout/Header";
+import { Preloader } from "@/components/ui/Preloader";
+import { CustomCursor } from "@/components/ui/CustomCursor";
+import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "Aeropolimento - Produtos Químicos Aeronáuticos",
-  description: "Compostos para polimento e proteção aeronáutica. Qualidade premium, provado e aprovado ANAC.",
+  description: "Compostos para polimento e proteção aeronáutica. Qualidade premium, aprovado ANAC.",
 };
-
-import { Preloader } from "@/components/ui/Preloader";
-import { CustomCursor } from "@/components/ui/CustomCursor";
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
 
 export default function RootLayout({
   children,
@@ -21,12 +18,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={cn(geist.className, "font-sans", geist.variable)}>
-      <body className="bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] antialiased selection:bg-[var(--color-aero-blue)] selection:text-white overflow-x-hidden">
+    <html lang="pt-BR" className={cn(geist.variable, "font-sans")}>
+      <body className="bg-[var(--color-surface-canvas)] text-[var(--color-text-primary)] antialiased overflow-x-hidden">
         <Preloader />
         <CustomCursor />
-        <Header />
-        <main>{children}</main>
+        {/* Header NÃO fica aqui — cada seção gerencia seu próprio header overlay */}
+        {children}
       </body>
     </html>
   );

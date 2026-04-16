@@ -20,13 +20,13 @@ export function ProductsSection() {
       badge: "Aprovado ANAC",
       title: "Cera Líquida",
       description: "Camada protetora contra raios UV e contaminantes ambientais. Restaura e mantém o brilho da fuselagem por semanas após a aplicação.",
-      imageSrc: "/images/products/ap001.png"
+      imageSrc: "/images/products/ap0010.png"
     },
     {
       badge: "Aprovado ANAC",
       title: "Massa de Polir",
       description: "Composto de correção para superfícies com pintura poliéster e poliuretano. Elimina micro-riscos e marcas sem agressividade, restaurando o acabamento.",
-      imageSrc: "/images/products/ap001.png"
+      imageSrc: "/images/products/ap0020.png"
     }
   ];
 
