@@ -2,6 +2,7 @@ import { Hero } from "@/components/sections/Hero/Hero";
 import { BrandsMarquee } from "@/components/sections/Brands/BrandsMarquee";
 import { AboutSection } from "@/components/sections/About/AboutSection";
 import { ProductsSection } from "@/components/sections/Products/ProductsSection";
+import { PortfolioSection } from "@/components/sections/Portfolio/PortfolioSection";
 
 export default function Home() {
   return (
@@ -19,6 +20,9 @@ export default function Home() {
 
       {/* Bloco 03 - Linha de Produtos */}
       <ProductsSection />
+
+      {/* Bloco 04 - Portfólio (Casos de Sucesso) */}
+      <PortfolioSection />
     </main>
   );
 }
