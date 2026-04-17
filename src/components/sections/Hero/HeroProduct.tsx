@@ -113,18 +113,19 @@ function ProductModel() {
   useFrame((_, delta) => {
     if (!groupRef.current) return;
     
-    // Float orgânico muito suave no eixo Y
+  // Float orgânico muito suave no eixo Y
     clock.current.floatT += delta * 0.8;
     groupRef.current.position.y = Math.sin(clock.current.floatT) * 0.05 - 0.45;
     
-    // Pequena inclinação para não ficar 100% rígido e complementar a iluminação
+    // Deixamos a rotação base intocada aqui porque será liderada pelo mouse/OrbitControls
+    // Apenas micro-oscilação se desejado:
     groupRef.current.rotation.z = Math.sin(clock.current.floatT * 0.5) * 0.015;
     groupRef.current.rotation.x = Math.cos(clock.current.floatT * 0.5) * 0.01;
   });
 
-  // Escala contida (1.85) para maior respiro negativo no bounding box, deixando o design mais clean e refinado
+  // Escala contida e rotação inicial para um "Corporate Profile" clássico (-Math.PI / 7)
   return (
-    <group ref={groupRef} position={[0, -0.45, 0]} scale={1.85}>
+    <group ref={groupRef} position={[0, -0.45, 0]} rotation={[0, -Math.PI / 7, 0]} scale={1.85}>
       <primitive object={scene} />
     </group>
   );
@@ -136,21 +137,6 @@ function ProductModel() {
 function Scene() {
   const controlsRef = React.useRef<OrbitControlsImpl>(null);
   
-  // Timer para reiniciar o autoRotate após interação do usuário
-  const resumeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const handleStart = () => {
-    if (resumeTimer.current) clearTimeout(resumeTimer.current);
-    if (controlsRef.current) controlsRef.current.autoRotate = false;
-  };
-
-  const handleEnd = () => {
-    // Retoma a rotação automática de forma elegante após 3 segundos
-    resumeTimer.current = setTimeout(() => {
-      if (controlsRef.current) controlsRef.current.autoRotate = true;
-    }, 3000);
-  };
-
   return (
     <>
       <color attach="background" args={["#ffffff"]} />
@@ -166,14 +152,12 @@ function Scene() {
         ref={controlsRef}
         enableZoom={false}
         enablePan={false}
+        enableRotate={true}
         enableDamping
         dampingFactor={0.04}
-        autoRotate={true}
-        autoRotateSpeed={0.8} // Rotação bem suave e premium
+        autoRotate={false} // Desabilitado para focar num look corporativo. Gira apenas por interação!
         minPolarAngle={Math.PI / 2 - 0.3} // Limita a visão aérea
         maxPolarAngle={Math.PI / 2 + 0.15} // Limita a visão inferior
-        onStart={handleStart}
-        onEnd={handleEnd}
         makeDefault
       />
 

@@ -50,6 +50,17 @@ export function ProductsSection() {
         }
       });
 
+      // 2. Controlar a exbição da Side-Bar (só aparece dentro desta sessão!)
+      gsap.to('.indicador-container', {
+        autoAlpha: 1, // Torna visível (fade)
+        scrollTrigger: {
+          trigger: container,
+          start: "top center",
+          end: "bottom center",
+          toggleActions: "play reverse play reverse",
+        }
+      });
+
       const updateDots = (index: number) => {
         document.querySelectorAll('.indicador-dot').forEach((dot, i) => {
           if (i === index) {
@@ -191,7 +202,7 @@ export function ProductsSection() {
           }
         }
 
-        /* Indicador Dot fixo elegante */
+        /* Indicador Dot fixo elegante - Inicialmente invisível e revelado via GSAP */
         .indicador-container {
           position: fixed;
           left: 2vw;
@@ -201,6 +212,8 @@ export function ProductsSection() {
           flex-direction: column;
           gap: 1.5rem;
           z-index: 50;
+          opacity: 0;
+          visibility: hidden;
         }
         .indicador-dot {
           width: 5px;
