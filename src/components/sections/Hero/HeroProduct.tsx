@@ -200,8 +200,13 @@ function Scene() {
 export function HeroProduct() {
   const containerRef = React.useRef<HTMLDivElement>(null);
 
-  // Detecta WebGL UMA VEZ na inicialização — sem retries, sem spam
-  const [webglAvailable] = React.useState<boolean>(() => detectWebGL());
+  // Assume WebGL is available during SSR and initial hydration to avoid Hydration Mismatch.
+  // We check actual availability in the client-side useEffect.
+  const [webglAvailable, setWebglAvailable] = React.useState<boolean>(true);
+
+  React.useEffect(() => {
+    setWebglAvailable(detectWebGL());
+  }, []);
 
   React.useEffect(() => {
     const ctx = gsap.context(() => {

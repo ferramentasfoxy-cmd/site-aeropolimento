@@ -5,8 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ProductCard } from "./ProductCard";
 
 export function ProductsSection() {
-  const containerRef = React.useRef<HTMLElement>(null);
-  const headlineRef = React.useRef<HTMLHeadingElement>(null);
+  const containerRef = React.useRef<HTMLDivElement>(null);
 
   // Payload Baseado no copy-homepage.md
   const products = [
@@ -32,145 +31,270 @@ export function ProductsSection() {
 
   React.useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-    
-    const ctx = gsap.context(() => {
-      // Entrada da Secao Completa
-      gsap.fromTo(headlineRef.current, 
-        { opacity: 0, y: 30 },
-        { 
-          opacity: 1, 
-          y: 0, 
-          duration: 1, 
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 75%"
-          }
-        }
-      );
+    const container = containerRef.current;
+    if (!container) return;
 
-      // Refatoração GSAP para os Super Palcos (Stages)
-      gsap.fromTo(
-        ".copy-text-reveal",
-        { opacity: 0, y: 30 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1.4,
-          stagger: 0.15,
-          ease: "expo.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top 75%",
-          }
-        }
-      );
+    let ctx = gsap.context(() => {
+      
+      const sections = gsap.utils.toArray('.produto-fullscreen') as HTMLElement[];
 
-      // Animação dos palcos revelando verticalmente
-      gsap.utils.toArray('.product-stage').forEach((stage: any, index) => {
-        gsap.fromTo(stage,
-          { opacity: 0, y: 80, scale: 0.98 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 1.6,
-            ease: "expo.out",
-            scrollTrigger: {
-              trigger: stage,
-              start: "top 80%"
-            }
-          }
-        );
+      // 1. Marca d'água Global (Move levemente durante toda a rolagem dos produtos)
+      gsap.to('.marca-dagua', {
+        yPercent: -50,
+        ease: "none",
+        scrollTrigger: {
+          trigger: container,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1
+        }
       });
-    }, containerRef);
-    
-    return () => ctx.revert();
+
+      const updateDots = (index: number) => {
+        document.querySelectorAll('.indicador-dot').forEach((dot, i) => {
+          if (i === index) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+      };
+
+      // Orquestração Premium - Sticky Card Stacking (Nativo e Clean)
+      sections.forEach((section, index) => {
+        
+        // --- 1. Entrada de Conteúdo Simples e Elegante ---
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top 60%", 
+            end: "top 20%",
+            toggleActions: "play none none reverse",
+          }
+        });
+
+        const titulos = section.querySelectorAll('.titulo');
+        if (titulos.length) tl.from(titulos, { y: 30, opacity: 0, duration: 1, stagger: 0.1, ease: "power2.out" }, 0);
+
+        const descricoes = section.querySelectorAll('.descricao');
+        if (descricoes.length) tl.from(descricoes, { y: 20, opacity: 0, duration: 1, stagger: 0.1, ease: "power2.out" }, 0.1);
+
+        const img = section.querySelector('.imagem-produto');
+        if (img) tl.from(img, { y: 30, opacity: 0, duration: 1.2, ease: "power2.out" }, 0.1);
+
+        // --- 2. Correção: Sem scale down tosco. Apenas uma leve escurecida simulando sombra da camada de cima ---
+        const nextSection = sections[index + 1];
+        if (nextSection) {
+          ScrollTrigger.create({
+            trigger: nextSection,
+            start: "top bottom", 
+            end: "top top",      
+            scrub: true,         
+            animation: gsap.to(section, {
+              filter: "brightness(0.7)", // Apenas escurece, mantendo o enquadramento rígido.
+              ease: "none"
+            })
+          });
+        }
+
+        // --- 3. Controle da Side-Bar ---
+        ScrollTrigger.create({
+          trigger: section,
+          start: "top center",
+          end: "bottom center",
+          onEnter: () => updateDots(index),
+          onEnterBack: () => updateDots(index)
+        });
+      });
+
+    }, container);
+
+    // Refresh for GSAP to map heights perfectly
+    const timeoutId = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 300);
+
+    return () => {
+      clearTimeout(timeoutId);
+      ctx.revert();
+    };
   }, []);
 
   return (
-    <section 
-      id="produtos"
-      ref={containerRef} 
-      className="relative w-full bg-[#fdfdfd] pt-32 pb-40 overflow-hidden"
-    >
-      {/* Camada Visual de Fundo: Studio Lighting Radial & Decorativos Aeronáuticos */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        
-        {/* Iluminacao Radial de Estúdio */}
-        <div className="absolute top-0 right-0 w-[80vw] h-[60vh] bg-[radial-gradient(ellipse_at_top_right,_rgba(240,240,240,1)_0%,_rgba(253,253,253,0)_70%)]" />
-        <div className="absolute top-[40%] left-0 w-[60vw] h-[60vh] bg-[radial-gradient(ellipse_at_center_left,_rgba(255,235,235,0.4)_0%,_rgba(253,253,253,0)_60%)]" />
-        
-        {/* Technical Grid Invisível */}
-        <div className="absolute inset-0 opacity-[0.2] bg-[linear-gradient(to_right,#e5e5e5_1px,transparent_1px),linear-gradient(to_bottom,#e5e5e5_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_100%_at_50%_0%,#000_20%,transparent_100%)]" />
+    <div ref={containerRef} id="produtos" className="container-produtos relative w-full bg-[#0a0a0a]">
+      <style>{`
+        .container-produtos {
+          position: relative;
+          width: 100%;
+          /* Margin top para respiro se vier do Hero */
+          z-index: 10;
+        }
 
-        {/* Large Scale Aeronautical Backdrop Decorators */}
-        
-        {/* Huge Continental Flight Path */}
-        <svg className="absolute top-[10%] left-0 w-[120vw] h-[80vh] opacity-[0.03] pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-           <path d="M -10,90 Q 50,40 110,10" fill="none" stroke="#bd1622" strokeWidth="0.2" strokeDasharray="1 3" />
-           <path d="M -10,30 Q 50,80 110,50" fill="none" stroke="#171717" strokeWidth="0.1" />
-        </svg>
+        .produto-fullscreen {
+          height: 100vh;
+          width: 100%;
+          /* A MAGIA ACONTECE AQUI */
+          position: sticky;
+          top: 0;
+          overflow: hidden;
+          background-color: #fdfdfd; 
+          will-change: transform, opacity, filter;
+          /* Sombra projetada na parte de cima cria a ilusão de camada física cobrindo a anterior */
+          box-shadow: 0 -25px 50px -12px rgba(0,0,0,0.15);
+          display: flex;
+          align-items: center;
+        }
 
-        {/* Subtle Radar/Compass Sweep in the background */}
-        <div className="absolute top-[20%] right-[-10%] w-[60vw] h-[60vw] max-w-[800px] max-h-[800px] border border-gray-200/50 rounded-full opacity-20 flex items-center justify-center">
-            <div className="w-[80%] h-[80%] border border-gray-200/30 rounded-full" />
-            <div className="absolute w-full h-[1px] bg-gradient-to-r from-transparent via-gray-200/40 to-transparent" />
-            <div className="absolute h-full w-[1px] bg-gradient-to-b from-transparent via-gray-200/40 to-transparent" />
-        </div>
+        /* O primeiro não precisa de sombra superior */
+        .produto-fullscreen:first-child {
+          box-shadow: none;
+        }
+
+        .marca-dagua {
+          position: absolute;
+          right: -5vw;
+          top: 50%;
+          transform: translateY(-50%) rotate(-90deg);
+          font-size: clamp(150px, 18vw, 300px);
+          font-weight: 900;
+          text-transform: uppercase;
+          letter-spacing: 0.25em;
+          color: rgba(23, 23, 23, 0.02);
+          pointer-events: none;
+          z-index: 0;
+          white-space: nowrap;
+          will-change: transform;
+        }
+
+        .conteudo-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 4vw;
+          align-items: center;
+          padding: 0 6vw;
+          height: 100%;
+          width: 100%;
+          max-width: 1600px;
+          margin: 0 auto;
+          position: relative;
+          z-index: 10;
+        }
+
+        @media (max-width: 900px) {
+          .conteudo-grid {
+            grid-template-columns: 1fr;
+            text-align: center;
+            gap: 2rem;
+            padding-top: 5rem;
+            padding-bottom: 2rem;
+          }
+          .marca-dagua {
+            font-size: 15vh;
+            right: -10vw;
+          }
+        }
+
+        /* Indicador Dot fixo elegante */
+        .indicador-container {
+          position: fixed;
+          left: 3vw;
+          top: 50%;
+          transform: translateY(-50%);
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          z-index: 50;
+        }
+        .indicador-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background-color: rgba(0, 0, 0, 0.15);
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          cursor: pointer;
+        }
+        .indicador-dot.active {
+          background-color: #bd1622;
+          height: 24px;
+          border-radius: 12px;
+          box-shadow: 0 0 15px rgba(189,22,34,0.4);
+        }
+        @media (max-width: 768px) {
+           .indicador-container {
+             display: none;
+           }
+        }
+      `}</style>
+
+      {/* Indicador Lateral */}
+      <div className="indicador-container">
+        {Array.from({ length: products.length + 1 }).map((_, i) => (
+          <div key={i} className={`indicador-dot ${i === 0 ? 'active' : ''}`} />
+        ))}
       </div>
 
-      <div className="relative z-10 w-full max-w-[1300px] mx-auto px-6 lg:px-8 flex flex-col items-center">
-        
-        {/* Cabeçalho & Copy Editorial (Centralizado e Majestoso) */}
-        <div ref={headlineRef} className="flex flex-col items-center text-center w-full max-w-[900px] mb-28">
-          
-          <div className="copy-text-reveal flex items-center gap-3 mb-8 bg-white/80 backdrop-blur-md border border-gray-200/60 px-5 py-2.5 rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
-            <div className="w-2.5 h-2.5 bg-[#bd1622] rounded-full shadow-[0_0_8px_rgba(189,22,34,0.4)]" />
-            <span className="font-mono text-sm tracking-[0.15em] text-gray-800 font-bold uppercase">Linha Aerocare</span>
-          </div>
-
-          <h2 className="copy-text-reveal font-display text-[2.75rem] md:text-6xl xl:text-[4.5rem] uppercase font-bold text-[#171717] tracking-tighter leading-[0.95] mb-12">
-            Produtos concebidos <br/><span className="text-[#bd1622]">para aviação</span>
-          </h2>
-          
-          <div className="flex flex-col gap-6 text-gray-500 leading-[1.8] font-medium text-lg xl:text-[1.1rem]">
-            <p className="copy-text-reveal text-[#171717] font-display font-semibold text-2xl md:text-3xl tracking-tight leading-[1.3]">
-              Ciência que eleva padrões.
-            </p>
-            <p className="copy-text-reveal text-balance max-w-[800px] mx-auto grayscale-50">
-              Cada formulação que desenvolvemos nasce de um compromisso inegociável com a excelência. São anos de pesquisa aplicada em química de polimento, traduzidos em produtos que atendem — e superam — as exigências mais rigorosas da indústria aeronáutica.
-            </p>
-            <p className="copy-text-reveal text-balance max-w-[800px] mx-auto transition-opacity">
-              Nossas fórmulas são proprietárias, desenvolvidas internamente e aprovadas pelos principais órgãos reguladores do setor. Não adaptamos soluções genéricas: criamos tecnologia específica para cada desafio que superfícies aeronáuticas apresentam.
-            </p>
-            <p className="copy-text-reveal text-balance max-w-[800px] mx-auto pb-4">
-              O resultado é uma linha de produtos que grandes operadores, fabricantes e centros de manutenção reconhecem como referência — onde precisão técnica encontra performance comprovada.
-            </p>
-
-            <div className="copy-text-reveal pt-8 border-t border-gray-200/80 mx-auto inline-block">
-              <span className="font-mono text-xs md:text-sm uppercase tracking-[0.15em] font-bold text-[#bd1622] leading-relaxed block text-balance px-4 bg-[#bd1622]/5">
-                Formulação própria. <span className="opacity-40 px-3">•</span> Aprovação regulatória. <span className="opacity-40 px-3">•</span> Confiança de quem exige.
-              </span>
+      {/* Bloco 1: Linha Aerocare (Intro Fullscreen) */}
+      <section id="linha-aerocare" className="produto-fullscreen">
+        <div className="background absolute inset-0 z-0">
+           {/* Iluminacao Radial de Estúdio Premium */}
+           <div className="absolute top-0 right-0 w-[80vw] h-[80vh] bg-[radial-gradient(ellipse_at_top_right,_rgba(240,240,240,1)_0%,_rgba(253,253,253,0)_70%)]" />
+           <div className="absolute top-1/3 left-0 w-[60vw] h-[60vh] bg-[radial-gradient(ellipse_at_center_left,_rgba(255,235,235,0.4)_0%,_rgba(253,253,253,0)_60%)]" />
+           {/* Technical Grid Sutíl */}
+           <div className="absolute inset-0 opacity-[0.4] bg-[linear-gradient(to_right,#e5e5e5_1px,transparent_1px),linear-gradient(to_bottom,#e5e5e5_1px,transparent_1px)] bg-[size:3vw_3vw] [mask-image:radial-gradient(ellipse_60%_80%_at_50%_50%,#000_10%,transparent_100%)]" />
+        </div>
+        <div className="marca-dagua">AEROCARE</div>
+        <div className="conteudo-grid">
+          <div className="flex flex-col items-start justify-center h-full w-full mx-auto text-left z-10">
+            <div className="titulo flex items-center gap-3 mb-6 bg-white/80 backdrop-blur-md border border-gray-200/60 px-5 py-2.5 rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.04)] w-fit">
+              <div className="w-2.5 h-2.5 bg-[#bd1622] rounded-full shadow-[0_0_10px_rgba(189,22,34,0.5)] animate-pulse" />
+              <span className="font-mono text-xs tracking-[0.2em] text-gray-800 font-bold uppercase">Apresentando a Linha Aerocare</span>
+            </div>
+            
+            <h2 className="titulo font-display text-[3.5rem] md:text-6xl lg:text-[5.5rem] uppercase font-extrabold text-[#111] tracking-tighter leading-[0.95] mb-8">
+              Padrão <br/><span className="text-[#bd1622]">Aeronáutico</span>
+            </h2>
+            
+            <div className="descricao text-gray-600 leading-[1.8] font-medium text-lg lg:text-xl text-balance max-w-xl">
+              <p className="text-[#111] font-display font-semibold text-2xl lg:text-3xl tracking-tight leading-[1.3] mb-4">A química da perfeição e excelência.</p>
+              <p>Foram anos de P&D em laboratórios dedicados à engenharia aeroespacial para criarmos formulações que não apenas limpam, mas preservam e extendem a vida útil da estrutura da aeronave contra intempéries e atmosferas extremas.</p>
             </div>
           </div>
+          
+          <div className="imagem-produto w-full h-full flex items-center justify-center relative z-10">
+              {/* Radar Element / Arte Geométrica */}
+              <div className="w-full max-w-[500px] aspect-square relative flex items-center justify-center opacity-80">
+                  <div className="absolute inset-0 border border-gray-200 rounded-full animate-[spin_60s_linear_infinite]">
+                     <div className="absolute top-0 left-1/2 -ml-1 w-2 h-2 bg-[#bd1622] rounded-full shadow-[0_0_15px_#bd1622]"></div>
+                  </div>
+                  <div className="absolute inset-[10%] border border-gray-100 rounded-full"></div>
+                  <div className="absolute inset-[20%] border border-gray-100/50 rounded-full animate-[spin_40s_linear_infinite_reverse]">
+                     <div className="absolute bottom-0 left-1/2 -ml-1 w-2 h-2 bg-gray-400 rounded-full"></div>
+                  </div>
+                  <div className="absolute w-[120%] h-[1px] bg-gradient-to-r from-transparent via-gray-300 to-transparent rotate-45"></div>
+                  <div className="absolute w-[120%] h-[1px] bg-gradient-to-r from-transparent via-gray-300 to-transparent -rotate-45"></div>
+              </div>
+          </div>
         </div>
+      </section>
 
-        {/* Product SHOWCASE Render (A Pilha Vertical - O Zig Zag) */}
-        <div className="w-full flex flex-col gap-32 lg:gap-40">
-          {products.map((product, idx) => (
-            <ProductCard 
-              key={idx}
-              title={product.title}
-              description={product.description}
-              imageSrc={product.imageSrc}
-              badge={product.badge}
-              reverse={idx % 2 !== 0}
-            />
-          ))}
-        </div>
-
-      </div>
-    </section>
+      {/* Blocos dos Produtos */}
+      {products.map((product, idx) => (
+        <section key={idx} id={`produto-${idx + 1}`} className="produto-fullscreen">
+          <div className="background absolute inset-0 bg-[#fdfdfd] z-0">
+             <div className="absolute top-0 right-0 w-[50vw] h-[50vh] bg-[radial-gradient(ellipse_at_top_right,_rgba(240,240,240,1)_0%,_rgba(253,253,253,0)_70%)]" />
+             <div className="absolute bottom-0 left-0 w-[50vw] h-[50vh] bg-[radial-gradient(ellipse_at_bottom_left,_rgba(255,240,240,0.5)_0%,_rgba(253,253,253,0)_70%)]" />
+          </div>
+          
+          <div className="marca-dagua">AEROCARE</div>
+          <ProductCard 
+            title={product.title}
+            description={product.description}
+            imageSrc={product.imageSrc}
+            badge={product.badge}
+            reverse={idx % 2 !== 0} // Zig-zag
+          />
+        </section>
+      ))}
+    </div>
   );
 }
