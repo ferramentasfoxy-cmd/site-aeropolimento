@@ -75,17 +75,17 @@ export function ProductsSection() {
           }
         });
 
-        // Títulos e Badges
+        // Títulos e Badges - Clean and Fast
         const titulos = section.querySelectorAll('.titulo');
-        if (titulos.length) tl.from(titulos, { y: 40, opacity: 0, duration: 1.2, stagger: 0.15, ease: "power2.out" }, 0);
+        if (titulos.length) tl.from(titulos, { y: 25, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power2.out" }, 0);
 
         // Descrições
         const descricoes = section.querySelectorAll('.descricao');
-        if (descricoes.length) tl.from(descricoes, { y: 20, opacity: 0, duration: 1, stagger: 0.1, ease: "power2.out" }, 0.2);
+        if (descricoes.length) tl.from(descricoes, { y: 20, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power2.out" }, 0.1);
 
-        // Imagem surge com delay
+        // Imagem surge com elegância mas sem lerdeza
         const img = section.querySelector('.imagem-produto');
-        if (img) tl.from(img, { y: 60, opacity: 0, duration: 1.5, ease: "power3.out" }, 0.1);
+        if (img) tl.from(img, { y: 30, opacity: 0, duration: 1, ease: "power2.out" }, 0.1);
 
         // --- 2. Micro-Parallax na Imagem (Luxo Adicional) ---
         // A imagem flutua suavemente para cima enquanto o usuário desce a página

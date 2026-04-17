@@ -210,17 +210,16 @@ export function HeroProduct() {
 
   React.useEffect(() => {
     const ctx = gsap.context(() => {
+      // Entrada Clean e Minimalista - Sem borrões demorados
       gsap.fromTo(
         containerRef.current,
-        { autoAlpha: 0, y: 40, filter: "blur(12px)", scale: 0.97 },
+        { autoAlpha: 0, y: 20 },
         {
           autoAlpha: 1,
           y: 0,
-          filter: "blur(0px)",
-          scale: 1,
-          duration: 2.4,
-          delay: 2.6,
-          ease: "expo.out",
+          duration: 1.2,
+          delay: 0.8,
+          ease: "power3.out",
         }
       );
     }, containerRef);
