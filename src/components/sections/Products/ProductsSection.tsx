@@ -155,14 +155,14 @@ export function ProductsSection() {
 
         .marca-dagua {
           position: absolute;
-          right: -5vw;
+          left: 55%;
           top: 50%;
-          transform: translateY(-50%) rotate(-90deg);
-          font-size: clamp(150px, 18vw, 300px);
+          transform: translate(-50%, -50%) rotate(90deg);
+          font-size: clamp(250px, 35vw, 600px);
           font-weight: 900;
           text-transform: uppercase;
-          letter-spacing: 0.25em;
-          color: rgba(23, 23, 23, 0.02);
+          line-height: 0.8;
+          color: rgba(0, 0, 0, 0.02);
           pointer-events: none;
           z-index: 0;
           white-space: nowrap;
@@ -174,10 +174,10 @@ export function ProductsSection() {
           grid-template-columns: 1fr 1fr;
           gap: 4vw;
           align-items: center;
-          padding: 0 6vw;
+          padding: 0 8vw;
           height: 100%;
           width: 100%;
-          max-width: 1600px;
+          max-width: 1800px;
           margin: 0 auto;
           position: relative;
           z-index: 10;
@@ -191,16 +191,12 @@ export function ProductsSection() {
             padding-top: 5rem;
             padding-bottom: 2rem;
           }
-          .marca-dagua {
-            font-size: 15vh;
-            right: -10vw;
-          }
         }
 
         /* Indicador Dot fixo elegante */
         .indicador-container {
           position: fixed;
-          left: 3vw;
+          left: 2vw;
           top: 50%;
           transform: translateY(-50%);
           display: flex;
@@ -209,8 +205,8 @@ export function ProductsSection() {
           z-index: 50;
         }
         .indicador-dot {
-          width: 6px;
-          height: 6px;
+          width: 5px;
+          height: 5px;
           border-radius: 50%;
           background-color: rgba(0, 0, 0, 0.15);
           transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -218,9 +214,8 @@ export function ProductsSection() {
         }
         .indicador-dot.active {
           background-color: #bd1622;
-          height: 24px;
-          border-radius: 12px;
-          box-shadow: 0 0 15px rgba(189,22,34,0.4);
+          height: 20px;
+          border-radius: 10px;
         }
         @media (max-width: 768px) {
            .indicador-container {
@@ -238,43 +233,47 @@ export function ProductsSection() {
 
       {/* Bloco 1: Linha Aerocare (Intro Fullscreen) */}
       <section id="linha-aerocare" className="produto-fullscreen">
-        <div className="background absolute inset-0 z-0">
-           {/* Iluminacao Radial de Estúdio Premium */}
-           <div className="absolute top-0 right-0 w-[80vw] h-[80vh] bg-[radial-gradient(ellipse_at_top_right,_rgba(240,240,240,1)_0%,_rgba(253,253,253,0)_70%)]" />
-           <div className="absolute top-1/3 left-0 w-[60vw] h-[60vh] bg-[radial-gradient(ellipse_at_center_left,_rgba(255,235,235,0.4)_0%,_rgba(253,253,253,0)_60%)]" />
+        <div className="background absolute inset-0 z-0 bg-[#fafafa]">
            {/* Technical Grid Sutíl */}
-           <div className="absolute inset-0 opacity-[0.4] bg-[linear-gradient(to_right,#e5e5e5_1px,transparent_1px),linear-gradient(to_bottom,#e5e5e5_1px,transparent_1px)] bg-[size:3vw_3vw] [mask-image:radial-gradient(ellipse_60%_80%_at_50%_50%,#000_10%,transparent_100%)]" />
+           <div className="absolute inset-0 opacity-[0.35] bg-[linear-gradient(to_right,#eaeaea_1px,transparent_1px),linear-gradient(to_bottom,#eaeaea_1px,transparent_1px)] bg-[size:4vw_4vw]" />
         </div>
         <div className="marca-dagua">AEROCARE</div>
         <div className="conteudo-grid">
-          <div className="flex flex-col items-start justify-center h-full w-full mx-auto text-left z-10">
-            <div className="titulo flex items-center gap-3 mb-6 bg-white/80 backdrop-blur-md border border-gray-200/60 px-5 py-2.5 rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.04)] w-fit">
-              <div className="w-2.5 h-2.5 bg-[#bd1622] rounded-full shadow-[0_0_10px_rgba(189,22,34,0.5)] animate-pulse" />
-              <span className="font-mono text-xs tracking-[0.2em] text-gray-800 font-bold uppercase">Apresentando a Linha Aerocare</span>
+          <div className="flex flex-col items-start justify-center h-full w-full mx-auto text-left z-10 md:pl-[6vw]">
+            <div className="titulo relative flex items-center gap-3 mb-8 bg-white border border-gray-100 px-5 py-2 rounded-full w-fit">
+              <div className="w-1.5 h-1.5 bg-[#bd1622] rounded-full" />
+              <span className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] text-gray-700 font-bold uppercase pt-0.5">Apresentando a Linha Aerocare</span>
+              {/* Floating dot from print */}
+              <div className="absolute -top-3 -right-3 w-1 h-1 bg-[#bd1622] rounded-full"></div>
+              {/* Floating hollow circle from print */}
+              <div className="absolute -top-12 -right-16 w-6 h-6 border border-gray-300 rounded-full"></div>
             </div>
             
-            <h2 className="titulo font-display text-[3.5rem] md:text-6xl lg:text-[5.5rem] uppercase font-extrabold text-[#111] tracking-tighter leading-[0.95] mb-8">
+            <h2 className="titulo font-display text-[4rem] md:text-[5.5rem] lg:text-[7rem] uppercase font-black text-[#111] tracking-tighter leading-[0.85] mb-8">
               Padrão <br/><span className="text-[#bd1622]">Aeronáutico</span>
             </h2>
             
-            <div className="descricao text-gray-600 leading-[1.8] font-medium text-lg lg:text-xl text-balance max-w-xl">
-              <p className="text-[#111] font-display font-semibold text-2xl lg:text-3xl tracking-tight leading-[1.3] mb-4">A química da perfeição e excelência.</p>
+            <div className="descricao flex flex-col gap-4 text-gray-500 font-medium text-base md:text-lg max-w-[460px] leading-[1.8]">
+              <p className="text-[#111] font-display font-semibold text-2xl lg:text-3xl tracking-tight leading-[1.2]">A química da perfeição e excelência.</p>
               <p>Foram anos de P&D em laboratórios dedicados à engenharia aeroespacial para criarmos formulações que não apenas limpam, mas preservam e extendem a vida útil da estrutura da aeronave contra intempéries e atmosferas extremas.</p>
             </div>
           </div>
           
           <div className="imagem-produto w-full h-full flex items-center justify-center relative z-10">
-              {/* Radar Element / Arte Geométrica */}
-              <div className="w-full max-w-[500px] aspect-square relative flex items-center justify-center opacity-80">
-                  <div className="absolute inset-0 border border-gray-200 rounded-full animate-[spin_60s_linear_infinite]">
-                     <div className="absolute top-0 left-1/2 -ml-1 w-2 h-2 bg-[#bd1622] rounded-full shadow-[0_0_15px_#bd1622]"></div>
-                  </div>
-                  <div className="absolute inset-[10%] border border-gray-100 rounded-full"></div>
-                  <div className="absolute inset-[20%] border border-gray-100/50 rounded-full animate-[spin_40s_linear_infinite_reverse]">
-                     <div className="absolute bottom-0 left-1/2 -ml-1 w-2 h-2 bg-gray-400 rounded-full"></div>
-                  </div>
-                  <div className="absolute w-[120%] h-[1px] bg-gradient-to-r from-transparent via-gray-300 to-transparent rotate-45"></div>
-                  <div className="absolute w-[120%] h-[1px] bg-gradient-to-r from-transparent via-gray-300 to-transparent -rotate-45"></div>
+              {/* Radar Element / Arte Geométrica EXATA DO PRINT */}
+              <div className="relative w-full max-w-[600px] aspect-square flex items-center justify-center -ml-[10%]">
+                  {/* Outer Circle */}
+                  <div className="absolute w-[85%] h-[85%] rounded-full border border-gray-200/60"></div>
+                  {/* Inner Circle */}
+                  <div className="absolute w-[50%] h-[50%] rounded-full border border-gray-200/60"></div>
+                  
+                  {/* Crosshair (X) */}
+                  <div className="absolute w-[80%] h-[1px] bg-gray-200/60 rotate-45"></div>
+                  <div className="absolute w-[80%] h-[1px] bg-gray-200/60 -rotate-45"></div>
+                  
+                  {/* Custom Dots to match print */}
+                  <div className="absolute w-1.5 h-1.5 bg-[#bd1622] rounded-full top-[50%] right-[7.5%] -translate-y-[50%] shadow-[0_0_10px_rgba(189,22,34,0.4)]"></div>
+                  <div className="absolute w-1 h-1 bg-[#9ca3af] rounded-full top-[31%] right-[23%]"></div>
               </div>
           </div>
         </div>
