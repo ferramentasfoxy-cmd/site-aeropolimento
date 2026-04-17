@@ -60,8 +60,6 @@ export function ProductsSection() {
         });
       };
 
-      const sections = gsap.utils.toArray('.produto-fullscreen') as HTMLElement[];
-
       // Orquestração Premium - Minimalist Flow Design (Natural Scroll)
       sections.forEach((section, index) => {
         
