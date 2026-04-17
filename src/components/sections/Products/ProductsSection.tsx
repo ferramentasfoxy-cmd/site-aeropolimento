@@ -60,48 +60,53 @@ export function ProductsSection() {
         });
       };
 
-      // Orquestração Premium - Sticky Card Stacking (Nativo e Clean)
+      const sections = gsap.utils.toArray('.produto-fullscreen') as HTMLElement[];
+
+      // Orquestração Premium - Minimalist Flow Design (Natural Scroll)
       sections.forEach((section, index) => {
         
-        // --- 1. Entrada de Conteúdo Simples e Elegante ---
+        // --- 1. Entrada de Conteúdo Orgânica ---
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: "top 60%", 
-            end: "top 20%",
+            start: "top 75%", // Entra em cena de forma orgânica
+            end: "top 25%",
             toggleActions: "play none none reverse",
           }
         });
 
+        // Títulos e Badges
         const titulos = section.querySelectorAll('.titulo');
-        if (titulos.length) tl.from(titulos, { y: 30, opacity: 0, duration: 1, stagger: 0.1, ease: "power2.out" }, 0);
+        if (titulos.length) tl.from(titulos, { y: 40, opacity: 0, duration: 1.2, stagger: 0.15, ease: "power2.out" }, 0);
 
+        // Descrições
         const descricoes = section.querySelectorAll('.descricao');
-        if (descricoes.length) tl.from(descricoes, { y: 20, opacity: 0, duration: 1, stagger: 0.1, ease: "power2.out" }, 0.1);
+        if (descricoes.length) tl.from(descricoes, { y: 20, opacity: 0, duration: 1, stagger: 0.1, ease: "power2.out" }, 0.2);
 
+        // Imagem surge com delay
         const img = section.querySelector('.imagem-produto');
-        if (img) tl.from(img, { y: 30, opacity: 0, duration: 1.2, ease: "power2.out" }, 0.1);
+        if (img) tl.from(img, { y: 60, opacity: 0, duration: 1.5, ease: "power3.out" }, 0.1);
 
-        // --- 2. Correção: Sem scale down tosco. Apenas uma leve escurecida simulando sombra da camada de cima ---
-        const nextSection = sections[index + 1];
-        if (nextSection) {
-          ScrollTrigger.create({
-            trigger: nextSection,
-            start: "top bottom", 
-            end: "top top",      
-            scrub: true,         
-            animation: gsap.to(section, {
-              filter: "brightness(0.7)", // Apenas escurece, mantendo o enquadramento rígido.
-              ease: "none"
-            })
+        // --- 2. Micro-Parallax na Imagem (Luxo Adicional) ---
+        // A imagem flutua suavemente para cima enquanto o usuário desce a página
+        if (img) {
+          gsap.to(img, {
+            yPercent: -15, // Desce ligeiramente no ritmo oposto
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1.5
+            }
           });
         }
 
         // --- 3. Controle da Side-Bar ---
         ScrollTrigger.create({
           trigger: section,
-          start: "top center",
-          end: "bottom center",
+          start: "top 40%", // Atualiza o dot quando a seção chega mais ao meio
+          end: "bottom 40%",
           onEnter: () => updateDots(index),
           onEnterBack: () => updateDots(index)
         });
@@ -131,23 +136,21 @@ export function ProductsSection() {
         }
 
         .produto-fullscreen {
-          height: 100vh;
+          min-height: 100vh;
           width: 100%;
-          /* A MAGIA ACONTECE AQUI */
-          position: sticky;
-          top: 0;
+          position: relative; /* Fluxo Orgânico Nativo - Sem Stacking Bugs */
           overflow: hidden;
           background-color: #fdfdfd; 
-          will-change: transform, opacity, filter;
-          /* Sombra projetada na parte de cima cria a ilusão de camada física cobrindo a anterior */
-          box-shadow: 0 -25px 50px -12px rgba(0,0,0,0.15);
+          will-change: transform, opacity;
           display: flex;
           align-items: center;
+          /* Linha divisória minimalista para separar com classe */
+          border-bottom: 1px solid rgba(0,0,0,0.03); 
         }
 
         /* O primeiro não precisa de sombra superior */
         .produto-fullscreen:first-child {
-          box-shadow: none;
+          border-top: none;
         }
 
         .marca-dagua {
