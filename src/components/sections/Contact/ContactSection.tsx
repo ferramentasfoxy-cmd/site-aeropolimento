@@ -60,6 +60,14 @@ export function ContactSection() {
 
   return (
     <section ref={containerRef} id="contato" className="relative w-full py-24 md:py-32 bg-white flex justify-center overflow-hidden z-20">
+      {/* --- CORTES TÁTICOS HUD --- */}
+      <span className="corner corner--tl">
+        <span><span className="dot"></span>SEC 10 / B2B OPERATIONS</span>
+      </span>
+      <span className="corner corner--tr">
+        <span>COORDENADAS DE HUB</span>
+      </span>
+
       <div className="w-full max-w-[1400px] px-6 md:px-12 mx-auto relative z-10">
         
         {/* Cabecalho */}

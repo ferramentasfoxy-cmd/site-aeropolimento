@@ -42,18 +42,31 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section className="relative w-full py-24 md:py-32 bg-white text-zinc-900 border-t border-zinc-100">
+    <section className="relative w-full py-24 md:py-32 bg-white text-zinc-900 border-t border-zinc-100 overflow-hidden">
+      
+      {/* --- CORTES TÁTICOS HUD --- */}
+      <span className="corner corner--tl">
+        <span><span className="dot"></span>SEC 02 / HOMOLOGAÇÕES TÉCNICAS</span>
+        <span>LAB TESTING · ABNT NBR</span>
+      </span>
+      <span className="corner corner--tr">
+        <span>CLASSIFIED / B2B</span>
+      </span>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16 md:mb-24">
-          <span className="text-red-700 font-semibold tracking-[0.1em] uppercase text-sm mb-4 block">
-            Por que Aeropolimento
-          </span>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-zinc-900 mb-6">
-            O que nos diferencia
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <span className="text-xs uppercase tracking-[0.25em] font-bold text-gray-500">
+              Por que Aeropolimento
+            </span>
+          </div>
+          <h2 className="font-display text-3xl md:text-5xl font-bold tracking-tight text-zinc-900 mb-6 uppercase">
+            A chancela oficial <br />
+            <span className="italic text-[#bd1622]">ANAC + AMS</span>
           </h2>
-          <p className="text-lg text-zinc-600">
+          <p className="text-lg text-zinc-600 font-body">
             A união perfeita entre ciência química e engenharia aeronáutica.
-            Nosso compromisso é entregar a máxima performance com total conformidade.
+            Nosso compromisso é entregar a máxima performance com total conformidade. Em aviação, produto químico não é commodity, é segurança estrutural.
           </p>
         </div>
 

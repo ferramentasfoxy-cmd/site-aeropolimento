@@ -154,11 +154,24 @@ function ProductModel() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// CENA 3D COMPLETA
+// CENA 3D COMPLETA E ATUALIZADOR DO HUD
 // ─────────────────────────────────────────────────────────────
 function Scene() {
   const controlsRef = React.useRef<OrbitControlsImpl>(null);
   
+  // Atualiza o HUD injetando direto no DOM para não engasgar o React a 60fps
+  useFrame(() => {
+    if (controlsRef.current) {
+      const el = document.getElementById("hud-rot-val");
+      if (el) {
+        // getAzimuthalAngle retorna em radianos (-PI a PI), convertemos para Graus 0 a 360
+        let deg = controlsRef.current.getAzimuthalAngle() * (180 / Math.PI);
+        if (deg < 0) deg += 360;
+        el.innerText = `${deg.toFixed(1).padStart(5, '0')}°`;
+      }
+    }
+  });
+
   return (
     <>
       <color attach="background" args={["#ffffff"]} />
@@ -260,10 +273,111 @@ export function HeroProduct() {
         <ProductFallback />
       )}
 
+      {/* --- HUD TÁTICO SOBREPOSTO (B2B ENGINEERING) --- */}
+      <HudReadouts accent="#BD1622" />
+
       {/* Vinheta lateral */}
       <div className="absolute inset-0 pointer-events-none z-20 bg-[radial-gradient(ellipse_at_top_right,_rgba(255,255,255,0.6)_0%,_transparent_60%)]" />
       <div className="absolute inset-y-0 left-0 w-1/4 pointer-events-none z-20 bg-gradient-to-r from-white to-transparent" />
     </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
+// HUD READOUTS (Camada de Dados Técnicos V2)
+// ─────────────────────────────────────────────────────────────
+function HudReadouts({ accent }: { accent: string }) {
+  const [viscosity] = React.useState(42.8);
+  const [ph, setPh] = React.useState(6.2);
+
+  React.useEffect(() => {
+    // Oscilação orgânica simulada para simular instrumentação ao vivo
+    const id = setInterval(() => {
+      setPh(6.2 + Math.sin(Date.now() / 2000) * 0.04);
+    }, 150);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <div className="hud-layer hud-aesthetic transition-opacity duration-1000">
+      
+      {/* Top-left: rotation tracker */}
+      <div className="hud-readout hud-tl">
+        <span className="hud-key">AXIS Y</span>
+        <span className="hud-val" id="hud-rot-val">000.0°</span>
+        <svg width="64" height="64" viewBox="0 0 64 64" className="hud-dial" style={{marginTop: '8px'}}>
+          <circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" strokeOpacity="0.12" strokeWidth="1" />
+          <circle cx="32" cy="32" r="28" fill="none" stroke={accent} strokeWidth="1.5"
+                  strokeDasharray={`140 175.9`}
+                  strokeLinecap="round"
+                  transform="rotate(-90 32 32)" />
+          <circle cx="32" cy="4" r="1.5" fill={accent} />
+        </svg>
+      </div>
+
+      {/* Top-right: product spec */}
+      <div className="hud-readout hud-tr">
+        <span className="hud-key">LINHA AEROCARE</span>
+        <span className="hud-val" style={{fontFamily: 'var(--font-display)', fontStyle: 'italic', fontVariantNumeric: 'tabular-nums'}}>APC.001</span>
+        <span className="hud-sub">ALL PURPOSE CLEANER</span>
+        <span className="hud-sub">SKU 738-221-AER</span>
+      </div>
+
+      {/* Bottom-left: chemical props */}
+      <div className="hud-readout hud-bl">
+        <span className="hud-key">PROPRIEDADES</span>
+        <div className="hud-grid">
+          <span className="hud-mini">pH</span><span className="hud-mini hud-mini--val">{ph.toFixed(2)}</span>
+          <span className="hud-mini">VISC</span><span className="hud-mini hud-mini--val">{viscosity} cP</span>
+          <span className="hud-mini">VOC</span><span className="hud-mini hud-mini--val">0.00 g/L</span>
+        </div>
+      </div>
+
+      {/* Bottom-right: certification */}
+      <div className="hud-readout hud-br">
+        <span className="hud-key">CERTIFICAÇÕES</span>
+        <div className="hud-cert">
+          <span className="hud-cert-seal">
+            <span className="hud-cert-dot" /> ANAC 458/2022
+          </span>
+          <span className="hud-cert-seal">
+            <span className="hud-cert-dot" /> AMS 1630-C
+          </span>
+          <span className="hud-cert-seal">
+            <span className="hud-cert-dot" /> ISO 9001:2015
+          </span>
+        </div>
+      </div>
+
+      {/* Bússola 360 Radial ao redor do produto */}
+      <BussolaRadial />
+    </div>
+  );
+}
+
+function BussolaRadial() {
+  return (
+    <svg className="hud-compass" viewBox="0 0 800 800" aria-hidden="true">
+      <g fill="currentColor" opacity="0.14">
+        {Array.from({ length: 72 }).map((_, i) => {
+          const angle = (i * 5 * Math.PI) / 180;
+          const major = i % 9 === 0;
+          const r1 = 360;
+          const r2 = major ? 380 : 370;
+          const x1 = 400 + Math.cos(angle) * r1;
+          const y1 = 400 + Math.sin(angle) * r1;
+          const x2 = 400 + Math.cos(angle) * r2;
+          const y2 = 400 + Math.sin(angle) * r2;
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth={major ? 1.5 : 0.6} />;
+        })}
+      </g>
+      <g fontFamily="var(--font-mono)" fontSize="10" fill="currentColor" opacity="0.3" letterSpacing="1">
+        <text x="400" y="22" textAnchor="middle">000°</text>
+        <text x="782" y="404" textAnchor="end">090°</text>
+        <text x="400" y="790" textAnchor="middle">180°</text>
+        <text x="18" y="404">270°</text>
+      </g>
+    </svg>
   );
 }
 

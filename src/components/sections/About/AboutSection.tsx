@@ -37,9 +37,20 @@ export function AboutSection() {
   return (
     <section id="sobre" ref={containerRef} className="relative w-full py-24 lg:py-36 bg-[#FAFAFA] overflow-hidden">
       
+      {/* --- CORTES TÁTICOS HUD --- */}
+      <span className="corner corner--tl">
+        <span><span className="dot"></span>SEC 01 / QUEM SOMOS</span>
+        <span>LAT -19.9208 · LNG -43.9378</span>
+      </span>
+      <span className="corner corner--tr">
+        <span>DOC.REV 04.2026</span>
+        <span>P&D MG · BR</span>
+      </span>
+
       {/* Background Decoratives - Minimalist Factory Aesthetic */}
       <div className="absolute top-[-10%] right-[-5%] w-[50vw] h-[50vw] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-200/50 via-gray-100/10 to-transparent opacity-60 blur-3xl rounded-full pointer-events-none" />
       <div className="border-grid-pattern absolute inset-0 opacity-[0.02] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none" />
+
       
       <div className="max-w-[90rem] mx-auto px-6 md:px-12 xl:px-16 relative z-10 w-full flex flex-col lg:flex-row lg:justify-between items-center gap-20 lg:gap-12">
         
