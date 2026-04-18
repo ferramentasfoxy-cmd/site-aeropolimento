@@ -54,18 +54,21 @@ export function BlogSection() {
         }
       });
 
-      // 2. Stagger Cards (Grid)
-      gsap.from(".blog-card", {
-        y: 60,
-        opacity: 0,
-        stagger: 0.15,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".blog-grid",
-          start: "top 75%",
+      // 2. Stagger Cards (Grid) - Fix GSAP 
+      gsap.fromTo(".blog-card", 
+        { y: 60, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.15,
+          duration: 1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".blog-grid",
+            start: "top 85%",
+          }
         }
-      });
+      );
 
       // 3. Reveal da Newsletter Strip
       gsap.from(".newsletter-strip", {
@@ -98,6 +101,11 @@ export function BlogSection() {
 
   return (
     <section ref={containerRef} id="blog" className="relative w-full bg-[#fafafa] py-24 md:py-32 overflow-hidden z-20">
+      {/* --- CORTES TÁTICOS HUD --- */}
+      <span className="corner corner--tl">
+        <span><span className="dot"></span>SEC 09 / INTELIGÊNCIA B2B</span>
+      </span>
+
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12">
         
         {/* Header Section */}

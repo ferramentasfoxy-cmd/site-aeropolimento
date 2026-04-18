@@ -135,7 +135,7 @@ export function ProductsSection() {
   }, []);
 
   return (
-    <div ref={containerRef} id="produtos" className="container-produtos relative w-full bg-[#0a0a0a]">
+    <div ref={containerRef} id="produtos" className="container-produtos relative w-full bg-[#0a0a0a] overflow-hidden">
       <style>{`
         .container-produtos {
           position: relative;
