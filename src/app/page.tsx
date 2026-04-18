@@ -4,6 +4,7 @@ import { AboutSection } from "@/components/sections/About/AboutSection";
 import { AnacSection } from "@/components/sections/Anac/AnacSection";
 import { ProductsSection } from "@/components/sections/Products/ProductsSection";
 import { BlogSection } from "@/components/sections/Blog/BlogSection";
+import { ContactSection } from "@/components/sections/Contact/ContactSection";
 
 export default function Home() {
   return (
@@ -27,6 +28,9 @@ export default function Home() {
 
       {/* Bloco 07 - Blog & Newsletter */}
       <BlogSection />
+
+      {/* Bloco 08 - Contato Comercial e B2B */}
+      <ContactSection />
     </main>
   );
 }
