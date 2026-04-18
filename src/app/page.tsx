@@ -3,6 +3,7 @@ import { BrandsMarquee } from "@/components/sections/Brands/BrandsMarquee";
 import { AboutSection } from "@/components/sections/About/AboutSection";
 import { AnacSection } from "@/components/sections/Anac/AnacSection";
 import { ProductsSection } from "@/components/sections/Products/ProductsSection";
+import { BlogSection } from "@/components/sections/Blog/BlogSection";
 
 export default function Home() {
   return (
@@ -23,6 +24,9 @@ export default function Home() {
 
       {/* Bloco 05 e 06 - Linha de Produtos */}
       <ProductsSection />
+
+      {/* Bloco 07 - Blog & Newsletter */}
+      <BlogSection />
     </main>
   );
 }
