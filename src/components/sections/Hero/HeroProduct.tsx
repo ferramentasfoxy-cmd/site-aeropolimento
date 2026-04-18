@@ -177,7 +177,8 @@ function Scene() {
         enableRotate={true}
         enableDamping
         dampingFactor={0.04}
-        autoRotate={false} // Desabilitado para focar num look corporativo. Gira apenas por interação!
+        autoRotate={true} // Cinemático ativado infinitamente!
+        autoRotateSpeed={1.2} // Rotação bem lenta, como gravação de estúdio
         minPolarAngle={Math.PI / 2 - 0.3} // Limita a visão aérea
         maxPolarAngle={Math.PI / 2 + 0.15} // Limita a visão inferior
         makeDefault
