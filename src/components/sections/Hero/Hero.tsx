@@ -18,19 +18,6 @@ export function Hero() {
         { opacity: 0, y: 15, filter: "blur(5px)" },
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 2.8, stagger: 0.2, delay: 3.4, ease: "expo.out" }
       );
-
-      // Transição Mágica de Saída (Parallax suave no scroll down conectando com Bloco 2)
-      gsap.to([".hero-3d-layer", ".hero-content-layer"], {
-        yPercent: 20, // As camadas descem levemente (parallax)
-        opacity: 0, // Desaparecem sutilmente enquanto a faixa da Embraer sobe
-        ease: "none",
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top", // Começa quando começamos a rolar para baixo da Hero
-          end: "bottom top", 
-          scrub: true, // Amarração cirúrgica com o mouse
-        }
-      });
     }, heroRef);
 
     return () => ctx.revert();
