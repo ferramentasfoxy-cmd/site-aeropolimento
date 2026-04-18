@@ -12,20 +12,20 @@ export function AboutSection() {
     gsap.registerPlugin(ScrollTrigger);
     
     const ctx = gsap.context(() => {
-      // Main text stagger fade in
+      // Main text stagger fade in - Suavizado para modernidade pura
       gsap.fromTo(
         ".about-text-reveal",
-        { opacity: 0, y: 50, filter: "blur(12px)" },
+        { opacity: 0, y: 35, filter: "blur(4px)" }, // Blur e saltos reduzidos
         { 
           opacity: 1, 
           y: 0, 
           filter: "blur(0px)",
-          duration: 1.6, 
+          duration: 1.8,  // Tempo levemente aumentado para fluidez
           stagger: 0.15,
-          ease: "expo.out",
+          ease: "power2.out", // Curva orgânica ao invés do estalo do expo
           scrollTrigger: {
             trigger: containerRef.current,
-            start: "top 80%"
+            start: "top 85%"
           }
         }
       );

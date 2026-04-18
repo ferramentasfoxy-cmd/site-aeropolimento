@@ -18,6 +18,19 @@ export function Hero() {
         { opacity: 0, y: 15, filter: "blur(5px)" },
         { opacity: 1, y: 0, filter: "blur(0px)", duration: 2.8, stagger: 0.2, delay: 3.4, ease: "expo.out" }
       );
+
+      // Transição Mágica de Saída (Parallax suave no scroll down conectando com Bloco 2)
+      gsap.to([".hero-3d-layer", ".hero-content-layer"], {
+        yPercent: 20, // As camadas descem levemente (parallax)
+        opacity: 0, // Desaparecem sutilmente enquanto a faixa da Embraer sobe
+        ease: "none",
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top", // Começa quando começamos a rolar para baixo da Hero
+          end: "bottom top", 
+          scrub: true, // Amarração cirúrgica com o mouse
+        }
+      });
     }, heroRef);
 
     return () => ctx.revert();
@@ -36,7 +49,7 @@ export function Hero() {
       </div>
       
       {/* Camada 1: O Palco 3D WebGL na Direita (Deslocamento contido) */}
-      <div className="absolute top-0 right-0 w-full lg:w-[55%] h-full z-0 translate-x-[4%] lg:translate-x-[6%]">
+      <div className="absolute top-0 right-0 w-full lg:w-[55%] h-[100vh] z-0 translate-x-[4%] lg:translate-x-[6%] hero-3d-layer">
         
         {/* Selo Animado ANAC - Top Left of Product */}
         <AnacBadge />
@@ -45,12 +58,12 @@ export function Hero() {
 
         {/* Selo Flutuante 360º Altamente Interativo */}
         <div className="absolute bottom-[20%] left-[20%] xl:left-[28%] z-20 hud-aesthetic opacity-0 hidden lg:block group cursor-default">
-          <div className="bg-white rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.12)] group-hover:shadow-[0_25px_60px_rgba(189,22,34,0.12)] p-3 pr-8 flex items-center gap-4 border border-gray-300 relative overflow-hidden transition-all duration-500 group-hover:-translate-y-1.5">
+          <div className="bg-[#ffffff] rounded-[20px] shadow-[0_20px_60px_rgba(0,0,0,0.12)] group-hover:shadow-[0_25px_60px_rgba(189,22,34,0.12)] p-3 pr-8 flex items-center gap-4 border border-gray-300 xl:border-gray-200 relative overflow-hidden transition-all duration-500 group-hover:-translate-y-1.5">
             
             {/* Feixe de Luz Angular (Glass Wipe Effect) que cruza ao passar o mouse */}
             <div className="absolute inset-0 -translate-x-[150%] bg-gradient-to-r from-transparent via-gray-100/80 to-transparent skew-x-[-25deg] group-hover:translate-x-[150%] transition-transform duration-[1200ms] ease-in-out pointer-events-none z-10" />
 
-            <div className="w-12 h-12 bg-[#171717] rounded-full flex items-center justify-center text-white shrink-0 shadow-md group-hover:bg-[#bd1622] group-hover:scale-105 transition-all duration-500 relative z-20">
+            <div className="w-12 h-12 bg-[#171717] rounded-full flex items-center justify-center text-[#ffffff] shrink-0 shadow-md group-hover:bg-[#bd1622] group-hover:scale-105 transition-all duration-500 relative z-20">
               {/* O ícone do mouse com interatividade na roda de scroll */}
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:rotate-[-5deg] transition-transform duration-300">
                 <rect x="5" y="2" width="14" height="20" rx="7"/>
@@ -60,14 +73,14 @@ export function Hero() {
             
             <div className="relative z-20">
               <p className="text-[15px] font-semibold text-[#171717] leading-tight group-hover:text-[#bd1622] transition-colors duration-400">Girar em 360º</p>
-              <p className="text-sm text-gray-500 leading-tight">interaja com o frasco</p>
+              <p className="text-sm text-[#737373] leading-tight">interaja com o frasco</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Camada 2: Conteúdo Tipográfico Editorial Left Side - Foco na largura cheia */}
-      <div className="relative z-10 w-full h-full px-8 lg:px-[7%] xl:px-[10%] flex flex-col justify-center pointer-events-none">
+      <div className="relative z-10 w-full h-[100vh] px-8 lg:px-[7%] xl:px-[10%] flex flex-col justify-center pointer-events-none hero-content-layer">
         
         {/* A coluna esquerda textual */}
         <div className="w-full lg:w-[55%] pointer-events-auto">
