@@ -27,18 +27,19 @@ export function BrandsMarquee() {
   React.useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
-      // Entrada incrivelmente fluida conectando o scroll up da Hero
+      // Entrada mais perceptível (pedido do usuário)
       gsap.fromTo(
         containerRef.current,
-        { opacity: 0, y: 30 }, // Reduzindo a agressividade do translateY
+        { opacity: 0, y: 60, scale: 0.98 }, // Surge de mais baixo e ligeiramente menor
         {
           opacity: 1, 
           y: 0,
-          duration: 1.8, // Duração controlada (suave mas rápida)
-          ease: "power2.out", // Curva orgânica
+          scale: 1,
+          duration: 2.2, 
+          ease: "power3.out", 
           scrollTrigger: {
             trigger: containerRef.current,
-            start: "top 95%", // Ativa quando o marquee quase aparece na tela
+            start: "top 85%", // Ponto focal ideal: quando estiver 15% dentro da tela
           }
         }
       );

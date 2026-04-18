@@ -86,7 +86,8 @@ function ProductFallback() {
 // ─────────────────────────────────────────────────────────────
 function ProductModel() {
   const { scene } = useGLTF("/models/ap001.glb");
-  const groupRef = React.useRef<THREE.Group>(null);
+  const outerGroupRef = React.useRef<THREE.Group>(null);
+  const innerGroupRef = React.useRef<THREE.Group>(null);
 
   React.useEffect(() => {
     scene.traverse((child) => {
@@ -96,7 +97,6 @@ function ProductModel() {
           : [child.material];
         mats.forEach((mat) => {
           if ("color" in mat && typeof mat.color?.set === "function") {
-            // Branco premium, mais puro
             mat.color.set(0xfafafa);
           }
           if ("roughness" in mat) mat.roughness = 0.12;
@@ -107,26 +107,48 @@ function ProductModel() {
     });
   }, [scene]);
 
-  // Aumentamos levemente a escala (2.4) para destacar mais e melhorar o enquadramento "close-up"
+  React.useEffect(() => {
+    // Animação espetacular de Entrada (Scale + Rotação 3D)
+    if (outerGroupRef.current) {
+      gsap.fromTo(
+        outerGroupRef.current.scale,
+        { x: 0, y: 0, z: 0 },
+        { x: 1.85, y: 1.85, z: 1.85, duration: 2.5, ease: "expo.out", delay: 0.2 }
+      );
+      
+      gsap.fromTo(
+        outerGroupRef.current.rotation,
+        { y: Math.PI }, 
+        { y: -Math.PI / 7, duration: 2.8, ease: "power3.out", delay: 0.2 }
+      );
+      
+      gsap.fromTo(
+        outerGroupRef.current.position,
+        { y: -2 }, 
+        { y: -0.45, duration: 2.5, ease: "power3.out", delay: 0.2 }
+      );
+    }
+  }, []);
+
   const clock = React.useRef({ floatT: 0 });
 
   useFrame((_, delta) => {
-    if (!groupRef.current) return;
+    if (!innerGroupRef.current) return;
     
-  // Float orgânico muito suave no eixo Y
+    // Float orgânico contínuo (no grupo interno para NÃO brigar com o GSAP do grupo externo)
     clock.current.floatT += delta * 0.8;
-    groupRef.current.position.y = Math.sin(clock.current.floatT) * 0.05 - 0.45;
+    innerGroupRef.current.position.y = Math.sin(clock.current.floatT) * 0.05;
     
-    // Deixamos a rotação base intocada aqui porque será liderada pelo mouse/OrbitControls
-    // Apenas micro-oscilação se desejado:
-    groupRef.current.rotation.z = Math.sin(clock.current.floatT * 0.5) * 0.015;
-    groupRef.current.rotation.x = Math.cos(clock.current.floatT * 0.5) * 0.01;
+    // Micro-oscilação direcional
+    innerGroupRef.current.rotation.z = Math.sin(clock.current.floatT * 0.5) * 0.015;
+    innerGroupRef.current.rotation.x = Math.cos(clock.current.floatT * 0.5) * 0.01;
   });
 
-  // Escala contida e rotação inicial para um "Corporate Profile" clássico (-Math.PI / 7)
   return (
-    <group ref={groupRef} position={[0, -0.45, 0]} rotation={[0, -Math.PI / 7, 0]} scale={1.85}>
-      <primitive object={scene} />
+    <group ref={outerGroupRef} position={[0, -0.45, 0]} rotation={[0, -Math.PI / 7, 0]} scale={0}>
+      <group ref={innerGroupRef}>
+        <primitive object={scene} />
+      </group>
     </group>
   );
 }
