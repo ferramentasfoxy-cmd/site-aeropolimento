@@ -273,6 +273,9 @@ export function HeroProduct() {
         <ProductFallback />
       )}
 
+      {/* --- HUD TÁTICO SOBREPOSTO (B2B ENGINEERING) --- */}
+      <HudReadouts accent="#BD1622" />
+
       {/* Vinheta lateral */}
       <div className="absolute inset-0 pointer-events-none z-20 bg-[radial-gradient(ellipse_at_top_right,_rgba(255,255,255,0.6)_0%,_transparent_60%)]" />
       <div className="absolute inset-y-0 left-0 w-1/4 pointer-events-none z-20 bg-gradient-to-r from-white to-transparent" />
@@ -283,7 +286,7 @@ export function HeroProduct() {
 // ─────────────────────────────────────────────────────────────
 // HUD READOUTS (Camada de Dados Técnicos V2)
 // ─────────────────────────────────────────────────────────────
-export function HudReadouts({ accent }: { accent: string }) {
+function HudReadouts({ accent }: { accent: string }) {
   const [viscosity] = React.useState(42.8);
   const [ph, setPh] = React.useState(6.2);
 
@@ -299,7 +302,7 @@ export function HudReadouts({ accent }: { accent: string }) {
     <div className="hud-layer hud-aesthetic transition-opacity duration-1000">
       
       {/* Top-left: rotation tracker */}
-      <div className="hud-readout hud-tl">
+      <div className="hud-readout hud-tl" style={{ top: '8%', left: '8%' }}>
         <span className="hud-key">AXIS Y</span>
         <span className="hud-val" id="hud-rot-val">000.0°</span>
         <svg width="64" height="64" viewBox="0 0 64 64" className="hud-dial" style={{marginTop: '8px'}}>
@@ -310,40 +313,6 @@ export function HudReadouts({ accent }: { accent: string }) {
                   transform="rotate(-90 32 32)" />
           <circle cx="32" cy="4" r="1.5" fill={accent} />
         </svg>
-      </div>
-
-      {/* Top-right: product spec */}
-      <div className="hud-readout hud-tr">
-        <span className="hud-key">LINHA AEROCARE</span>
-        <span className="hud-val" style={{fontFamily: 'var(--font-display)', fontStyle: 'italic', fontVariantNumeric: 'tabular-nums'}}>APC.001</span>
-        <span className="hud-sub">ALL PURPOSE CLEANER</span>
-        <span className="hud-sub">SKU 738-221-AER</span>
-      </div>
-
-      {/* Bottom-left: chemical props */}
-      <div className="hud-readout hud-bl">
-        <span className="hud-key">PROPRIEDADES</span>
-        <div className="hud-grid">
-          <span className="hud-mini">pH</span><span className="hud-mini hud-mini--val">{ph.toFixed(2)}</span>
-          <span className="hud-mini">VISC</span><span className="hud-mini hud-mini--val">{viscosity} cP</span>
-          <span className="hud-mini">VOC</span><span className="hud-mini hud-mini--val">0.00 g/L</span>
-        </div>
-      </div>
-
-      {/* Bottom-right: certification */}
-      <div className="hud-readout hud-br">
-        <span className="hud-key">CERTIFICAÇÕES</span>
-        <div className="hud-cert">
-          <span className="hud-cert-seal">
-            <span className="hud-cert-dot" /> ANAC 458/2022
-          </span>
-          <span className="hud-cert-seal">
-            <span className="hud-cert-dot" /> AMS 1630-C
-          </span>
-          <span className="hud-cert-seal">
-            <span className="hud-cert-dot" /> ISO 9001:2015
-          </span>
-        </div>
       </div>
 
       {/* Bússola 360 Radial ao redor do produto */}

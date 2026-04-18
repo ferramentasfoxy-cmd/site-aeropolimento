@@ -665,10 +665,10 @@
   display: flex;
   flex-direction: column;
 }
-.hud-tl { top: clamp(80px, 12vh, 140px); left: max(5%, calc(50vw - 650px)); gap: 4px; }
-.hud-tr { top: clamp(80px, 12vh, 140px); right: max(5%, calc(50vw - 650px)); gap: 4px; text-align: right; align-items: flex-end; }
-.hud-bl { bottom: clamp(40px, 8vh, 100px); left: max(5%, calc(50vw - 650px)); gap: 8px; }
-.hud-br { bottom: clamp(40px, 8vh, 100px); right: max(5%, calc(50vw - 650px)); gap: 6px; text-align: right; align-items: flex-end; }
+.hud-tl { top: 0%; left: 0%; gap: 4px; }
+.hud-tr { top: 12%; right: 15%; gap: 4px; text-align: right; align-items: flex-end; }
+.hud-bl { bottom: 12%; left: 10%; gap: 8px; }
+.hud-br { bottom: 0%; right: 8%; gap: 6px; text-align: right; align-items: flex-end; }
 
 .hud-key {
   font-weight: 500;
