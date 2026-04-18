@@ -273,9 +273,6 @@ export function HeroProduct() {
         <ProductFallback />
       )}
 
-      {/* --- HUD TÁTICO SOBREPOSTO (B2B ENGINEERING) --- */}
-      <HudReadouts accent="#BD1622" />
-
       {/* Vinheta lateral */}
       <div className="absolute inset-0 pointer-events-none z-20 bg-[radial-gradient(ellipse_at_top_right,_rgba(255,255,255,0.6)_0%,_transparent_60%)]" />
       <div className="absolute inset-y-0 left-0 w-1/4 pointer-events-none z-20 bg-gradient-to-r from-white to-transparent" />
@@ -286,7 +283,7 @@ export function HeroProduct() {
 // ─────────────────────────────────────────────────────────────
 // HUD READOUTS (Camada de Dados Técnicos V2)
 // ─────────────────────────────────────────────────────────────
-function HudReadouts({ accent }: { accent: string }) {
+export function HudReadouts({ accent }: { accent: string }) {
   const [viscosity] = React.useState(42.8);
   const [ph, setPh] = React.useState(6.2);
 
