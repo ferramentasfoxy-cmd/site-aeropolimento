@@ -11,6 +11,7 @@
     "pages:deploy": "next build && wrangler pages deploy out --project-name=aeropolimento"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@radix-ui/react-primitive": "^2.1.4",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",

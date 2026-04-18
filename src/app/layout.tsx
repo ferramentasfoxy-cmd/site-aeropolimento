@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import { Preloader } from "@/components/ui/Preloader";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { FloatingWhatsApp } from "@/components/ui/FloatingWhatsApp";
 import { cn } from "@/lib/utils";
 
 const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
@@ -24,6 +25,7 @@ export default function RootLayout({
         <CustomCursor />
         {/* Header NÃO fica aqui — cada seção gerencia seu próprio header overlay */}
         {children}
+        <FloatingWhatsApp />
       </body>
     </html>
   );
