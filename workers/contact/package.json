@@ -1,0 +1,27 @@
+{
+  "name": "aeropolimento-contact",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cloudflare Worker for Aeropolimento contact/newsletter forms (Phase 1 scaffold — real endpoints land in Phase 4 FORM-01).",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "hono": "^4.12.14",
+    "@hono/zod-validator": "^0.7.6",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.14.8",
+    "@cloudflare/workers-types": "latest",
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.4",
+    "wrangler": "^4.84.0"
+  }
+}
