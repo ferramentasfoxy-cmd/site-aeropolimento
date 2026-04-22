@@ -49,10 +49,10 @@
   --color-state-error:       #DC2626;
   --color-state-info:        #2563EB;
 
-  /* ── Tipografia ── */
-  --font-sans:    'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-mono:    'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
-  --font-display: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
+  /* ── Tipografia ──
+     Fontes servidas via next/font/google — ver src/app/layout.tsx.
+     --font-sans / --font-display / --font-mono são injetadas no <html> pelo next/font
+     (Inter 400/500/600, Inter 600/700, JetBrains Mono 400/500). */
 
   /* ── Escala de Tipos (fluida) ── */
   --text-hero:    clamp(3rem, 5.5vw + 1rem, 5rem);
@@ -192,8 +192,9 @@
    3. @theme inline — Remapeia para Tailwind v4
    ─────────────────────────────────────────────────────────────────── */
 @theme inline {
-  --font-heading: var(--font-sans);
+  --font-heading: var(--font-display);
   --font-sans:    var(--font-sans);
+  --font-display: var(--font-display);
   --font-mono:    var(--font-mono);
 
   --color-background:             var(--background);

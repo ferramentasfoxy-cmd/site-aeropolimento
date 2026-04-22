@@ -1,12 +1,41 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Preloader } from "@/components/ui/Preloader";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { FloatingWhatsApp } from "@/components/ui/FloatingWhatsApp";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({ subsets: ["latin"], variable: "--font-sans" });
+// Inter sans (body, UI) — weights 400/500/600
+const fontSans = Inter({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600"],
+  variable: "--font-sans",
+  display: "swap",
+  preload: true,
+  adjustFontFallback: true,
+});
+
+// Inter display (headlines) — SAME family, different variable + weight subset.
+// RESEARCH §1 / Pitfall 1: Inter_Display NÃO existe em next/font/google. Este é o padrão canônico.
+const fontDisplay = Inter({
+  subsets: ["latin", "latin-ext"],
+  weight: ["600", "700"],
+  variable: "--font-display",
+  display: "swap",
+  preload: true,
+  adjustFontFallback: true,
+});
+
+// JetBrains Mono (HUD, specs, ANAC IDs) — weights 400/500
+const fontMono = JetBrains_Mono({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
+  display: "swap",
+  preload: false, // HUD usage below-fold; não competir com Inter pelo preload budget
+  adjustFontFallback: true,
+});
 
 export const metadata: Metadata = {
   title: "Aeropolimento - Produtos Químicos Aeronáuticos",
@@ -19,7 +48,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className={cn(geist.variable, "font-sans")}>
+    <html
+      lang="pt-BR"
+      className={cn(fontSans.variable, fontDisplay.variable, fontMono.variable, "font-sans")}
+    >
       <body className="bg-[var(--color-surface-canvas)] text-[var(--color-text-primary)] antialiased overflow-x-hidden">
         <Preloader />
         <CustomCursor />
