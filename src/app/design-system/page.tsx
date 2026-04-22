@@ -149,6 +149,89 @@ export default function DesignSystemPage() {
           </div>
         </Section>
 
+        {/* ════════ 1.5 TYPOGRAPHY FAMILIES (DS-03) ════════ */}
+        <section aria-labelledby="ds-typography-families" className="mb-20 space-y-6">
+          <div className="mb-6 pb-4 border-b border-[var(--color-border-subtle)]">
+            <h2
+              id="ds-typography-families"
+              className="text-2xl font-bold tracking-tight text-[var(--color-text-primary)]"
+            >
+              Typography Families
+            </h2>
+            <p className="mt-1 text-sm text-[var(--color-text-tertiary)]">
+              Três famílias carregadas via{" "}
+              <code className="font-mono text-xs bg-[var(--color-surface-subtle)] px-1.5 py-0.5 rounded">
+                next/font/google
+              </code>{" "}
+              — auto-hosted em{" "}
+              <code className="font-mono text-xs bg-[var(--color-surface-subtle)] px-1.5 py-0.5 rounded">
+                /_next/static/media/
+              </code>{" "}
+              no build estático. Nenhuma requisição externa em runtime.
+            </p>
+          </div>
+
+          <div className="grid gap-6 md:grid-cols-3">
+            {/* Inter (sans) */}
+            <div className="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-base)] p-6 space-y-3">
+              <div className="label-badge">font-sans — Inter 400/500/600</div>
+              <div style={{ fontFamily: "var(--font-sans)" }} className="space-y-1">
+                <p className="text-2xl" style={{ fontWeight: 400 }}>
+                  Aeropolimento AaBbCc 0123
+                </p>
+                <p className="text-2xl" style={{ fontWeight: 500 }}>
+                  Aeropolimento AaBbCc 0123
+                </p>
+                <p className="text-2xl" style={{ fontWeight: 600 }}>
+                  Aeropolimento AaBbCc 0123
+                </p>
+              </div>
+              <p className="text-sm" style={{ color: "var(--color-text-tertiary)" }}>
+                Body, UI, navegação, inputs, labels.
+              </p>
+            </div>
+
+            {/* Inter Display (mesma família, weights 600/700) */}
+            <div className="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-base)] p-6 space-y-3">
+              <div className="label-badge">font-display — Inter 600/700</div>
+              <div
+                style={{ fontFamily: "var(--font-display)", letterSpacing: "-0.03em" }}
+                className="space-y-1"
+              >
+                <p className="text-2xl" style={{ fontWeight: 600 }}>
+                  Aeropolimento AaBbCc 0123
+                </p>
+                <p className="text-2xl" style={{ fontWeight: 700 }}>
+                  Aeropolimento AaBbCc 0123
+                </p>
+              </div>
+              <p className="text-sm" style={{ color: "var(--color-text-tertiary)" }}>
+                Hero headline, section titles, trophy counters, H1-H4. Efeito display via
+                letter-spacing negativo forte.
+              </p>
+            </div>
+
+            {/* JetBrains Mono */}
+            <div className="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-base)] p-6 space-y-3">
+              <div className="label-badge">font-mono — JetBrains Mono 400/500</div>
+              <div
+                style={{ fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}
+                className="space-y-1"
+              >
+                <p className="text-2xl" style={{ fontWeight: 400 }}>
+                  ANAC-2024-AP001
+                </p>
+                <p className="text-2xl" style={{ fontWeight: 500 }}>
+                  HUD-READOUT 60fps
+                </p>
+              </div>
+              <p className="text-sm" style={{ color: "var(--color-text-tertiary)" }}>
+                ANAC IDs, HUD readouts, ficha técnica, specs numéricas.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* ════════ 2. TIPOGRAFIA ════════ */}
         <Section title="✍️ Tipografia" description="Escala fluida — adapta-se ao viewport automaticamente">
           <div className="space-y-4">
