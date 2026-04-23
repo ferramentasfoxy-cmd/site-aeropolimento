@@ -54,6 +54,13 @@
   --color-state-error:       #DC2626;
   --color-state-info:        #2563EB;
 
+  /* ── Regulatory identity (ANAC official badge — outside 60/30/10) ──
+     Cores oficiais da Agência Nacional de Aviação Civil usadas apenas no AnacBadge.
+     Preservam fidelidade visual do selo homologatório, não participam do sistema V3. */
+  --color-anac-blue:         #0088CE;
+  --color-anac-blue-dark:    #006399;
+  --color-anac-blue-deepest: #003B5C;
+
   /* ── Typography families ──
      Fontes servidas via next/font/google — ver src/app/layout.tsx.
      --font-sans / --font-display / --font-mono são injetadas no <html> pelo next/font

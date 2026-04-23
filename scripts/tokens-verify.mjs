@@ -96,6 +96,11 @@ const WHITELIST_CSS_ONLY = new Set([
   '--glass-bg', '--glass-border', '--glass-blur',
   '--gradient-hero', '--gradient-brand', '--gradient-text',
   '--gradient-shine', '--gradient-glow', '--gradient-surface', '--gradient-card',
+
+  // Regulatory identity — ANAC official badge colors (outside V3 60/30/10 system).
+  // Consumed only by src/components/ui/AnacBadge.tsx SVG attributes.
+  // No TS mirror — they are not part of the public design token API.
+  '--color-anac-blue', '--color-anac-blue-dark', '--color-anac-blue-deepest',
 ]);
 
 const CSS_PATH = 'src/app/globals.css';

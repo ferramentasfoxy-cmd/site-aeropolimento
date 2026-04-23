@@ -10,47 +10,47 @@ export function AnacBadge() {
         
         {/* Tamanho Controlado / Escalabilidade */}
         <div className="w-[70px] h-[70px] xl:w-[85px] xl:h-[85px] relative transition-transform duration-700 group-hover:scale-105">
-          <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-sm">
-            
+          <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-sm text-white">
+
             {/* Borda Azul Externa Oficial da ANAC */}
-            <circle cx="50" cy="50" r="48" fill="#0088CE" />
-            
+            <circle cx="50" cy="50" r="48" style={{ fill: "var(--color-anac-blue)" }} />
+
             {/* Fundo Branco Interno */}
-            <circle cx="50" cy="50" r="33" fill="#ffffff" />
-            
+            <circle cx="50" cy="50" r="33" fill="currentColor" />
+
             {/* Path para letreiros */}
             <defs>
               <path id="topCurve" d="M 16 50 A 34 34 0 0 1 84 50" fill="none" />
               <path id="bottomCurve" d="M 83 50 A 33 33 0 0 1 17 50" fill="none" />
             </defs>
-            
+
             {/* Textos Circulares Oficiais */}
-            <text fill="#ffffff" fontSize="10.5" fontWeight="900" fontFamily="sans-serif" letterSpacing="0.05em">
+            <text fill="currentColor" fontSize="10.5" fontWeight="900" fontFamily="sans-serif" letterSpacing="0.05em">
               <textPath href="#topCurve" startOffset="50%" textAnchor="middle">HOMOLOGADO</textPath>
             </text>
-            
-            <text fill="#ffffff" fontSize="8" fontWeight="800" fontFamily="sans-serif" letterSpacing="0.02em">
+
+            <text fill="currentColor" fontSize="8" fontWeight="800" fontFamily="sans-serif" letterSpacing="0.02em">
               <textPath href="#bottomCurve" startOffset="50%" textAnchor="middle">Resolução 458</textPath>
             </text>
-            
+
             {/* Miolo Central: Globo, Avião e Logo ANAC */}
             <g transform="translate(50, 42)">
               {/* Globo Oficial Cerulean */}
-              <circle cx="0" cy="0" r="14" fill="#006399" />
-              <path d="M -14 0 A 14 14 0 0 0 14 0" fill="#0088CE" />
-              
+              <circle cx="0" cy="0" r="14" style={{ fill: "var(--color-anac-blue-dark)" }} />
+              <path d="M -14 0 A 14 14 0 0 0 14 0" style={{ fill: "var(--color-anac-blue)" }} />
+
               {/* Rota */}
-              <path d="M -15 5 C -5 -5, 10 -10, 16 -12" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" />
-              
+              <path d="M -15 5 C -5 -5, 10 -10, 16 -12" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+
               {/* Aviãozinho Oficial */}
-              <path d="M 14 -14 l 3 -1 l 1 3 l -1 1 l -1 -2 l -2 1 z" fill="#003b5c" />
+              <path d="M 14 -14 l 3 -1 l 1 3 l -1 1 l -1 -2 l -2 1 z" style={{ fill: "var(--color-anac-blue-deepest)" }} />
             </g>
 
             {/* Letreiro Oficial ANAC */}
             <g transform="translate(50, 64)">
-              <text x="0" y="0" fill="#0088CE" fontSize="12" fontWeight="900" fontFamily="sans-serif" textAnchor="middle" letterSpacing="0.1em">ANAC</text>
-              <text x="0" y="6" fill="#0088CE" fontSize="3.5" fontWeight="400" fontFamily="sans-serif" textAnchor="middle" letterSpacing="0.05em">AGÊNCIA NACIONAL</text>
-              <text x="0" y="10" fill="#0088CE" fontSize="3.5" fontWeight="400" fontFamily="sans-serif" textAnchor="middle" letterSpacing="0.05em">DE AVIAÇÃO CIVIL</text>
+              <text x="0" y="0" fontSize="12" fontWeight="900" fontFamily="sans-serif" textAnchor="middle" letterSpacing="0.1em" style={{ fill: "var(--color-anac-blue)" }}>ANAC</text>
+              <text x="0" y="6" fontSize="3.5" fontWeight="400" fontFamily="sans-serif" textAnchor="middle" letterSpacing="0.05em" style={{ fill: "var(--color-anac-blue)" }}>AGÊNCIA NACIONAL</text>
+              <text x="0" y="10" fontSize="3.5" fontWeight="400" fontFamily="sans-serif" textAnchor="middle" letterSpacing="0.05em" style={{ fill: "var(--color-anac-blue)" }}>DE AVIAÇÃO CIVIL</text>
             </g>
 
           </svg>

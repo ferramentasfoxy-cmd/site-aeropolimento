@@ -73,7 +73,7 @@ export function CustomCursor() {
       ></div>
       <div 
         ref={cursorDot} 
-        className="fixed top-0 left-0 w-1.5 h-1.5 bg-[#bd1622] rounded-full pointer-events-none z-[10000] hidden lg:block -translate-x-1/2 -translate-y-1/2 shadow-[0_0_8px_rgba(189,22,34,0.6)]"
+        className="fixed top-0 left-0 w-1.5 h-1.5 bg-aero-red rounded-full pointer-events-none z-[10000] hidden lg:block -translate-x-1/2 -translate-y-1/2 shadow-[0_0_8px_rgba(189,22,34,0.6)]"
         style={{ willChange: 'transform, left, top' }}
       ></div>
     </>

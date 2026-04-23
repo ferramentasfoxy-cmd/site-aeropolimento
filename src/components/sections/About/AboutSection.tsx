@@ -35,7 +35,7 @@ export function AboutSection() {
   }, []);
 
   return (
-    <section id="sobre" ref={containerRef} className="relative w-full py-24 lg:py-36 bg-[#FAFAFA] overflow-hidden">
+    <section id="sobre" ref={containerRef} className="relative w-full py-24 lg:py-36 bg-[var(--color-surface-base)] overflow-hidden">
       
       {/* --- CORTES TÁTICOS HUD --- */}
       <span className="corner corner--tl">
@@ -59,14 +59,14 @@ export function AboutSection() {
           
           {/* Label de Seção */}
           <div className="about-text-reveal flex items-center gap-3 mb-6">
-            <div className="w-2 h-2 rounded-full bg-[#bd1622] shadow-[0_0_8px_rgba(189,22,34,0.6)]" />
+            <div className="w-2 h-2 rounded-full bg-aero-red shadow-[0_0_8px_rgba(189,22,34,0.6)]" />
             <span className="text-xs uppercase tracking-[0.25em] font-bold text-gray-500">
               Quem Somos
             </span>
           </div>
 
           {/* Headline Principal */}
-          <h2 className="about-text-reveal font-display text-[1.75rem] md:text-4xl lg:text-[2.65rem] xl:text-[2.85rem] leading-[1.15] uppercase font-semibold text-[#171717] tracking-tight mb-8">
+          <h2 className="about-text-reveal font-display text-[1.75rem] md:text-4xl lg:text-[2.65rem] xl:text-[2.85rem] leading-[1.15] uppercase font-semibold text-[var(--color-text-primary)] tracking-tight mb-8">
             <span className="block">A referência brasileira</span>
             <span className="block">em química aeronáutica</span>
           </h2>

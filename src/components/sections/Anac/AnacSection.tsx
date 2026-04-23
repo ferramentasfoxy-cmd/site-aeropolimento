@@ -112,7 +112,7 @@ export function AnacSection() {
   }, []);
 
   return (
-    <section ref={containerRef} id="homologacao" className="relative w-full min-h-screen bg-[#07090e] text-white flex items-center justify-center py-24 md:py-32 overflow-hidden z-20">
+    <section ref={containerRef} id="homologacao" className="relative w-full min-h-screen bg-[var(--color-text-primary)] text-white flex items-center justify-center py-24 md:py-32 overflow-hidden z-20">
       
       {/* Background Geométrico e Limpo */}
       <div className="absolute inset-0 pointer-events-none opacity-20">
@@ -125,7 +125,7 @@ export function AnacSection() {
         {/* LADO ESQUERDO - Selo e Textos Sticky */}
         <div className="lg:sticky top-32 flex flex-col items-start justify-start">
           <div className="flex items-center gap-3 mb-6 bg-white/5 border border-white/10 px-4 py-2 rounded-full w-fit">
-           <div className="w-1.5 h-1.5 bg-[#bd1622] rounded-full animate-pulse shadow-[0_0_8px_#bd1622]" />
+           <div className="w-1.5 h-1.5 bg-aero-red rounded-full animate-pulse shadow-[0_0_8px_#bd1622]" />
            <span className="font-mono text-[10px] tracking-[0.2em] font-bold uppercase text-gray-300">Padrão Ouro da Aviação</span>
           </div>
           
@@ -142,23 +142,23 @@ export function AnacSection() {
           <div ref={sealRef} className="relative w-48 h-48 md:w-56 md:h-56 mb-12 group">
             <div className="selo-brilho absolute inset-0 rounded-full bg-gradient-to-tr from-[#bd1622] via-transparent to-white opacity-20 blur-xl" />
             
-            <div className="absolute inset-0 rounded-full border border-gray-600 flex items-center justify-center bg-[#0d1117]/80 backdrop-blur-md">
+            <div className="absolute inset-0 rounded-full border border-gray-600 flex items-center justify-center bg-[var(--color-text-primary)]/80 backdrop-blur-md">
                <div className="w-[85%] h-[85%] rounded-full border-[1.5px] border-dashed border-gray-400/50 flex flex-col items-center justify-center p-4 text-center group-hover:scale-105 transition-transform duration-700 ease-out">
                   {/* Ícone Escudo */}
                   <svg className="w-10 h-10 text-white mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
-                  <span className="font-display text-base font-black uppercase tracking-widest text-[#bd1622]">Aprovado</span>
+                  <span className="font-display text-base font-black uppercase tracking-widest text-aero-red">Aprovado</span>
                   <span className="font-mono text-[9px] text-gray-300 tracking-widest mt-1 uppercase">AMS Certified</span>
                </div>
             </div>
             
             <div className="absolute -bottom-2 -right-4 bg-white px-3 py-1.5 rounded-sm shadow-xl border border-gray-200">
-               <span className="font-mono text-[10px] font-black text-[#111] tracking-widest uppercase">ANAC-1002</span>
+               <span className="font-mono text-[10px] font-black text-[var(--color-text-primary)] tracking-widest uppercase">ANAC-1002</span>
             </div>
           </div>
 
-          <a href="#produtos" className="inline-flex items-center gap-4 px-8 py-4 bg-white text-[#111] font-bold uppercase tracking-widest text-xs hover:bg-[#bd1622] hover:text-white transition-colors duration-500 rounded-sm">
+          <a href="#produtos" className="inline-flex items-center gap-4 px-8 py-4 bg-white text-[var(--color-text-primary)] font-bold uppercase tracking-widest text-xs hover:bg-aero-red hover:text-white transition-colors duration-500 rounded-sm">
             Linha Homologada
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
           </a>
@@ -177,7 +177,7 @@ export function AnacSection() {
               <div key={idx} className="timeline-item relative flex gap-8 md:gap-12 items-start group">
                 
                 {/* Dot Container */}
-                <div className="timeline-dot relative w-12 h-12 rounded-full border-2 border-gray-800 bg-[#07090e] flex-shrink-0 flex items-center justify-center z-20 mt-1 transition-colors duration-500 shadow-md">
+                <div className="timeline-dot relative w-12 h-12 rounded-full border-2 border-gray-800 bg-[var(--color-text-primary)] flex-shrink-0 flex items-center justify-center z-20 mt-1 transition-colors duration-500 shadow-md">
                   {/* Ponto Central Brilhante (Escala CSS Inativa por padrão) */}
                   <div className="dot-core w-4 h-4 rounded-full bg-transparent opacity-0 scale-0 transition-all duration-300" />
                 </div>

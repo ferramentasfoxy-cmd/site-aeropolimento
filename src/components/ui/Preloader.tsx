@@ -63,14 +63,14 @@ export function Preloader() {
 
   return (
     <div ref={containerRef} className="fixed inset-0 z-[999] pointer-events-none overflow-hidden">
-      {/* Background Cinematográfico - Pitch Black #000 */}
-      <div className="preloader-bg absolute inset-0 bg-[#000000] flex items-center justify-center">
-        
+      {/* Background Cinematográfico - Pitch Black */}
+      <div className="preloader-bg absolute inset-0 bg-black flex items-center justify-center">
+
         {/* Camada do Logo Frontal Animada Singularmente */}
-        <div className="preloader-logo relative w-[300px] md:w-[450px]">
-          
+        <div className="preloader-logo relative w-[300px] md:w-[450px] text-white">
+
           {/* SVG Oficial Aeropolimento puramente Monochrome White (Full Impact) */}
-          <svg viewBox="0 0 1000.2 232.96" className="w-full h-auto overflow-visible drop-shadow-2xl" fill="#ffffff">
+          <svg viewBox="0 0 1000.2 232.96" className="w-full h-auto overflow-visible drop-shadow-2xl" fill="currentColor">
             <g>
               <path d="M186.81,91.24h16.55l26.57,49.34h-15.03l-4.57-8.82h-31.33l-4.57,8.82h-14.21l26.57-49.34ZM204.82,121.11l-10.15-19.53-10.15,19.53h20.29Z"/>
               <path d="M235.19,91.24h52.19v10.53h-39.38v8.62h37.29v10.15h-37.29v9.51h40.21v10.53h-53.02v-49.34Z"/>

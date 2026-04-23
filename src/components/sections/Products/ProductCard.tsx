@@ -20,7 +20,7 @@ export function ProductCard({ title, description, imageSrc, badge, reverse }: Pr
       
       {/* ── LADO A: Palco Visual do Produto ── */}
       <div className={cn(
-        "imagem-produto relative w-full h-full min-h-[40vh] md:min-h-full flex items-center justify-center p-8 overflow-visible will-change-transform z-10",
+        "imagem-produto relative w-full h-full min-h-[40vh] md:min-h-full flex items-center justify-center p-8 overflow-visible will-change-transform z-10 text-[var(--color-text-primary)]",
         reverse ? "md:order-2" : "md:order-1"
       )}>
         {/* Decoração: Flight Path SVG Opcional */}
@@ -33,7 +33,7 @@ export function ProductCard({ title, description, imageSrc, badge, reverse }: Pr
           <path
             d={reverse ? "M 110,-10 Q 50,50 -10,90" : "M -10,-10 Q 50,50 110,90"}
             fill="none"
-            stroke="#171717"
+            stroke="currentColor"
             strokeWidth="0.3"
             strokeDasharray="2 4"
           />
@@ -47,7 +47,7 @@ export function ProductCard({ title, description, imageSrc, badge, reverse }: Pr
         >
           <div className="absolute w-px h-full bg-gray-300" />
           <div className="absolute h-px w-full bg-gray-300" />
-          <div className="w-1.5 h-1.5 bg-[#bd1622] rounded-full" />
+          <div className="w-1.5 h-1.5 bg-aero-red rounded-full" />
         </div>
 
         {/* Garrafa — imagem principal */}
@@ -82,34 +82,34 @@ export function ProductCard({ title, description, imageSrc, badge, reverse }: Pr
           </div>
         )}
 
-        <h3 className="titulo font-display text-[2.5rem] md:text-5xl lg:text-[4.2rem] font-bold text-[#171717] tracking-tighter mb-8 uppercase leading-[0.92]">
+        <h3 className="titulo font-display text-[2.5rem] md:text-5xl lg:text-[4.2rem] font-bold text-[var(--color-text-primary)] tracking-tighter mb-8 uppercase leading-[0.92]">
           {mainTitle}
           {subTitle && (
             <>
               <br />
-              <span className="text-[#bd1622] text-[0.45em] tracking-widest font-mono opacity-80 mt-3 block">
+              <span className="text-aero-red text-[0.45em] tracking-widest font-mono opacity-80 mt-3 block">
                 {subTitle}
               </span>
             </>
           )}
         </h3>
 
-        <div className="titulo w-12 h-1 bg-[#171717] mb-8 mx-auto md:mx-0" />
+        <div className="titulo w-12 h-1 bg-[var(--color-text-primary)] mb-8 mx-auto md:mx-0" />
 
         <p className="descricao text-gray-500 text-base md:text-lg leading-[1.8] font-medium mb-12 max-w-[500px] text-balance mx-auto md:mx-0">
           {description}
         </p>
 
         <button
-          className="descricao relative group overflow-hidden flex items-center justify-between w-full max-w-[280px] border border-gray-300 bg-transparent py-4 px-8 transition-all duration-300 hover:border-[#bd1622] mx-auto md:mx-0"
+          className="descricao relative group overflow-hidden flex items-center justify-between w-full max-w-[280px] border border-gray-300 bg-transparent py-4 px-8 transition-all duration-300 hover:border-aero-red mx-auto md:mx-0"
         >
-          <span className="font-bold text-sm tracking-[0.1em] text-[#171717] group-hover:text-white uppercase z-10 transition-colors duration-300">
+          <span className="font-bold text-sm tracking-[0.1em] text-[var(--color-text-primary)] group-hover:text-white uppercase z-10 transition-colors duration-300">
             Saiba Mais
           </span>
-          <span className="font-mono text-[#171717] group-hover:text-white z-10 group-hover:translate-x-2 transition-all duration-300">
+          <span className="font-mono text-[var(--color-text-primary)] group-hover:text-white z-10 group-hover:translate-x-2 transition-all duration-300">
             →
           </span>
-          <div className="absolute inset-0 bg-[#bd1622] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out z-0" />
+          <div className="absolute inset-0 bg-aero-red origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out z-0" />
         </button>
       </div>
 

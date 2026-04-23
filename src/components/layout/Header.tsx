@@ -26,22 +26,22 @@ export function Header() {
 
       {/* Links de Nav Centrais (Estilo Editorial) */}
       <nav className="hidden lg:flex items-center gap-10">
-        <a href="/sobre" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[#171717] transition-colors">Sobre</a>
-        <a href="/produtos" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[#171717] transition-colors">Produtos</a>
-        <a href="/portfolio" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[#171717] transition-colors">Portfólio</a>
-        <a href="/recursos" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[#171717] transition-colors">Recursos</a>
-        <a href="/contato" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[#171717] transition-colors">Contato</a>
+        <a href="/sobre" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Sobre</a>
+        <a href="/produtos" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Produtos</a>
+        <a href="/portfolio" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Portfólio</a>
+        <a href="/recursos" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Recursos</a>
+        <a href="/contato" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Contato</a>
       </nav>
 
       {/* Botões / Call to Action Direito */}
       <div className="flex items-center gap-4">
-        <a href="/blog" className="relative group px-6 py-2.5 rounded-full overflow-hidden text-[10px] font-bold text-[#737373] tracking-widest bg-white border border-gray-300 transition-all duration-500 hover:shadow-[0_15px_40px_rgba(0,0,0,0.06)] flex items-center justify-center gap-2.5 hover:-translate-y-0.5">
+        <a href="/blog" className="relative group px-6 py-2.5 rounded-full overflow-hidden text-[10px] font-bold text-[var(--color-text-tertiary)] tracking-widest bg-white border border-gray-300 transition-all duration-500 hover:shadow-[0_15px_40px_rgba(0,0,0,0.06)] flex items-center justify-center gap-2.5 hover:-translate-y-0.5">
           {/* Fundo Deslizante Red Glass */}
-          <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-[#bd1622]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></span>
-          
-          <span className="relative z-10 flex items-center gap-2.5 transition-colors duration-500 group-hover:text-[#171717]">
+          <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-aero-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></span>
+
+          <span className="relative z-10 flex items-center gap-2.5 transition-colors duration-500 group-hover:text-[var(--color-text-primary)]">
             {/* Ponto Vermelho Sincronizado */}
-            <div className="w-1.5 h-1.5 rounded-full bg-[#bd1622] shrink-0 group-hover:scale-125 transition-transform duration-500"></div>
+            <div className="w-1.5 h-1.5 rounded-full bg-aero-red shrink-0 group-hover:scale-125 transition-transform duration-500"></div>
             <span className="uppercase tracking-[0.2em] mt-[1px]">Acessar Blog</span>
           </span>
         </a>

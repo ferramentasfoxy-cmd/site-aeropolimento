@@ -73,10 +73,10 @@ export function ContactSection() {
         {/* Cabecalho */}
         <div className="contact-header flex flex-col items-center text-center mb-16">
            <div className="flex items-center gap-3 mb-4">
-              <div className="w-1.5 h-1.5 bg-[#bd1622] rounded-full" />
+              <div className="w-1.5 h-1.5 bg-aero-red rounded-full" />
               <span className="font-mono text-[10px] tracking-[0.2em] font-bold uppercase text-gray-500">Conexão B2B</span>
            </div>
-           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-[#111] mb-6">
+           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-[var(--color-text-primary)] mb-6">
              Inicie suas operações.
            </h2>
            <p className="text-gray-500 text-lg max-w-xl leading-relaxed">
@@ -85,39 +85,39 @@ export function ContactSection() {
         </div>
 
         {/* Mega Painel Split Screen */}
-        <div className="contact-panel grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] bg-[#fafafa] border border-gray-200 shadow-2xl shadow-gray-200/50 rounded-lg overflow-hidden min-h-[600px]">
+        <div className="contact-panel grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] bg-[var(--color-surface-base)] border border-gray-200 shadow-2xl shadow-gray-200/50 rounded-lg overflow-hidden min-h-[600px]">
           
           {/* Aba Lateral Escura - Info */}
-          <div className="bg-[#080a0e] relative text-white p-10 md:p-14 flex flex-col justify-between overflow-hidden">
+          <div className="bg-[var(--color-text-primary)] relative text-white p-10 md:p-14 flex flex-col justify-between overflow-hidden">
              <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:20px_20px] opacity-10 pointer-events-none" />
-             <div className="absolute top-0 right-0 w-64 h-64 bg-[#bd1622]/20 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2" />
+             <div className="absolute top-0 right-0 w-64 h-64 bg-aero-red/20 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2" />
 
              <div className="relative z-10 mb-16">
                <h3 className="font-display text-3xl font-medium mb-8">Base de Operações</h3>
                <ul className="space-y-8">
                  <li className="flex items-start gap-4">
                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                     <Phone className="w-4 h-4 text-[#bd1622]" />
+                     <Phone className="w-4 h-4 text-aero-red" />
                    </div>
                    <div>
                      <span className="font-mono text-[9px] uppercase tracking-widest text-gray-400 block mb-1">WhatsApp Comercial</span>
-                     <a href="https://wa.me/5531989477030" className="text-lg font-medium hover:text-[#bd1622] transition-colors">+55 (31) 98947-7030</a>
+                     <a href="https://wa.me/5531989477030" className="text-lg font-medium hover:text-aero-red transition-colors">+55 (31) 98947-7030</a>
                    </div>
                  </li>
                  
                  <li className="flex items-start gap-4">
                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                     <Mail className="w-4 h-4 text-[#bd1622]" />
+                     <Mail className="w-4 h-4 text-aero-red" />
                    </div>
                    <div>
                      <span className="font-mono text-[9px] uppercase tracking-widest text-gray-400 block mb-1">Cotações e Ofícios</span>
-                     <a href="mailto:contato@aeropolimento.com.br" className="text-lg font-medium hover:text-[#bd1622] transition-colors">contato@aeropolimento.com.br</a>
+                     <a href="mailto:contato@aeropolimento.com.br" className="text-lg font-medium hover:text-aero-red transition-colors">contato@aeropolimento.com.br</a>
                    </div>
                  </li>
                  
                  <li className="flex items-start gap-4">
                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                     <MapPin className="w-4 h-4 text-[#bd1622]" />
+                     <MapPin className="w-4 h-4 text-aero-red" />
                    </div>
                    <div>
                      <span className="font-mono text-[9px] uppercase tracking-widest text-gray-400 block mb-1">Sede Brasil</span>
@@ -133,7 +133,7 @@ export function ContactSection() {
                 <p className="text-xs text-gray-400 leading-relaxed mb-4">Acesso a preços de atacado, materiais de marketing e suporte B2B prioritário.</p>
                 <button 
                   onClick={() => setActiveTab("revendedor")}
-                 className={`text-[10px] font-mono tracking-widest uppercase pb-1 border-b ${activeTab === 'revendedor' ? 'border-[#bd1622] text-[#bd1622]' : 'border-gray-500 text-gray-400 hover:text-white'} transition-colors inline-block`}
+                 className={`text-[10px] font-mono tracking-widest uppercase pb-1 border-b ${activeTab === 'revendedor' ? 'border-aero-red text-aero-red' : 'border-gray-500 text-gray-400 hover:text-white'} transition-colors inline-block`}
                 >
                   Aplicar Agora
                 </button>
@@ -147,17 +147,17 @@ export function ContactSection() {
              <div className="flex items-center gap-6 mb-12 border-b border-gray-200 w-full relative">
                <button 
                  onClick={() => setActiveTab("contato")}
-                 className={`pb-4 text-sm font-bold uppercase tracking-widest transition-colors relative ${activeTab === 'contato' ? 'text-[#111]' : 'text-gray-400 hover:text-[#111]'}`}
+                 className={`pb-4 text-sm font-bold uppercase tracking-widest transition-colors relative ${activeTab === 'contato' ? 'text-[var(--color-text-primary)]' : 'text-gray-400 hover:text-[var(--color-text-primary)]'}`}
                >
                  Contato Direto
-                 {activeTab === 'contato' && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-[#bd1622]" />}
+                 {activeTab === 'contato' && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-aero-red" />}
                </button>
                <button 
                  onClick={() => setActiveTab("revendedor")}
-                 className={`pb-4 text-sm font-bold uppercase tracking-widest transition-colors relative ${activeTab === 'revendedor' ? 'text-[#111]' : 'text-gray-400 hover:text-[#111]'}`}
+                 className={`pb-4 text-sm font-bold uppercase tracking-widest transition-colors relative ${activeTab === 'revendedor' ? 'text-[var(--color-text-primary)]' : 'text-gray-400 hover:text-[var(--color-text-primary)]'}`}
                >
                  Seja um Revendedor
-                 {activeTab === 'revendedor' && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-[#bd1622]" />}
+                 {activeTab === 'revendedor' && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-aero-red" />}
                </button>
              </div>
 
@@ -169,26 +169,26 @@ export function ContactSection() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
                         <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">Nome ou Empresa</label>
-                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-[#bd1622] rounded-sm text-sm" placeholder="Ex: Hangar Alpha" />
+                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder="Ex: Hangar Alpha" />
                       </div>
                       <div className="space-y-2">
                         <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">E-mail Corporativo</label>
-                        <input required type="email" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-[#bd1622] rounded-sm text-sm" placeholder="seu@email.com" />
+                        <input required type="email" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder="seu@email.com" />
                       </div>
                     </div>
                     
                     <div className="space-y-2">
                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">Telefone / WhatsApp</label>
-                       <input required type="tel" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-[#bd1622] rounded-sm text-sm" placeholder="+55 (00) 00000-0000" />
+                       <input required type="tel" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder="+55 (00) 00000-0000" />
                     </div>
 
                     <div className="space-y-2 flex-grow">
                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">Sua Mensagem</label>
-                       <textarea required rows={4} className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-[#bd1622] rounded-sm text-sm resize-none" placeholder="Detalhes do seu projeto ou dúvidas técnicas..." />
+                       <textarea required rows={4} className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm resize-none" placeholder="Detalhes do seu projeto ou dúvidas técnicas..." />
                     </div>
 
                     {formStatus === "idle" && (
-                      <button type="submit" className="w-full sm:w-auto px-10 py-4 bg-[#111] text-white text-xs font-bold uppercase tracking-widest hover:bg-[#bd1622] transition-colors rounded-sm flex items-center justify-center gap-3 mt-4">
+                      <button type="submit" className="w-full sm:w-auto px-10 py-4 bg-[var(--color-text-primary)] text-white text-xs font-bold uppercase tracking-widest hover:bg-aero-red transition-colors rounded-sm flex items-center justify-center gap-3 mt-4">
                         Enviar Mensagem <ArrowRight className="w-4 h-4" />
                       </button>
                     )}
@@ -219,12 +219,12 @@ export function ContactSection() {
                   {/* Benefícios rápidos */}
                   <div className="grid grid-cols-2 gap-4 mb-8">
                      <div className="bg-gray-50 p-4 border border-gray-100 rounded-sm">
-                        <Box className="w-5 h-5 text-[#bd1622] mb-3" />
+                        <Box className="w-5 h-5 text-aero-red mb-3" />
                         <span className="text-xs font-bold uppercase tracking-wider block mb-1">Preços B2B</span>
                         <p className="text-xs text-gray-500">Margem altamente competitiva para distribuidores ativos.</p>
                      </div>
                      <div className="bg-gray-50 p-4 border border-gray-100 rounded-sm">
-                        <TrendingUp className="w-5 h-5 text-[#bd1622] mb-3" />
+                        <TrendingUp className="w-5 h-5 text-aero-red mb-3" />
                         <span className="text-xs font-bold uppercase tracking-wider block mb-1">Capacitação</span>
                         <p className="text-xs text-gray-500">Treinamento técnico direto nos protocolos do laboratório.</p>
                      </div>
@@ -234,27 +234,27 @@ export function ContactSection() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-1">
                         <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">Razão Social</label>
-                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-[#bd1622] text-sm" />
+                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
                       </div>
                       <div className="space-y-1">
                         <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">CNPJ</label>
-                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-[#bd1622] text-sm" />
+                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
                       </div>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-1">
                         <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">Região de Atuação (UF)</label>
-                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-[#bd1622] text-sm" />
+                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
                       </div>
                       <div className="space-y-1">
                         <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">E-mail Responsável</label>
-                        <input required type="email" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-[#bd1622] text-sm" />
+                        <input required type="email" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
                       </div>
                     </div>
 
                     {formStatus === "idle" && (
-                      <button type="submit" className="w-full px-10 py-4 bg-[#bd1622] text-white text-xs font-bold uppercase tracking-widest hover:bg-red-800 transition-colors rounded-sm flex items-center justify-center gap-3 mt-4">
+                      <button type="submit" className="w-full px-10 py-4 bg-aero-red text-white text-xs font-bold uppercase tracking-widest hover:bg-red-800 transition-colors rounded-sm flex items-center justify-center gap-3 mt-4">
                         Aplicar para Distribuição Especializada
                       </button>
                     )}

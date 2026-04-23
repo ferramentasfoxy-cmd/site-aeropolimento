@@ -135,7 +135,7 @@ export function ProductsSection() {
   }, []);
 
   return (
-    <div ref={containerRef} id="produtos" className="container-produtos relative w-full bg-[#0a0a0a] overflow-hidden">
+    <div ref={containerRef} id="produtos" className="container-produtos relative w-full bg-[var(--color-text-primary)] overflow-hidden">
       <style>{`
         .container-produtos {
           position: relative;
@@ -244,7 +244,7 @@ export function ProductsSection() {
 
       {/* Bloco 1: Linha Aerocare (Intro Fullscreen) */}
       <section id="linha-aerocare" className="produto-fullscreen">
-        <div className="background absolute inset-0 z-0 bg-[#fafafa]">
+        <div className="background absolute inset-0 z-0 bg-[var(--color-surface-base)]">
            {/* Technical Grid Sutíl */}
            <div className="absolute inset-0 opacity-[0.35] bg-[linear-gradient(to_right,#eaeaea_1px,transparent_1px),linear-gradient(to_bottom,#eaeaea_1px,transparent_1px)] bg-[size:4vw_4vw]" />
         </div>
@@ -252,20 +252,20 @@ export function ProductsSection() {
         <div className="conteudo-grid">
           <div className="flex flex-col items-start justify-center h-full w-full mx-auto text-left z-10 md:pl-[6vw]">
             <div className="titulo relative flex items-center gap-3 mb-8 bg-white border border-gray-100 px-5 py-2 rounded-full w-fit">
-              <div className="w-1.5 h-1.5 bg-[#bd1622] rounded-full" />
+              <div className="w-1.5 h-1.5 bg-aero-red rounded-full" />
               <span className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] text-gray-700 font-bold uppercase pt-0.5">Apresentando a Linha Aerocare</span>
               {/* Floating dot from print */}
-              <div className="absolute -top-3 -right-3 w-1 h-1 bg-[#bd1622] rounded-full"></div>
+              <div className="absolute -top-3 -right-3 w-1 h-1 bg-aero-red rounded-full"></div>
               {/* Floating hollow circle from print */}
               <div className="absolute -top-12 -right-16 w-6 h-6 border border-gray-300 rounded-full"></div>
             </div>
             
-            <h2 className="titulo font-display text-[4rem] md:text-[5.5rem] lg:text-[7rem] uppercase font-black text-[#111] tracking-tighter leading-[0.85] mb-8">
-              Padrão <br/><span className="text-[#bd1622]">Aeronáutico</span>
+            <h2 className="titulo font-display text-[4rem] md:text-[5.5rem] lg:text-[7rem] uppercase font-black text-[var(--color-text-primary)] tracking-tighter leading-[0.85] mb-8">
+              Padrão <br/><span className="text-aero-red">Aeronáutico</span>
             </h2>
             
             <div className="descricao flex flex-col gap-4 text-gray-500 font-medium text-base md:text-lg max-w-[460px] leading-[1.8]">
-              <p className="text-[#111] font-display font-semibold text-2xl lg:text-3xl tracking-tight leading-[1.2]">A química da perfeição e excelência.</p>
+              <p className="text-[var(--color-text-primary)] font-display font-semibold text-2xl lg:text-3xl tracking-tight leading-[1.2]">A química da perfeição e excelência.</p>
               <p>Foram anos de P&D em laboratórios dedicados à engenharia aeroespacial para criarmos formulações que não apenas limpam, mas preservam e extendem a vida útil da estrutura da aeronave contra intempéries e atmosferas extremas.</p>
             </div>
           </div>
@@ -283,8 +283,8 @@ export function ProductsSection() {
                   <div className="absolute w-[80%] h-[1px] bg-gray-200/60 -rotate-45"></div>
                   
                   {/* Custom Dots to match print */}
-                  <div className="absolute w-1.5 h-1.5 bg-[#bd1622] rounded-full top-[50%] right-[7.5%] -translate-y-[50%] shadow-[0_0_10px_rgba(189,22,34,0.4)]"></div>
-                  <div className="absolute w-1 h-1 bg-[#9ca3af] rounded-full top-[31%] right-[23%]"></div>
+                  <div className="absolute w-1.5 h-1.5 bg-aero-red rounded-full top-[50%] right-[7.5%] -translate-y-[50%] shadow-[0_0_10px_rgba(189,22,34,0.4)]"></div>
+                  <div className="absolute w-1 h-1 bg-[var(--color-text-muted)] rounded-full top-[31%] right-[23%]"></div>
               </div>
           </div>
         </div>
@@ -293,7 +293,7 @@ export function ProductsSection() {
       {/* Blocos dos Produtos */}
       {products.map((product, idx) => (
         <section key={idx} id={`produto-${idx + 1}`} className="produto-fullscreen">
-          <div className="background absolute inset-0 bg-[#fdfdfd] z-0">
+          <div className="background absolute inset-0 bg-[var(--color-surface-elevated)] z-0">
              <div className="absolute top-0 right-0 w-[50vw] h-[50vh] bg-[radial-gradient(ellipse_at_top_right,_rgba(240,240,240,1)_0%,_rgba(253,253,253,0)_70%)]" />
              <div className="absolute bottom-0 left-0 w-[50vw] h-[50vh] bg-[radial-gradient(ellipse_at_bottom_left,_rgba(255,240,240,0.5)_0%,_rgba(253,253,253,0)_70%)]" />
           </div>

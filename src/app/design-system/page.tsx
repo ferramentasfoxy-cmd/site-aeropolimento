@@ -238,6 +238,50 @@ export default function DesignSystemPage() {
               ))}
             </div>
           </div>
+
+          {/* DS-02 Lint Notice (Plan 02-04) */}
+          <aside
+            aria-labelledby="ds-02-lint-notice"
+            className="rounded-xl border border-[var(--color-border-default)] bg-[var(--color-surface-subtle)] p-5"
+          >
+            <div id="ds-02-lint-notice" className="label-badge" style={{ color: "var(--color-text-brand)" }}>
+              Lint rule em vigor
+            </div>
+            <p
+              className="mt-2 text-sm leading-relaxed"
+              style={{ color: "var(--color-text-secondary)" }}
+            >
+              Todos os hex inline em arquivos{" "}
+              <code className="font-mono text-xs bg-[var(--color-surface-muted)] px-1.5 py-0.5 rounded">
+                src/**/*.{`{ts,tsx}`}
+              </code>{" "}
+              são bloqueados via ESLint{" "}
+              <code className="font-mono text-xs bg-[var(--color-surface-muted)] px-1.5 py-0.5 rounded">
+                no-restricted-syntax
+              </code>
+              . Use utilities geradas pelo{" "}
+              <code className="font-mono text-xs bg-[var(--color-surface-muted)] px-1.5 py-0.5 rounded">
+                @theme
+              </code>{" "}
+              (
+              <code className="font-mono text-xs bg-[var(--color-surface-muted)] px-1.5 py-0.5 rounded">
+                bg-aero-red
+              </code>
+              ,{" "}
+              <code className="font-mono text-xs bg-[var(--color-surface-muted)] px-1.5 py-0.5 rounded">
+                text-[var(--color-text-primary)]
+              </code>
+              ) ou{" "}
+              <code className="font-mono text-xs bg-[var(--color-surface-muted)] px-1.5 py-0.5 rounded">
+                bg-[var(--color-*)]
+              </code>{" "}
+              em casos especiais. Fixture de validação em{" "}
+              <code className="font-mono text-xs bg-[var(--color-surface-muted)] px-1.5 py-0.5 rounded">
+                tests/fixtures/hex-inline-lint.tsx
+              </code>
+              . Gate permanente per CONTEXT D-08.
+            </p>
+          </aside>
         </section>
 
         {/* ════════ 1.5 TYPOGRAPHY FAMILIES (DS-03) ════════ */}

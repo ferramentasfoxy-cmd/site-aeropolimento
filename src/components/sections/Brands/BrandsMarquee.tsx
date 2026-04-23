@@ -63,20 +63,20 @@ export function BrandsMarquee() {
 
   return (
     <section 
-      ref={containerRef} 
-      className="w-full pt-16 pb-20 bg-[#FAFAFA] border-b border-gray-100 overflow-hidden relative opacity-0 transform-gpu"
+      ref={containerRef}
+      className="w-full pt-16 pb-20 bg-[var(--color-surface-base)] border-b border-gray-100 overflow-hidden relative opacity-0 transform-gpu"
     >
       <div className="w-full mb-16 flex flex-col items-center justify-center pointer-events-none">
-        <p className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-medium text-[#737373] text-center max-w-xl px-4">
+        <p className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-medium text-[var(--color-text-tertiary)] text-center max-w-xl px-4">
           Empresas que confiam na referência brasileira
         </p>
       </div>
 
       <div className="relative flex w-full">
-        
+
         {/* Dissipação Simples (Leve no HTML) para os lados */}
-        <div className="absolute inset-y-0 left-0 w-24 md:w-56 z-20 pointer-events-none bg-gradient-to-r from-[#FAFAFA] to-transparent" />
-        <div className="absolute inset-y-0 right-0 w-24 md:w-56 z-20 pointer-events-none bg-gradient-to-l from-[#FAFAFA] to-transparent" />
+        <div className="absolute inset-y-0 left-0 w-24 md:w-56 z-20 pointer-events-none bg-gradient-to-r from-[var(--color-surface-base)] to-transparent" />
+        <div className="absolute inset-y-0 right-0 w-24 md:w-56 z-20 pointer-events-none bg-gradient-to-l from-[var(--color-surface-base)] to-transparent" />
 
         {/* Trilho CSS Puro (Para com Hover) */}
         <div className="flex animate-marquee hover:[animation-play-state:paused] w-max cursor-default">
