@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+
+// ── DS-05: Motion defaults — side-effect import ──
+// Registers gsap.defaults() + ScrollTrigger.defaults() + gsap.registerPlugin(ScrollTrigger)
+// at module load time (before any useGSAP / gsap.context fires in child components).
+// See src/lib/animations/defaults.ts + UI-SPEC §7.
+import "@/lib/animations/defaults";
+
 import { Preloader } from "@/components/ui/Preloader";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { FloatingWhatsApp } from "@/components/ui/FloatingWhatsApp";
