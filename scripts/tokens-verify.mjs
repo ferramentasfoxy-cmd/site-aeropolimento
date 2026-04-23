@@ -57,9 +57,30 @@ const WHITELIST_CSS_ONLY = new Set([
   // Font-family variables (injected by next/font — no TS mirror needed)
   '--font-sans', '--font-display', '--font-mono', '--font-heading',
 
-  // Legacy/placeholder typographic tokens (deferred to DS-04 Plan 02-03 replacement)
+  // Legacy typographic tokens (consumed by .btn-brand/.btn-outline/.tag-*/body base;
+  // migration to new scale deferred — not in DS-04 scope per CONTEXT D-19 no-overengineering)
   '--text-hero', '--text-title', '--text-heading', '--text-subhead',
   '--text-body', '--text-small', '--text-xs', '--text-badge',
+
+  // DS-04 V3 fluid typography scale suffix tokens (Tailwind v4 suffix syntax for
+  // --text-X--line-height / --letter-spacing / --font-weight — auto-consumed by
+  // the generated .text-X utility class; no direct TS mirror needed).
+  // Base --text-{name} tokens ARE referenced from FONT_SIZES in tokens.ts.
+  '--text-display-xl--line-height', '--text-display-xl--letter-spacing', '--text-display-xl--font-weight',
+  '--text-display-lg--line-height', '--text-display-lg--letter-spacing', '--text-display-lg--font-weight',
+  '--text-display-md--line-height', '--text-display-md--letter-spacing', '--text-display-md--font-weight',
+  '--text-h1--line-height', '--text-h1--letter-spacing', '--text-h1--font-weight',
+  '--text-h2--line-height', '--text-h2--letter-spacing', '--text-h2--font-weight',
+  '--text-h3--line-height', '--text-h3--letter-spacing', '--text-h3--font-weight',
+  '--text-h4--line-height', '--text-h4--letter-spacing', '--text-h4--font-weight',
+  '--text-h5--line-height', '--text-h5--font-weight',
+  '--text-h6--line-height', '--text-h6--font-weight',
+  '--text-body-lg--line-height', '--text-body-lg--font-weight',
+  '--text-body-md--line-height', '--text-body-md--font-weight',
+  '--text-body-sm--line-height', '--text-body-sm--font-weight',
+  '--text-caption--line-height', '--text-caption--letter-spacing', '--text-caption--font-weight',
+  '--text-label--line-height', '--text-label--letter-spacing', '--text-label--font-weight',
+  '--text-mono--line-height', '--text-mono--letter-spacing', '--text-mono--font-weight',
 
   // Letter-spacing + line-height (Tailwind utilities consume directly)
   '--tracking-tightest', '--tracking-tight', '--tracking-normal',

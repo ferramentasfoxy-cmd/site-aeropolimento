@@ -58,17 +58,29 @@ export const COLORS = {
 export type ColorToken = keyof typeof COLORS;
 
 // ══════════════════════════════════════════════════════════════
-// Typography — FONT_SIZES declared empty here; populated by Plan 02-03 (DS-04).
-// FONT_WEIGHTS is stable and declared now.
+// Typography — Fluid Scale V3 (UI-SPEC §3.3, 15 tokens)
+// DS-04 Plan 02-03 populated FONT_SIZES with the fluid clamp-based scale.
+// Each var() is declared in globals.css @theme with suffix syntax
+// (--text-X--line-height / --letter-spacing / --font-weight), so the
+// matching Tailwind utility class .text-X already applies all 4 properties.
 // ══════════════════════════════════════════════════════════════
 
-/**
- * NOTE: The 15 fluid typography tokens are added by Plan 02-03 (DS-04).
- * This object will be populated with keys: displayXl, displayLg, displayMd,
- * h1..h6, bodyLg, bodyMd, bodySm, caption, label, mono.
- */
 export const FONT_SIZES = {
-  // Plan 02-03 (DS-04) populates this.
+  displayXl: 'var(--text-display-xl)',
+  displayLg: 'var(--text-display-lg)',
+  displayMd: 'var(--text-display-md)',
+  h1:        'var(--text-h1)',
+  h2:        'var(--text-h2)',
+  h3:        'var(--text-h3)',
+  h4:        'var(--text-h4)',
+  h5:        'var(--text-h5)',
+  h6:        'var(--text-h6)',
+  bodyLg:    'var(--text-body-lg)',
+  bodyMd:    'var(--text-body-md)',
+  bodySm:    'var(--text-body-sm)',
+  caption:   'var(--text-caption)',
+  label:     'var(--text-label)',
+  mono:      'var(--text-mono)',
 } as const;
 export type FontSize = keyof typeof FONT_SIZES;
 
