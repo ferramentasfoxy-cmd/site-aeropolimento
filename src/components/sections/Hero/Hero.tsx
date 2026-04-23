@@ -1,6 +1,7 @@
 'use client';
 import * as React from "react";
 import gsap from "gsap";
+import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { HeroContent } from "./HeroContent";
 import { HeroProduct } from "./HeroProduct";
 import { ScrollIndicator } from "./ScrollIndicator";
@@ -12,11 +13,16 @@ export function Hero() {
 
   React.useEffect(() => {
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion()) {
+        gsap.set(".hud-aesthetic", { opacity: 1, y: 0, filter: "blur(0px)" });
+        return;
+      }
       // Animação de entrada dos aesthetics do ambiente Light
+      // duration/ease herdam de gsap.defaults (DS-05). Mantemos duration customizada (2.8s) — timing cinematográfico específico deste bloco.
       gsap.fromTo(
         ".hud-aesthetic",
         { opacity: 0, y: 15, filter: "blur(5px)" },
-        { opacity: 1, y: 0, filter: "blur(0px)", duration: 2.8, stagger: 0.2, delay: 3.4, ease: "expo.out" }
+        { opacity: 1, y: 0, filter: "blur(0px)", duration: 2.8, stagger: 0.2, delay: 3.4 }
       );
     }, heroRef);
 

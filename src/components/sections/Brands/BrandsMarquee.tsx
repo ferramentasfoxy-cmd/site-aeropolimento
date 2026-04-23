@@ -1,7 +1,7 @@
 'use client';
 import * as React from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/lib/animations/defaults";
 
 function PurePremiumLogo({ brand }: { brand: { name: string, src: string } }) {
   return (
@@ -25,21 +25,24 @@ export function BrandsMarquee() {
   const containerRef = React.useRef<HTMLElement>(null);
   
   React.useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion()) {
+        gsap.set(containerRef.current, { opacity: 1, y: 0, scale: 1 });
+        return;
+      }
       // Entrada mais perceptível (pedido do usuário)
+      // duration custom (2.2s) + power3.out custom mantidos; start herda de defaults ("top 85%").
       gsap.fromTo(
         containerRef.current,
-        { opacity: 0, y: 60, scale: 0.98 }, // Surge de mais baixo e ligeiramente menor
+        { opacity: 0, y: 60, scale: 0.98 },
         {
-          opacity: 1, 
+          opacity: 1,
           y: 0,
           scale: 1,
-          duration: 2.2, 
-          ease: "power3.out", 
+          duration: 2.2,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: containerRef.current,
-            start: "top 85%", // Ponto focal ideal: quando estiver 15% dentro da tela
           }
         }
       );

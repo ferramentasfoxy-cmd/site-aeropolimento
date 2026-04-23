@@ -2,6 +2,7 @@
 import * as React from "react";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { Badge } from "@/components/ui/Badge";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { ShieldCheck } from "lucide-react";
@@ -11,21 +12,25 @@ export function HeroContent() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion()) {
+        gsap.set(".editorial-slide-up", { y: 0, opacity: 1, filter: "blur(0px)" });
+        return;
+      }
+      // duration/ease herdam de gsap.defaults (DS-05). Mantemos duration customizada (2.4s) — timing cinematográfico específico do hero editorial.
       gsap.fromTo(
         ".editorial-slide-up",
         { y: 40, opacity: 0, filter: "blur(10px)" },
-        { 
-          y: 0, 
-          opacity: 1, 
-          filter: "blur(0px)", 
-          duration: 2.4, 
-          stagger: 0.15, 
-          ease: "expo.out", 
-          delay: 2.8 
+        {
+          y: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 2.4,
+          stagger: 0.15,
+          delay: 2.8
         }
       );
     }, containerRef);
-    
+
     return () => ctx.revert();
   }, []);
 

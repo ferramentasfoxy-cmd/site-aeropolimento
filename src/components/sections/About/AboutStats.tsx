@@ -1,7 +1,7 @@
 'use client';
 import * as React from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion, EASE } from "@/lib/animations/defaults";
 
 export function AboutStats() {
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -15,40 +15,50 @@ export function AboutStats() {
   const valRefs = React.useRef<(HTMLSpanElement | null)[]>([]);
 
   React.useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion()) {
+        // Estado final imediato: counters nos valores finais + cards visíveis.
+        stats.forEach((stat, i) => {
+          const el = valRefs.current[i];
+          if (el) el.innerText = stat.value.toString();
+        });
+        gsap.set(".stat-item", { opacity: 1, y: 0, filter: "blur(0px)" });
+        return;
+      }
+
+      // Counter tokenizado: DURATION.slow (0.7s) é curto demais para efeito; usamos duration custom (2.5s) + EASE.snappy para curva mais suave que expo default.
       stats.forEach((stat, i) => {
         const el = valRefs.current[i];
         if (!el) return;
 
         const proxy = { val: 0 };
-        
+
         gsap.to(proxy, {
           val: stat.value,
           duration: 2.5,
-          ease: "expo.out",
+          ease: EASE.snappy,
           scrollTrigger: {
             trigger: containerRef.current,
-            start: "top 85%", // Inicia a contagem um pouco mais cedo para sincronia
+            // start herda de ScrollTrigger.defaults ("top 85%").
           },
           onUpdate: () => {
             el.innerText = Math.floor(proxy.val).toString();
           }
         });
       });
-      
+
       // Animação das sub-caixas das métricas caindo em dominó (stagger)
+      // duration: 1.2s → DURATION.slow (0.7s) ficaria curto; mantemos 1.2s custom.
+      // ease: "expo.out" removido — default já aplica.
       gsap.fromTo(
         ".stat-item",
         { opacity: 0, y: 30, filter: "blur(10px)" },
-        { 
-          opacity: 1, 
-          y: 0, 
+        {
+          opacity: 1,
+          y: 0,
           filter: "blur(0px)",
-          duration: 1.2, 
+          duration: 1.2,
           stagger: 0.1,
-          ease: "expo.out",
           scrollTrigger: {
             trigger: containerRef.current,
             start: "top 80%"

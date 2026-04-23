@@ -1,7 +1,7 @@
 'use client';
 import * as React from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/lib/animations/defaults";
 
 const CARDS = [
   {
@@ -22,20 +22,24 @@ export function AboutCards() {
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion()) {
+        gsap.set(".hud-card", { opacity: 1, x: 0, filter: "blur(0px)", scale: 1 });
+        return;
+      }
+      // duration custom (1.4s) mantida — timing cinematográfico.
+      // ease: "expo.out" removido — herda de gsap.defaults.
+      // start: "top 75%" custom (não default 85%) — cards entram mais cedo.
       gsap.fromTo(
         ".hud-card",
         { opacity: 0, x: 40, filter: "blur(12px)", scale: 0.97 },
-        { 
-          opacity: 1, 
-          x: 0, 
+        {
+          opacity: 1,
+          x: 0,
           filter: "blur(0px)",
           scale: 1,
-          duration: 1.4, 
+          duration: 1.4,
           stagger: 0.15,
-          ease: "expo.out",
           scrollTrigger: {
             trigger: containerRef.current,
             start: "top 75%"
@@ -43,7 +47,7 @@ export function AboutCards() {
         }
       );
     }, containerRef);
-    
+
     return () => ctx.revert();
   }, []);
 

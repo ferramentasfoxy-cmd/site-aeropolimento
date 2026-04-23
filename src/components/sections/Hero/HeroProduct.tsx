@@ -1,6 +1,7 @@
 'use client';
 import * as React from "react";
 import gsap from "gsap";
+import { prefersReducedMotion, EASE } from "@/lib/animations/defaults";
 import Image from "next/image";
 import { Canvas, useFrame } from "@react-three/fiber";
 import {
@@ -109,25 +110,31 @@ function ProductModel() {
 
   React.useEffect(() => {
     // Animação espetacular de Entrada (Scale + Rotação 3D)
-    if (outerGroupRef.current) {
-      gsap.fromTo(
-        outerGroupRef.current.scale,
-        { x: 0, y: 0, z: 0 },
-        { x: 1.85, y: 1.85, z: 1.85, duration: 2.5, ease: "expo.out", delay: 0.2 }
-      );
-      
-      gsap.fromTo(
-        outerGroupRef.current.rotation,
-        { y: Math.PI }, 
-        { y: -Math.PI / 7, duration: 2.8, ease: "power3.out", delay: 0.2 }
-      );
-      
-      gsap.fromTo(
-        outerGroupRef.current.position,
-        { y: -2 }, 
-        { y: -0.45, duration: 2.5, ease: "power3.out", delay: 0.2 }
-      );
+    if (!outerGroupRef.current) return;
+    if (prefersReducedMotion()) {
+      gsap.set(outerGroupRef.current.scale, { x: 1.85, y: 1.85, z: 1.85 });
+      gsap.set(outerGroupRef.current.rotation, { y: -Math.PI / 7 });
+      gsap.set(outerGroupRef.current.position, { y: -0.45 });
+      return;
     }
+    // duration/ease herdam de gsap.defaults (DS-05); mantemos duration custom (2.5/2.8s) — timing cinematográfico de entrada do produto 3D.
+    gsap.fromTo(
+      outerGroupRef.current.scale,
+      { x: 0, y: 0, z: 0 },
+      { x: 1.85, y: 1.85, z: 1.85, duration: 2.5, delay: 0.2 }
+    );
+
+    gsap.fromTo(
+      outerGroupRef.current.rotation,
+      { y: Math.PI },
+      { y: -Math.PI / 7, duration: 2.8, ease: EASE.snappy, delay: 0.2 }
+    );
+
+    gsap.fromTo(
+      outerGroupRef.current.position,
+      { y: -2 },
+      { y: -0.45, duration: 2.5, ease: EASE.snappy, delay: 0.2 }
+    );
   }, []);
 
   const clock = React.useRef({ floatT: 0 });
@@ -230,7 +237,12 @@ export function HeroProduct() {
 
   React.useEffect(() => {
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion()) {
+        gsap.set(containerRef.current, { autoAlpha: 1, y: 0 });
+        return;
+      }
       // Entrada Clean e Minimalista - Sem borrões demorados
+      // duration custom (1.2s) mantida — timing específico de entrada; ease via EASE.snappy (power3.out canonical)
       gsap.fromTo(
         containerRef.current,
         { autoAlpha: 0, y: 20 },
@@ -239,7 +251,7 @@ export function HeroProduct() {
           y: 0,
           duration: 1.2,
           delay: 0.8,
-          ease: "power3.out",
+          ease: EASE.snappy,
         }
       );
     }, containerRef);

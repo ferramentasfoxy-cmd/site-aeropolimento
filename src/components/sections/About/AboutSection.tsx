@@ -1,7 +1,7 @@
 'use client';
 import * as React from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { AboutStats } from "./AboutStats";
 import { AboutCards } from "./AboutCards";
 
@@ -9,28 +9,31 @@ export function AboutSection() {
   const containerRef = React.useRef<HTMLElement>(null);
 
   React.useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-    
     const ctx = gsap.context(() => {
+      if (prefersReducedMotion()) {
+        gsap.set(".about-text-reveal", { opacity: 1, y: 0, filter: "blur(0px)" });
+        return;
+      }
       // Main text stagger fade in - Suavizado para modernidade pura
+      // duration custom (1.8s) mantida — curva orgânica ao invés do estalo do expo default.
+      // ScrollTrigger start herda de ScrollTrigger.defaults ("top 85%").
       gsap.fromTo(
         ".about-text-reveal",
         { opacity: 0, y: 35, filter: "blur(4px)" }, // Blur e saltos reduzidos
-        { 
-          opacity: 1, 
-          y: 0, 
+        {
+          opacity: 1,
+          y: 0,
           filter: "blur(0px)",
-          duration: 1.8,  // Tempo levemente aumentado para fluidez
+          duration: 1.8,
           stagger: 0.15,
-          ease: "power2.out", // Curva orgânica ao invés do estalo do expo
+          ease: "power2.out",
           scrollTrigger: {
             trigger: containerRef.current,
-            start: "top 85%"
           }
         }
       );
     }, containerRef);
-    
+
     return () => ctx.revert();
   }, []);
 

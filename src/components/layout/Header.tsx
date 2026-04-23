@@ -1,16 +1,23 @@
 'use client';
 import * as React from "react";
 import gsap from "gsap";
+import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { Button } from "../ui/button";
 
 export function Header() {
   const headerRef = React.useRef<HTMLElement>(null);
 
   React.useEffect(() => {
+    if (prefersReducedMotion()) {
+      gsap.set(headerRef.current, { y: 0, opacity: 1, filter: "blur(0px)" });
+      return;
+    }
+    // duration custom (2.2s) — timing cinematográfico de entrada do header.
+    // ease: "expo.out" removido — herda de gsap.defaults.
     gsap.fromTo(
       headerRef.current,
       { y: -30, opacity: 0, filter: "blur(8px)" },
-      { y: 0, opacity: 1, filter: "blur(0px)", duration: 2.2, ease: "expo.out", delay: 2.7 }
+      { y: 0, opacity: 1, filter: "blur(0px)", duration: 2.2, delay: 2.7 }
     );
   }, []);
 

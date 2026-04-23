@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/lib/animations/defaults";
 
 const steps = [
   {
@@ -33,10 +33,25 @@ export function AnacSection() {
   const stepsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
     const ctx = gsap.context(() => {
-      // Entrada do Selo com impacto
+      if (prefersReducedMotion()) {
+        gsap.set(sealRef.current, { scale: 1, opacity: 1, rotationY: 0 });
+        gsap.set('.selo-brilho', { rotate: 0 });
+        gsap.set('.master-line-fill', { height: "100%" });
+        const timelineItemsImmediate = gsap.utils.toArray('.timeline-item') as HTMLElement[];
+        timelineItemsImmediate.forEach((item) => {
+          const dot = item.querySelector('.timeline-dot');
+          const dotCore = item.querySelector('.dot-core');
+          const content = item.querySelector('.timeline-content');
+          gsap.set(content, { x: 0, opacity: 1 });
+          gsap.set(dot, { borderColor: "rgba(189,22,34,0.4)", backgroundColor: "#111" });
+          gsap.set(dotCore, { scale: 1, opacity: 1, backgroundColor: "#bd1622", boxShadow: "0 0 15px rgba(189,22,34,0.8)" });
+        });
+        return;
+      }
+
+      // Entrada do Selo com impacto — duration (1.5s) + ease power3.out custom para clímax.
+      // start custom "top 60%" — selo revela antes do conteúdo.
       gsap.from(sealRef.current, {
         scale: 0.8,
         opacity: 0,
@@ -49,7 +64,7 @@ export function AnacSection() {
         }
       });
 
-      // Brilho rotativo suave no selo
+      // Brilho rotativo suave no selo — infinite rotation: ease linear + duration longa (12s).
       gsap.to('.selo-brilho', {
         rotate: 360,
         duration: 12,
@@ -57,7 +72,7 @@ export function AnacSection() {
         repeat: -1,
       });
 
-      // Preenchimento contínuo da linha mestre da timeline
+      // Preenchimento contínuo da linha mestre da timeline (scrub — não herda duration default)
       gsap.to('.master-line-fill', {
         height: "100%",
         ease: "none",
@@ -71,31 +86,32 @@ export function AnacSection() {
 
       // Stagger + Revelação do conteúdo
       const timelineItems = gsap.utils.toArray('.timeline-item') as HTMLElement[];
-      
+
       timelineItems.forEach((item) => {
         const dot = item.querySelector('.timeline-dot');
         const dotCore = item.querySelector('.dot-core');
         const content = item.querySelector('.timeline-content');
 
-        // Divs entram suavemente
-        gsap.fromTo(content, 
-          { x: 40, opacity: 0 }, 
-          { x: 0, opacity: 1, duration: 1.2, ease: "power2.out", 
+        // Divs entram suavemente — duration custom (1.2s) + power2.out (curva orgânica).
+        // start custom "top 75%" — cedo para não esperar final do scroll.
+        gsap.fromTo(content,
+          { x: 40, opacity: 0 },
+          { x: 0, opacity: 1, duration: 1.2, ease: "power2.out",
             scrollTrigger: {
               trigger: item,
               start: "top 75%",
-              toggleActions: "play none none reverse"
             }
           }
         );
 
-        // Dot acende de forma sofisticada
+        // Dot acende de forma sofisticada — start custom "top 50%" (meio do viewport).
         gsap.to(dot, {
           borderColor: "rgba(189,22,34,0.4)",
           backgroundColor: "#111",
-          scrollTrigger: { trigger: item, start: "top 50%", toggleActions: "play none none reverse" }
+          scrollTrigger: { trigger: item, start: "top 50%" }
         });
-        
+
+        // Dot core: ease custom back.out(2) para dramatic bounce; duration 0.5s custom (snap).
         gsap.to(dotCore, {
           scale: 1,
           opacity: 1,
@@ -103,7 +119,7 @@ export function AnacSection() {
           boxShadow: "0 0 15px rgba(189,22,34,0.8)",
           ease: "back.out(2)",
           duration: 0.5,
-          scrollTrigger: { trigger: item, start: "top 50%", toggleActions: "play none none reverse" }
+          scrollTrigger: { trigger: item, start: "top 50%" }
         });
       });
 

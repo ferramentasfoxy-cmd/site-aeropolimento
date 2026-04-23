@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/lib/animations/defaults";
 import Image from "next/image";
 
 const posts = [
@@ -39,10 +39,14 @@ export function BlogSection() {
   const [emailError, setEmailError] = useState("");
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
     const ctx = gsap.context(() => {
-      // 1. Reveal do Header (Título)
+      if (prefersReducedMotion()) {
+        gsap.set(".blog-header", { y: 0, opacity: 1 });
+        gsap.set(".blog-card", { y: 0, opacity: 1 });
+        gsap.set(".newsletter-strip", { y: 0, opacity: 1 });
+        return;
+      }
+      // 1. Reveal do Header — duration (1s) + ease power3.out custom; start "top 80%" custom.
       gsap.from(".blog-header", {
         y: 40,
         opacity: 0,
@@ -54,8 +58,8 @@ export function BlogSection() {
         }
       });
 
-      // 2. Stagger Cards (Grid) - Fix GSAP 
-      gsap.fromTo(".blog-card", 
+      // 2. Stagger Cards — duration (1s) + power2.out custom. start herda de defaults ("top 85%").
+      gsap.fromTo(".blog-card",
         { y: 60, opacity: 0 },
         {
           y: 0,
@@ -65,12 +69,11 @@ export function BlogSection() {
           ease: "power2.out",
           scrollTrigger: {
             trigger: ".blog-grid",
-            start: "top 85%",
           }
         }
       );
 
-      // 3. Reveal da Newsletter Strip
+      // 3. Reveal da Newsletter Strip — duration (1s) + power2.out custom.
       gsap.from(".newsletter-strip", {
         y: 30,
         opacity: 0,
@@ -78,7 +81,6 @@ export function BlogSection() {
         ease: "power2.out",
         scrollTrigger: {
           trigger: ".newsletter-strip",
-          start: "top 85%",
         }
       });
     }, containerRef);

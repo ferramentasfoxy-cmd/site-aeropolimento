@@ -2,6 +2,7 @@
 import * as React from "react";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
+import { prefersReducedMotion, EASE } from "@/lib/animations/defaults";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import type { VariantProps } from "class-variance-authority";
@@ -21,49 +22,51 @@ export function MagneticButton({ children, className, ...props }: MagneticButton
     const container = containerRef.current;
     if (!container) return;
 
-    const hoverConfig = { x: 0, y: 0 };
-    let isHovering = false;
+    // Reduced-motion: botão fica estacionário, sem magnetic pull.
+    if (prefersReducedMotion()) {
+      return;
+    }
 
     const onMouseMove = (e: MouseEvent) => {
-      isHovering = true;
       const { clientX, clientY } = e;
       const rect = container.getBoundingClientRect();
       const x = (clientX - (rect.left + rect.width / 2)) * 0.4; // Magnético Range X
       const y = (clientY - (rect.top + rect.height / 2)) * 0.4; // Magnético Range Y
 
-      // Anima o container
+      // Anima o container — duration custom (1s) + EASE.snappy (power3.out canonical).
       gsap.to(container, {
         x: x,
         y: y,
         duration: 1,
-        ease: "power3.out",
+        ease: EASE.snappy,
       });
-      
+
       // Anima levemente o texto internamente em paralaxe inverso
       if (textRef.current) {
          gsap.to(textRef.current, {
            x: x * 0.5,
            y: y * 0.5,
            duration: 1,
-           ease: "power3.out"
+           ease: EASE.snappy
          });
       }
     };
 
     const onMouseLeave = () => {
-      isHovering = false;
+      // Rebote elástico premium Apple — EASE.spring (back.out(1.7)) canonical.
+      // duration custom (1.5s) para settle suave.
       gsap.to(container, {
         x: 0,
         y: 0,
         duration: 1.5,
-        ease: "elastic.out(1, 0.3)", // Rebote elástico premium Apple
+        ease: EASE.spring,
       });
       if (textRef.current) {
         gsap.to(textRef.current, {
           x: 0,
           y: 0,
           duration: 1.5,
-          ease: "elastic.out(1, 0.3)",
+          ease: EASE.spring,
         });
      }
     };

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { Mail, Phone, MapPin, ArrowRight, ShieldCheck, TrendingUp, Box } from "lucide-react";
 
 type TabState = "contato" | "revendedor";
@@ -14,10 +14,13 @@ export function ContactSection() {
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
-
     const ctx = gsap.context(() => {
-      // Entrada da Seção
+      if (prefersReducedMotion()) {
+        gsap.set(".contact-header", { y: 0, opacity: 1 });
+        gsap.set(".contact-panel", { y: 0, opacity: 1 });
+        return;
+      }
+      // Entrada da Seção — duration (1s/1.2s) + ease custom mantidos; start "top 80%" custom.
       gsap.from(".contact-header", {
         y: 40,
         opacity: 0,
@@ -26,12 +29,14 @@ export function ContactSection() {
         scrollTrigger: { trigger: containerRef.current, start: "top 80%" }
       });
 
+      // duration (1.2s) custom; ease "power2.out" mantido (orgânico, distinto de expo default).
+      // start herda de ScrollTrigger.defaults ("top 85%").
       gsap.from(".contact-panel", {
         y: 50,
         opacity: 0,
         duration: 1.2,
         ease: "power2.out",
-        scrollTrigger: { trigger: ".contact-panel", start: "top 85%" }
+        scrollTrigger: { trigger: ".contact-panel" }
       });
     }, containerRef);
 

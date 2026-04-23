@@ -1,6 +1,7 @@
 'use client';
 import * as React from "react";
 import gsap from "gsap";
+import { prefersReducedMotion, DURATION } from "@/lib/animations/defaults";
 
 export function Preloader() {
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -9,6 +10,13 @@ export function Preloader() {
   React.useEffect(() => {
     // Scroll lock to prevent scrolling while preloader runs
     document.body.style.overflow = "hidden";
+
+    if (prefersReducedMotion()) {
+      // Reduced-motion: preloader dispensado imediatamente, sem lock de scroll.
+      document.body.style.overflow = "";
+      setComplete(true);
+      return;
+    }
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
@@ -24,17 +32,17 @@ export function Preloader() {
       // Total blackness
       gsap.set(".preloader-bg", { opacity: 1 });
 
-      // 2. Cinematic Logo Entrance (Materializando da Névoa Branca)
+      // 2. Cinematic Logo Entrance — DURATION.cinematic (1.4s) ≈ 1.8s original; arredondado para token.
       tl.to(".preloader-logo", {
         scale: 1,
         opacity: 1,
         filter: "blur(0px)",
-        duration: 1.8,
+        duration: DURATION.cinematic,
         ease: "power3.inOut"
       });
 
-      // 3. Pausa Dramática de Branding Escoltado (Efeito Silêncio)
-      tl.to({}, { duration: 0.4 }); 
+      // 3. Pausa Dramática de Branding Escoltado (Efeito Silêncio) — DURATION.normal (0.4s) exato.
+      tl.to({}, { duration: DURATION.normal });
 
       // 4. O Grande Dissolve - Expansão Explosiva e Distorção de Blur
       // O logo avança como no hiperespaço contra a "câmera", borrando totalmente!
@@ -45,15 +53,15 @@ export function Preloader() {
         duration: 1.2,
         ease: "power2.in" // Acelera enquanto se aproxima
       });
-      
-      // O fundo Escuro "derrete" fundindo as brumas da logo distorcida 
+
+      // O fundo Escuro "derrete" fundindo as brumas da logo distorcida
       // diretamente aos 'blurs' que vão surgir nos assets do site (Hero e HUD)
       tl.to(".preloader-bg", {
         opacity: 0,
         duration: 1.2,
         ease: "power2.inOut"
       }, "<0.2"); // A câmara escurece o fader em sincronia perfeita com a explosão da logo
-      
+
     }, containerRef);
 
     return () => ctx.revert();

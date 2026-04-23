@@ -1,12 +1,19 @@
 'use client';
 import * as React from 'react';
 import gsap from 'gsap';
+import { prefersReducedMotion } from '@/lib/animations/defaults';
 
 export function ScrollIndicator() {
   const dotRef = React.useRef(null);
 
   React.useEffect(() => {
-    let ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {
+      if (prefersReducedMotion()) {
+        gsap.set(dotRef.current, { y: 0, opacity: 1, scaleY: 1 });
+        return;
+      }
+      // duration custom (1.6s) mantida — ritmo específico de pulso "mouse scroll".
+      // ease: "power2.inOut" mantido literal (não está na tabela EASE — bounce smooth específico).
       gsap.fromTo(
         dotRef.current,
         { y: 0, opacity: 1, scaleY: 1 },

@@ -2,6 +2,7 @@
 import * as React from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { ProductCard } from "./ProductCard";
 
 export function ProductsSection() {
@@ -30,15 +31,27 @@ export function ProductsSection() {
   ];
 
   React.useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
     const container = containerRef.current;
     if (!container) return;
 
-    let ctx = gsap.context(() => {
-      
+    const ctx = gsap.context(() => {
       const sections = gsap.utils.toArray('.produto-fullscreen') as HTMLElement[];
 
-      // 1. Marca d'água Global (Move levemente durante toda a rolagem dos produtos)
+      if (prefersReducedMotion()) {
+        gsap.set('.marca-dagua', { yPercent: 0 });
+        gsap.set('.indicador-container', { autoAlpha: 1 });
+        sections.forEach((section) => {
+          const titulos = section.querySelectorAll('.titulo');
+          const descricoes = section.querySelectorAll('.descricao');
+          const img = section.querySelector('.imagem-produto');
+          if (titulos.length) gsap.set(titulos, { y: 0, opacity: 1 });
+          if (descricoes.length) gsap.set(descricoes, { y: 0, opacity: 1 });
+          if (img) gsap.set(img, { y: 0, opacity: 1, yPercent: 0 });
+        });
+        return;
+      }
+
+      // 1. Marca d'água Global (parallax scrub — ease:"none" obrigatório em scrub; duration ignorada em scrub)
       gsap.to('.marca-dagua', {
         yPercent: -50,
         ease: "none",
@@ -51,8 +64,9 @@ export function ProductsSection() {
       });
 
       // 2. Controlar a exbição da Side-Bar (só aparece dentro desta sessão!)
+      // duration/ease herdam de gsap.defaults.
       gsap.to('.indicador-container', {
-        autoAlpha: 1, // Torna visível (fade)
+        autoAlpha: 1,
         scrollTrigger: {
           trigger: container,
           start: "top center",
@@ -73,18 +87,18 @@ export function ProductsSection() {
 
       // Orquestração Premium - Minimalist Flow Design (Natural Scroll)
       sections.forEach((section, index) => {
-        
+
         // --- 1. Entrada de Conteúdo Orgânica ---
+        // start "top 75%" custom (entrada cedo); timeline internals usam duration/ease custom abaixo.
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: section,
-            start: "top 75%", // Entra em cena de forma orgânica
+            start: "top 75%",
             end: "top 25%",
-            toggleActions: "play none none reverse",
           }
         });
 
-        // Títulos e Badges - Clean and Fast
+        // Títulos e Badges - Clean and Fast (duration 0.8s curto = visceral).
         const titulos = section.querySelectorAll('.titulo');
         if (titulos.length) tl.from(titulos, { y: 25, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power2.out" }, 0);
 
@@ -96,11 +110,10 @@ export function ProductsSection() {
         const img = section.querySelector('.imagem-produto');
         if (img) tl.from(img, { y: 30, opacity: 0, duration: 1, ease: "power2.out" }, 0.1);
 
-        // --- 2. Micro-Parallax na Imagem (Luxo Adicional) ---
-        // A imagem flutua suavemente para cima enquanto o usuário desce a página
+        // --- 2. Micro-Parallax na Imagem (scrub — ease:"none" obrigatório)
         if (img) {
           gsap.to(img, {
-            yPercent: -15, // Desce ligeiramente no ritmo oposto
+            yPercent: -15,
             ease: "none",
             scrollTrigger: {
               trigger: section,
@@ -114,7 +127,7 @@ export function ProductsSection() {
         // --- 3. Controle da Side-Bar ---
         ScrollTrigger.create({
           trigger: section,
-          start: "top 40%", // Atualiza o dot quando a seção chega mais ao meio
+          start: "top 40%",
           end: "bottom 40%",
           onEnter: () => updateDots(index),
           onEnterBack: () => updateDots(index)
