@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
+    "lint": "eslint src",
+    "lint:fixture": "node scripts/lint-fixture.mjs",
     "tokens:verify": "node scripts/tokens-verify.mjs",
     "pages:build": "next build",
     "pages:deploy": "next build && wrangler pages deploy out --project-name=aeropolimento"
