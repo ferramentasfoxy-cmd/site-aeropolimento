@@ -323,8 +323,8 @@ export default function DesignSystemPage() {
           </div>
         </section>
 
-        {/* ════════ 2. TIPOGRAFIA ════════ */}
-        <Section title="✍️ Tipografia" description="Escala fluida — adapta-se ao viewport automaticamente">
+        {/* ════════ 2. TIPOGRAFIA (legacy tokens — --text-hero/title/etc.) ════════ */}
+        <Section title="Tipografia — Legacy Scale" description="Tokens legados — ainda consumidos por .btn-brand, .btn-outline, .tag-* e body base. Migração completa fica fora do escopo DS-04.">
           <div className="space-y-4">
             {typeTokens.map((t) => (
               <div key={t.name} className="flex flex-col gap-1 pb-4 border-b border-[var(--color-border-subtle)] last:border-0">
@@ -342,6 +342,66 @@ export default function DesignSystemPage() {
             ))}
           </div>
         </Section>
+
+        {/* ════════ 2.5 TYPOGRAPHY SCALE V3 — DS-04 (15 níveis fluidos) ════════ */}
+        <section aria-labelledby="ds-typography-scale" className="mb-20 space-y-6">
+          <div className="mb-6 pb-4 border-b border-[var(--color-border-subtle)]">
+            <h2
+              id="ds-typography-scale"
+              className="text-2xl font-bold tracking-tight text-[var(--color-text-primary)]"
+            >
+              Typography Scale V3 — 15 níveis fluidos
+            </h2>
+            <p className="mt-1 text-sm text-[var(--color-text-tertiary)] max-w-3xl">
+              15 níveis fluidos com <code className="font-mono text-xs bg-[var(--color-surface-subtle)] px-1.5 py-0.5 rounded">clamp()</code>. Redimensione
+              a janela (375px → 1920px) para ver a escala respirar sem jumps. Tailwind v4 gera as utilities
+              via <code className="font-mono text-xs bg-[var(--color-surface-subtle)] px-1.5 py-0.5 rounded">--text-X--line-height/--letter-spacing/--font-weight</code> suffix syntax — cada <code className="font-mono text-xs bg-[var(--color-surface-subtle)] px-1.5 py-0.5 rounded">.text-X</code> já vem com os 4 valores aplicados.
+            </p>
+          </div>
+
+          <div className="space-y-6 border border-[var(--color-border-subtle)] rounded-2xl p-6 bg-[var(--color-surface-base)]">
+            {[
+              { token: "text-display-xl", usage: "Hero headline (único por página)",                sample: "Aeropolimento V3" },
+              { token: "text-display-lg", usage: "Section hero (Bloco 4 ANAC, Bloco 6 Produtos)",   sample: "Excelência ANAC" },
+              { token: "text-display-md", usage: "Sub-hero, trophy counters",                        sample: "35+ anos" },
+              { token: "text-h1",         usage: "Um por página — título principal",                sample: "Polimento aeronáutico premium" },
+              { token: "text-h2",         usage: "Título de bloco",                                  sample: "Homologação e certificação ANAC" },
+              { token: "text-h3",         usage: "Sub-bloco, card title",                            sample: "Linha Aerocare" },
+              { token: "text-h4",         usage: "Label card, timeline step",                        sample: "Processo de homologação" },
+              { token: "text-h5",         usage: "Meta-título (fixo 1rem)",                          sample: "Detalhes técnicos" },
+              { token: "text-h6",         usage: "Fine-print heading (fixo 0.875rem)",               sample: "Observação institucional" },
+              { token: "text-body-lg",    usage: "Intro paragraph, lead",                            sample: "Atendemos frotas aéreas desde 2003 com polimento aeronáutico homologado pela ANAC." },
+              { token: "text-body-md",    usage: "Body default (1rem)",                              sample: "Somos a única empresa brasileira de polimento aeronáutico especializada em frotas regionais e executivas, com certificações atualizadas." },
+              { token: "text-body-sm",    usage: "Caption (0.875rem)",                               sample: "Parceria Embraer • Cadeia Airbus • Operações nacionais" },
+              { token: "text-caption",    usage: "Footnote, microcopy (0.75rem)",                    sample: "Certificação vigente, atualizada anualmente." },
+              { token: "text-label",      usage: "Eyebrow UPPERCASE (LS 0.16em, weight 600)",        sample: "Design System V3 — Phase 2" },
+              { token: "text-mono",       usage: "ANAC IDs, HUD readouts, ficha técnica",            sample: "ANAC-2024-AP001 • 60fps • 0.7s" },
+            ].map(({ token, usage, sample }) => (
+              <div
+                key={token}
+                className="flex flex-col gap-2 pb-4 border-b border-[var(--color-border-subtle)] last:border-0 last:pb-0"
+              >
+                <div className="flex flex-wrap items-baseline gap-3">
+                  <code
+                    className="font-mono text-xs font-semibold"
+                    style={{ color: "var(--color-text-brand)" }}
+                  >
+                    .{token}
+                  </code>
+                  <span
+                    className="text-xs"
+                    style={{ color: "var(--color-text-tertiary)" }}
+                  >
+                    {usage}
+                  </span>
+                </div>
+                <div className={token === "text-label" ? `${token} uppercase` : token}>
+                  {sample}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* ════════ 3. BOTÕES ════════ */}
         <Section title="🔘 Botões" description="Variantes Shadcn + classes utilitárias da marca">
