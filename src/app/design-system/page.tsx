@@ -302,20 +302,17 @@ export default function DesignSystemPage() {
         </Section>
 
         {/* ════════ 5. GLASSMORPHISM ════════ */}
-        <Section title="🪟 Glassmorphism" description="Superfícies com blur e transparência">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Section title="🪟 Glassmorphism" description="Superfícies com blur e transparência (V3 light-only)">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               { label: ".glass", cls: "glass", desc: "Base — 70% opacidade" },
               { label: ".glass-strong", cls: "glass-strong", desc: "Forte — 88% + saturação" },
-              { label: ".glass-dark", cls: "glass-dark", desc: "Dark — para fundos escuros" },
             ].map((g) => (
               <div
                 key={g.cls}
                 className="relative overflow-hidden rounded-2xl"
                 style={{
-                  background: g.cls === "glass-dark"
-                    ? "linear-gradient(135deg, #1a1a1a, #2d1515)"
-                    : "linear-gradient(135deg, #f0f0f0, #e8d5d5)",
+                  background: "linear-gradient(135deg, #f0f0f0, #e8d5d5)",
                   padding: "2px",
                 }}
               >
@@ -329,12 +326,12 @@ export default function DesignSystemPage() {
         </Section>
 
         {/* ════════ 6. SUPERFÍCIES ════════ */}
-        <Section title="🃏 Superfícies de Cards" description="Containers e cartões de conteúdo">
+        <Section title="🃏 Superfícies de Cards" description="Containers e cartões de conteúdo (UI-SPEC §6.2)">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { label: ".surface-card",    cls: "surface-card",    desc: "Gradient card com borda sutil" },
-              { label: ".surface-feature", cls: "surface-feature", desc: "Feature card base" },
-              { label: ".spec-card",       cls: "spec-card",       desc: "Especificações técnicas — hover com borda brand" },
+              { label: ".card-base",    cls: "card-base",    desc: "Gradient card com borda sutil" },
+              { label: ".card-feature", cls: "card-feature", desc: "Feature card base" },
+              { label: ".spec-card",    cls: "spec-card",    desc: "Especificações técnicas — hover com borda brand" },
             ].map((s) => (
               <div key={s.cls} className={cn(s.cls, "p-6")}>
                 <code className="font-mono text-xs font-bold block mb-2 text-[var(--color-text-primary)]">{s.label}</code>
@@ -397,7 +394,7 @@ export default function DesignSystemPage() {
               <div
                 key={cls}
                 className={cn(
-                  "surface-card p-4 text-center cursor-pointer hover-lift",
+                  "card-base p-4 text-center cursor-pointer hover-lift",
                 )}
                 onClick={(e) => {
                   const el = e.currentTarget;
