@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "tokens:verify": "node scripts/tokens-verify.mjs",
     "pages:build": "next build",
     "pages:deploy": "next build && wrangler pages deploy out --project-name=aeropolimento"
   },
