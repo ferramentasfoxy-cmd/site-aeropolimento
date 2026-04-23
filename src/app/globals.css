@@ -380,9 +380,9 @@
     -webkit-backdrop-filter: blur(32px) saturate(1.5);
     border: 1px solid rgba(255, 255, 255, 0.60);
   }
-  /* .glass-dark removed in V3 — light-only per UI-SPEC §6.1 */
+  /* Dark glass retired in V3 — light-only per UI-SPEC §6.1 */
 
-  /* ── Card system (UI-SPEC §6.2 — renomeado de .surface-card/.surface-feature) ── */
+  /* ── Card system (UI-SPEC §6.2) ── */
   .card-base {
     background: var(--gradient-card);
     border: 1px solid var(--color-border-subtle);

@@ -35,25 +35,65 @@ function TokenRow({ name, value, preview }: { name: string; value: string; previ
   );
 }
 
-/* ─── Cores ─────────────────────────────────────────────────────────── */
-const colorTokens = [
-  { name: "--color-aero-red",         value: "#BD1622", bg: "#BD1622" },
-  { name: "--color-aero-red-dark",    value: "#991B1B", bg: "#991B1B" },
-  { name: "--color-aero-red-deeper",  value: "#7A1212", bg: "#7A1212" },
-  { name: "--color-aero-red-light",   value: "#FEE2E2", bg: "#FEE2E2" },
-  { name: "--color-aero-red-hover",   value: "#E40014", bg: "#E40014" },
-  { name: "--color-surface-canvas",   value: "#FFFFFF",  bg: "#FFFFFF" },
-  { name: "--color-surface-base",     value: "#FAFAFA",  bg: "#FAFAFA" },
-  { name: "--color-surface-subtle",   value: "#F5F5F5",  bg: "#F5F5F5" },
-  { name: "--color-text-primary",     value: "#0F0F0F",  bg: "#0F0F0F" },
-  { name: "--color-text-secondary",   value: "#404040",  bg: "#404040" },
-  { name: "--color-text-tertiary",    value: "#6B6B6B",  bg: "#6B6B6B" },
-  { name: "--color-text-muted",       value: "#A3A3A3",  bg: "#A3A3A3" },
-  { name: "--color-state-success",    value: "#16A34A",  bg: "#16A34A" },
-  { name: "--color-state-warning",    value: "#D97706",  bg: "#D97706" },
-  { name: "--color-state-error",      value: "#DC2626",  bg: "#DC2626" },
-  { name: "--color-state-info",       value: "#2563EB",  bg: "#2563EB" },
+/* ─── Color Tokens (DS-01 — UI-SPEC §4.2 60/30/10) ──────────────────── */
+type SwatchEntry = { name: string; css: string; hex: string; role: string };
+
+const brandSwatches: SwatchEntry[] = [
+  { name: "brandRed",        css: "--color-aero-red",        hex: "#BD1622",             role: "Accent canônico — CTAs, focus ring, section bar" },
+  { name: "brandRedDark",    css: "--color-aero-red-dark",   hex: "#991B1B",             role: "Hover .btn-brand" },
+  { name: "brandRedDeeper",  css: "--color-aero-red-deeper", hex: "#7A1212",             role: "Tag-premium text, gradient stop 2" },
+  { name: "brandRedLight",   css: "--color-aero-red-light",  hex: "#FEE2E2",             role: "Tag-premium bg, hover .btn-outline" },
+  { name: "brandRedHover",   css: "--color-aero-red-hover",  hex: "#E40014",             role: "Alt hover (pontos específicos)" },
+  { name: "brandRedGlow",    css: "--color-aero-red-glow",   hex: "rgba(189,22,34,.18)", role: "Shadow-brand base" },
 ];
+
+const surfaceSwatches: SwatchEntry[] = [
+  { name: "surfaceCanvas",   css: "--color-surface-canvas",   hex: "#FFFFFF",              role: "Body background" },
+  { name: "surfaceBase",     css: "--color-surface-base",     hex: "#FAFAFA",              role: "Cards, feature surfaces" },
+  { name: "surfaceSubtle",   css: "--color-surface-subtle",   hex: "#F5F5F5",              role: "Sheet backdrop, HUD seal" },
+  { name: "surfaceMuted",    css: "--color-surface-muted",    hex: "#EFEFEF",              role: "Separators, dividers" },
+  { name: "surfaceElevated", css: "--color-surface-elevated", hex: "#FFFFFF",              role: "Elevated cards (diff via shadow)" },
+  { name: "surfaceOverlay",  css: "--color-surface-overlay",  hex: "rgba(255,255,255,.90)", role: "Overlays sobre mídia" },
+];
+
+const textSwatches: SwatchEntry[] = [
+  { name: "textPrimary",   css: "--color-text-primary",   hex: "#0F0F0F", role: "Body text (19.5:1 AAA on canvas)" },
+  { name: "textSecondary", css: "--color-text-secondary", hex: "#404040", role: "Secondary text (10.5:1 AAA)" },
+  { name: "textTertiary",  css: "--color-text-tertiary",  hex: "#6B6B6B", role: "Captions (5.3:1 AA 18px+)" },
+  { name: "textMuted",     css: "--color-text-muted",     hex: "#A3A3A3", role: "Icons 24px+ only (FAIL AA text)" },
+  { name: "textDisabled",  css: "--color-text-disabled",  hex: "#D4D4D4", role: "Disabled / skeleton" },
+  { name: "textInverse",   css: "--color-text-inverse",   hex: "#FFFFFF", role: "Text over brand red" },
+  { name: "textBrand",     css: "--color-text-brand",     hex: "#BD1622", role: "Brand text on canvas (5.9:1 AA)" },
+];
+
+const borderStateSwatches: SwatchEntry[] = [
+  { name: "borderSubtle",  css: "--color-border-subtle",  hex: "rgba(0,0,0,.06)",      role: "Cards default" },
+  { name: "borderDefault", css: "--color-border-default", hex: "rgba(0,0,0,.10)",      role: "Inputs, buttons outline" },
+  { name: "borderStrong",  css: "--color-border-strong",  hex: "rgba(0,0,0,.18)",      role: "Separators" },
+  { name: "borderBrand",   css: "--color-border-brand",   hex: "rgba(189,22,34,.30)", role: "spec-card hover" },
+  { name: "stateSuccess",  css: "--color-state-success",  hex: "#16A34A",              role: "Form success (AA)" },
+  { name: "stateWarning",  css: "--color-state-warning",  hex: "#D97706",              role: "Form warning (borderline)" },
+  { name: "stateError",    css: "--color-state-error",    hex: "#DC2626",              role: "Form error (AA)" },
+  { name: "stateInfo",     css: "--color-state-info",     hex: "#2563EB",              role: "Info messages (AAA)" },
+];
+
+function ColorSwatch({ name, css, hex, role }: SwatchEntry) {
+  return (
+    <div className="rounded-xl border border-[var(--color-border-subtle)] overflow-hidden">
+      <div
+        className="h-20 w-full border-b border-[var(--color-border-subtle)]"
+        style={{ background: `var(${css})` }}
+        aria-hidden="true"
+      />
+      <div className="p-3 space-y-1 bg-[var(--color-surface-canvas)]">
+        <div className="font-mono text-[0.7rem] font-semibold text-[var(--color-text-primary)]">{name}</div>
+        <div className="font-mono text-[0.65rem] text-[var(--color-text-tertiary)]">{hex}</div>
+        <div className="font-mono text-[0.6rem] text-[var(--color-text-muted)] break-all">{css}</div>
+        <div className="text-[0.72rem] leading-snug text-[var(--color-text-tertiary)]">{role}</div>
+      </div>
+    </div>
+  );
+}
 
 /* ─── Tipografia ─────────────────────────────────────────────────────── */
 const typeTokens = [
@@ -130,24 +170,75 @@ export default function DesignSystemPage() {
           </div>
         </div>
 
-        {/* ════════ 1. CORES ════════ */}
-        <Section title="🎨 Cores" description="Paleta de marca + superfícies + texto + estados">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-            {colorTokens.map((t) => (
-              <TokenRow
-                key={t.name}
-                name={t.name}
-                value={t.value}
-                preview={
-                  <div
-                    className="w-8 h-8 rounded-md border border-[var(--color-border-subtle)] shrink-0"
-                    style={{ backgroundColor: t.bg }}
-                  />
-                }
-              />
-            ))}
+        {/* ════════ 1. COLOR TOKENS — 60/30/10 (DS-01) ════════ */}
+        <section aria-labelledby="ds-color-tokens" className="mb-20 space-y-8">
+          <div className="mb-6 pb-4 border-b border-[var(--color-border-subtle)]">
+            <h2
+              id="ds-color-tokens"
+              className="text-2xl font-bold tracking-tight text-[var(--color-text-primary)]"
+            >
+              Color Tokens — 60/30/10
+            </h2>
+            <p className="mt-1 text-sm text-[var(--color-text-tertiary)] max-w-3xl">
+              Paleta institucional Aeropolimento. Surface <strong>60%</strong> / Neutral{" "}
+              <strong>30%</strong> / Accent vermelho <strong>10%</strong>. Tokens declarados em{" "}
+              <code className="font-mono text-xs bg-[var(--color-surface-subtle)] px-1.5 py-0.5 rounded">
+                globals.css @theme
+              </code>{" "}
+              (canonical) e consumidos via{" "}
+              <code className="font-mono text-xs bg-[var(--color-surface-subtle)] px-1.5 py-0.5 rounded">
+                COLORS.*
+              </code>{" "}
+              em TS ou{" "}
+              <code className="font-mono text-xs bg-[var(--color-surface-subtle)] px-1.5 py-0.5 rounded">
+                var(--color-*)
+              </code>{" "}
+              em CSS.
+            </p>
           </div>
-        </Section>
+
+          {/* Brand — 10% accent */}
+          <div className="space-y-3">
+            <h3 className="label-badge" style={{ color: "var(--color-text-brand)" }}>
+              Brand — 10% accent
+            </h3>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+              {brandSwatches.map((t) => (
+                <ColorSwatch key={t.name} {...t} />
+              ))}
+            </div>
+          </div>
+
+          {/* Surface — 60% */}
+          <div className="space-y-3">
+            <h3 className="label-badge">Surface — 60% backgrounds</h3>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+              {surfaceSwatches.map((t) => (
+                <ColorSwatch key={t.name} {...t} />
+              ))}
+            </div>
+          </div>
+
+          {/* Text / Neutral — 30% */}
+          <div className="space-y-3">
+            <h3 className="label-badge">Text / Neutral — 30%</h3>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-7">
+              {textSwatches.map((t) => (
+                <ColorSwatch key={t.name} {...t} />
+              ))}
+            </div>
+          </div>
+
+          {/* Borders & Semantic States (uso raro) */}
+          <div className="space-y-3">
+            <h3 className="label-badge">Borders & Semantic States</h3>
+            <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-8">
+              {borderStateSwatches.map((t) => (
+                <ColorSwatch key={t.name} {...t} />
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* ════════ 1.5 TYPOGRAPHY FAMILIES (DS-03) ════════ */}
         <section aria-labelledby="ds-typography-families" className="mb-20 space-y-6">
