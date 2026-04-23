@@ -1,10 +1,13 @@
 "use client";
 
+import { useRef, useState } from "react";
+import gsap from "gsap";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { DURATION, EASE, prefersReducedMotion } from "@/lib/animations/defaults";
 
 /* ─── Helpers locais ───────────────────────────────────────────────── */
 function Section({ title, description, children }: {
@@ -606,6 +609,14 @@ export default function DesignSystemPage() {
           <p className="text-xs text-[var(--color-text-muted)] mt-3 text-center">Clique em cada card para pré-visualizar a animação</p>
         </Section>
 
+        {/* ════════ 10.5 MOTION SHOWCASE (DS-05) ════════ */}
+        <Section
+          title="Motion Showcase"
+          description='Grid DURATION × EASE com demos clicáveis. gsap.defaults globais são duration: 0.7 + ease: "expo.out" (célula slow × standard é o default). Respeita prefers-reduced-motion.'
+        >
+          <MotionGrid />
+        </Section>
+
         {/* ════════ 11. UTILITÁRIOS ════════ */}
         <Section title="🛠️ Utilitários" description="Classes prontas para uso em qualquer componente">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -637,5 +648,103 @@ export default function DesignSystemPage() {
         </div>
       </main>
     </div>
+  );
+}
+
+/* ═══════════ MOTION GRID (DS-05) ═══════════ */
+
+function MotionGrid() {
+  const durations: Array<keyof typeof DURATION> = ["instant", "fast", "normal", "slow", "cinematic"];
+  const eases: Array<keyof typeof EASE> = ["standard", "snappy", "spring", "elastic", "linear"];
+
+  return (
+    <div className="rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-base)] p-4 overflow-auto">
+      <table className="w-full border-collapse">
+        <thead>
+          <tr>
+            <th className="text-left p-3 text-xs font-semibold" style={{ color: "var(--color-text-tertiary)" }}>
+              DURATION ↓ / EASE →
+            </th>
+            {eases.map((e) => (
+              <th key={e} className="text-left p-3 font-mono text-sm" style={{ color: "var(--color-text-brand)" }}>
+                {e}
+                <div className="font-mono" style={{ color: "var(--color-text-tertiary)", fontSize: "0.7rem" }}>
+                  {EASE[e]}
+                </div>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {durations.map((d) => (
+            <tr key={d}>
+              <td className="p-3 font-mono text-sm" style={{ color: "var(--color-text-brand)" }}>
+                {d}
+                <div className="font-mono" style={{ color: "var(--color-text-tertiary)", fontSize: "0.7rem" }}>
+                  {DURATION[d]}s
+                </div>
+              </td>
+              {eases.map((e) => (
+                <td key={`${d}-${e}`} className="p-2">
+                  <MotionCell duration={DURATION[d]} ease={EASE[e]} label={`${d}/${e}`} />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="text-xs mt-3" style={{ color: "var(--color-text-muted)" }}>
+        Clique em cada célula para disparar um tween com a duração e curva correspondentes. Em <code className="font-mono">prefers-reduced-motion</code>,
+        cada demo faz apenas flash de cor, sem translação.
+      </p>
+    </div>
+  );
+}
+
+function MotionCell({ duration, ease, label }: { duration: number; ease: string; label: string }) {
+  const boxRef = useRef<HTMLDivElement>(null);
+  const [playing, setPlaying] = useState(false);
+
+  const play = () => {
+    if (!boxRef.current || playing) return;
+    if (prefersReducedMotion()) {
+      // reduced-motion: apenas flash discreto sem movimento
+      gsap.set(boxRef.current, { backgroundColor: "var(--color-aero-red)" });
+      setTimeout(() => {
+        if (boxRef.current) gsap.set(boxRef.current, { backgroundColor: "var(--color-surface-canvas)" });
+      }, 300);
+      return;
+    }
+    setPlaying(true);
+    gsap.fromTo(
+      boxRef.current,
+      { x: 0, backgroundColor: "var(--color-surface-canvas)" },
+      {
+        x: 80,
+        backgroundColor: "var(--color-aero-red)",
+        duration,
+        ease,
+        yoyo: true,
+        repeat: 1,
+        onComplete: () => setPlaying(false),
+      }
+    );
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={play}
+      className="flex items-center gap-2 w-full text-left rounded-lg px-3 py-2 hover:bg-[var(--color-surface-subtle)] transition-colors"
+      aria-label={`Play motion demo: ${label}`}
+    >
+      <div
+        ref={boxRef}
+        className="h-4 w-4 rounded-sm border border-[var(--color-border-default)] flex-shrink-0"
+        style={{ backgroundColor: "var(--color-surface-canvas)" }}
+        aria-hidden="true"
+      />
+      <span className="font-mono" style={{ fontSize: "0.7rem", color: "var(--color-text-tertiary)" }}>▶</span>
+    </button>
   );
 }
