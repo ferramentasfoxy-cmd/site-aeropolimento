@@ -7,6 +7,9 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Counter } from "@/components/ui/Counter";
+import { Timeline } from "@/components/ui/Timeline";
+import { LogoMarquee } from "@/components/ui/LogoMarquee";
 import { DURATION, EASE, prefersReducedMotion } from "@/lib/animations/defaults";
 
 /* ─── Helpers locais ───────────────────────────────────────────────── */
@@ -616,6 +619,132 @@ export default function DesignSystemPage() {
         >
           <MotionGrid />
         </Section>
+
+        {/* ════════ 10.6 PHASE 3 PRIMITIVES PREVIEW ════════ */}
+        <section id="ds-phase3-primitives" className="mb-20">
+          <div className="mb-6 pb-4 border-b border-[var(--color-border-subtle)]">
+            <h2 className="text-2xl font-bold tracking-tight text-[var(--color-text-primary)]">
+              Phase 3 Primitives Preview
+            </h2>
+            <p className="mt-1 text-sm text-[var(--color-text-tertiary)] max-w-3xl">
+              Componentes compartilhados introduzidos na Phase 3 (Foundation plan 03-01). Consumidos por BLK-01..04 e
+              reusáveis em Phases 4+. Cada um respeita <code className="font-mono">prefersReducedMotion</code> e herda
+              defaults de <code className="font-mono">src/lib/animations/defaults.ts</code>.
+            </p>
+          </div>
+
+          {/* ── Counter showcase ── */}
+          <div className="mb-16">
+            <h3 className="text-lg font-bold tracking-tight text-[var(--color-text-primary)] mb-2">
+              &lt;Counter&gt;
+            </h3>
+            <p className="text-sm text-[var(--color-text-tertiary)] mb-6 max-w-2xl">
+              Número animado via ScrollTrigger 0 → target. Default <code className="font-mono">DURATION.cinematic</code>{" "}
+              + <code className="font-mono">EASE.standard</code>. Suporta <code className="font-mono">suffix</code>,{" "}
+              <code className="font-mono">formatter</code>, <code className="font-mono">placeholder</code> para valores
+              [TBD cliente].
+            </p>
+            <div className="card-base p-10 grid grid-cols-2 md:grid-cols-4 gap-8 rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-base)]">
+              <Counter target={13} suffix="+" label="Anos de operação" placeholder />
+              <Counter target={500} suffix="+" label="Aeronaves atendidas" placeholder />
+              <Counter target={1} label="Certificações ativas" placeholder />
+              <Counter target={98} suffix="%" label="Exemplo com %" />
+            </div>
+          </div>
+
+          {/* ── Timeline showcase (light + dark) ── */}
+          <div className="mb-16">
+            <h3 className="text-lg font-bold tracking-tight text-[var(--color-text-primary)] mb-2">
+              &lt;Timeline&gt;
+            </h3>
+            <p className="text-sm text-[var(--color-text-tertiary)] mb-6 max-w-2xl">
+              Lista ordenada com linha mestre scrub + dots pulsing + content reveal. Keyboard nav: Tab entra, Arrow keys
+              navegam, Home/End vão para extremos. Variants <code className="font-mono">theme=&quot;light&quot;</code>{" "}
+              e <code className="font-mono">theme=&quot;dark&quot;</code>.
+            </p>
+            {/* Light variant */}
+            <div className="card-base p-10 mb-8 rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-base)]">
+              <div className="label-badge mb-6" style={{ color: "var(--color-text-brand)" }}>
+                theme=&quot;light&quot;
+              </div>
+              <Timeline
+                ariaLabel="Demonstração Timeline light"
+                theme="light"
+                steps={[
+                  { id: "p3-tl-1", number: "01", title: "Jornada", description: "Descrição breve da primeira etapa." },
+                  { id: "p3-tl-2", number: "02", title: "Critérios", description: "Descrição breve da segunda etapa." },
+                  { id: "p3-tl-3", number: "03", title: "Rigor", description: "Descrição breve da terceira etapa." },
+                  { id: "p3-tl-4", number: "04", title: "Parceria", description: "Descrição breve da quarta etapa." },
+                ]}
+              />
+            </div>
+            {/* Dark variant */}
+            <div
+              className="rounded-2xl p-10"
+              style={{
+                background: "var(--color-text-primary)",
+                color: "var(--color-text-inverse)",
+              }}
+            >
+              <div className="label-badge mb-6" style={{ color: "var(--color-aero-red-accent)" }}>
+                theme=&quot;dark&quot;
+              </div>
+              <Timeline
+                ariaLabel="Demonstração Timeline dark"
+                theme="dark"
+                steps={[
+                  {
+                    id: "p3-td-1",
+                    number: "01",
+                    title: "Jornada",
+                    description:
+                      "Texto sobre fundo dark — accent mono usa text-aero-red-accent (#F87171), passa WCAG AA 6.84:1 over #0F0F0F.",
+                  },
+                  { id: "p3-td-2", number: "02", title: "Critérios", description: "Descrição breve." },
+                  { id: "p3-td-3", number: "03", title: "Rigor", description: "Descrição breve." },
+                  { id: "p3-td-4", number: "04", title: "Parceria", description: "Descrição breve." },
+                ]}
+              />
+            </div>
+          </div>
+
+          {/* ── LogoMarquee showcase ── */}
+          <div>
+            <h3 className="text-lg font-bold tracking-tight text-[var(--color-text-primary)] mb-2">
+              &lt;LogoMarquee&gt;
+            </h3>
+            <p className="text-sm text-[var(--color-text-tertiary)] mb-6 max-w-2xl">
+              Marquee horizontal CSS infinito + grayscale-to-color hover + GSAP reveal de entrada. Pausa no hover.
+              Triplicação de lista para loop seamless. Classe <code className="font-mono">.animate-marquee</code> vive
+              em globals.css (Pitfall 4 — nunca injetar keyframes via{" "}
+              <code className="font-mono">dangerouslySetInnerHTML</code>).
+            </p>
+            <div className="card-base py-4 rounded-2xl border border-[var(--color-border-subtle)] bg-[var(--color-surface-base)]">
+              <LogoMarquee
+                ariaLabel="Demonstração LogoMarquee — logos aeronáuticos"
+                speed={45}
+                logos={[
+                  { name: "Airbus", src: "/images/logos/brands/airbus.svg" },
+                  { name: "Embraer", src: "/images/logos/brands/embraer.svg" },
+                  { name: "Cessna", src: "/images/logos/brands/cessna.svg" },
+                  { name: "Gulfstream", src: "/images/logos/brands/gulfstream.svg" },
+                  { name: "Bombardier", src: "/images/logos/brands/bombardier.svg" },
+                  { name: "Bell", src: "/images/logos/brands/bell.svg" },
+                  { name: "Dassault", src: "/images/logos/brands/dassault.svg" },
+                  { name: "Robinson", src: "/images/logos/brands/robinson.svg" },
+                  { name: "Beechcraft", src: "/images/logos/brands/beechcraft.svg" },
+                  { name: "Cirrus", src: "/images/logos/brands/cirrus.svg" },
+                  { name: "Leonardo", src: "/images/logos/brands/leonardo.svg" },
+                ]}
+              />
+            </div>
+            <p className="text-xs italic mt-4" style={{ color: "var(--color-text-muted)" }}>
+              Nota legal: logos exibidos aqui e em BLK-02 permanecem sob gate{" "}
+              <code className="font-mono">PENDING_LEGAL_VERIFICATION</code>. Ver{" "}
+              <code className="font-mono">.planning/legal/brand-authorizations/README.md</code> (criado em Plan 03-03).
+            </p>
+          </div>
+        </section>
 
         {/* ════════ 11. UTILITÁRIOS ════════ */}
         <Section title="🛠️ Utilitários" description="Classes prontas para uso em qualquer componente">
