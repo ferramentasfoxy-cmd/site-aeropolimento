@@ -5,7 +5,6 @@ import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { HeroContent } from "./HeroContent";
 import { HeroProduct } from "./HeroProduct";
 import { ScrollIndicator } from "./ScrollIndicator";
-import { Header } from "../../layout/Header";
 import { AnacBadge } from "../../ui/AnacBadge";
 
 export function Hero() {
@@ -31,9 +30,8 @@ export function Hero() {
 
   return (
     <section ref={heroRef} className="hero-section relative w-full h-[100vh] min-h-[800px] overflow-hidden bg-[var(--color-bg-primary)]">
-      
-      {/* Header Premium Solto sobre a tela */}
-      <Header />
+
+      {/* Header removido do Hero em Plan 03-01 (D-05/D-06) — agora montado globalmente em src/app/layout.tsx */}
 
       {/* Camada 0: Fundo Ambiental Galpão Branco com Iluminação Studio (Radial Glow) */}
       <div className="absolute inset-0 z-0 bg-[var(--color-bg-primary)]">

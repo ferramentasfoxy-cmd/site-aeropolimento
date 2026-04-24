@@ -11,6 +11,7 @@ import "@/lib/animations/defaults";
 import { Preloader } from "@/components/ui/Preloader";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { FloatingWhatsApp } from "@/components/ui/FloatingWhatsApp";
+import { Header } from "@/components/layout/Header";
 import { cn } from "@/lib/utils";
 
 // Inter sans (body, UI) — weights 400/500/600
@@ -62,7 +63,10 @@ export default function RootLayout({
       <body className="bg-[var(--color-surface-canvas)] text-[var(--color-text-primary)] antialiased overflow-x-hidden">
         <Preloader />
         <CustomCursor />
-        {/* Header NÃO fica aqui — cada seção gerencia seu próprio header overlay */}
+        {/* Header global (D-05 / Plan 03-01) — chrome consistente para / e /design-system/.
+            Preloader ocupa overflow: hidden durante 3.4s; Header anima in via delay: 2.7s
+            coincidindo com o fim do cinematic reveal. */}
+        <Header />
         {children}
         <FloatingWhatsApp />
       </body>
