@@ -22,6 +22,7 @@
   --color-aero-red-dark:     #991B1B;
   --color-aero-red-deeper:   #7A1212;
   --color-aero-red-light:    #FEE2E2;
+  --color-aero-red-accent:   #F87171;  /* Dark-mode text accent (BLK-04+) — WCAG AA (6.84:1 over #0F0F0F per UI-SPEC §6.5) */
   --color-aero-red-hover:    #E40014;
   --color-aero-red-glow:     rgba(189, 22, 34, 0.18);
 

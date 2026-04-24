@@ -23,6 +23,8 @@ export const COLORS = {
   brandRedDark:    'var(--color-aero-red-dark)',
   brandRedDeeper:  'var(--color-aero-red-deeper)',
   brandRedLight:   'var(--color-aero-red-light)',
+  // Dark-mode text accent (BLK-04+) — WCAG AA (6.84:1 over #0F0F0F)
+  aeroRedAccent:   'var(--color-aero-red-accent)',
   brandRedHover:   'var(--color-aero-red-hover)',
   brandRedGlow:    'var(--color-aero-red-glow)',
 
