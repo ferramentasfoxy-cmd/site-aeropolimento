@@ -117,23 +117,25 @@ function ProductModel() {
       gsap.set(outerGroupRef.current.position, { y: -0.45 });
       return;
     }
-    // duration/ease herdam de gsap.defaults (DS-05); mantemos duration custom (2.5/2.8s) — timing cinematográfico de entrada do produto 3D.
+    // Entrada cinematográfica V3: zoom-in girando (scale 0→1.85 + rotação 2.5 voltas) + flutuação suave.
+    // Durations custom mantidas — timing especial de entrada do produto 3D, alinhado com fade+blur do container.
     gsap.fromTo(
       outerGroupRef.current.scale,
       { x: 0, y: 0, z: 0 },
-      { x: 1.85, y: 1.85, z: 1.85, duration: 2.5, delay: 0.2 }
+      { x: 1.85, y: 1.85, z: 1.85, duration: 3.2, ease: "expo.out", delay: 0.6 }
     );
 
+    // Rotação Y: 2.5 voltas completas durante a entrada (5π = 900° de spin) terminando na pose -π/7.
     gsap.fromTo(
       outerGroupRef.current.rotation,
-      { y: Math.PI },
-      { y: -Math.PI / 7, duration: 2.8, ease: EASE.snappy, delay: 0.2 }
+      { y: -Math.PI / 7 + Math.PI * 2.5 },
+      { y: -Math.PI / 7, duration: 3.6, ease: "expo.out", delay: 0.6 }
     );
 
     gsap.fromTo(
       outerGroupRef.current.position,
       { y: -2 },
-      { y: -0.45, duration: 2.5, ease: EASE.snappy, delay: 0.2 }
+      { y: -0.45, duration: 2.8, ease: EASE.snappy, delay: 0.6 }
     );
   }, []);
 
@@ -241,17 +243,17 @@ export function HeroProduct() {
         gsap.set(containerRef.current, { autoAlpha: 1, y: 0 });
         return;
       }
-      // Entrada Clean e Minimalista - Sem borrões demorados
-      // duration custom (1.2s) mantida — timing específico de entrada; ease via EASE.snappy (power3.out canonical)
+      // Entrada cinematográfica V3: fade + blur + lift, sincronizada com o spin 3D (delay 0.4s vem antes do 3D 0.6s).
       gsap.fromTo(
         containerRef.current,
-        { autoAlpha: 0, y: 20 },
+        { autoAlpha: 0, y: 30, filter: "blur(24px)" },
         {
           autoAlpha: 1,
           y: 0,
-          duration: 1.2,
-          delay: 0.8,
-          ease: EASE.snappy,
+          filter: "blur(0px)",
+          duration: 1.6,
+          delay: 0.4,
+          ease: "expo.out",
         }
       );
     }, containerRef);
@@ -298,65 +300,10 @@ export function HeroProduct() {
 // ─────────────────────────────────────────────────────────────
 // HUD READOUTS (Camada de Dados Técnicos V2)
 // ─────────────────────────────────────────────────────────────
-function HudReadouts({ accent }: { accent: string }) {
-  const [viscosity] = React.useState(42.8);
-  const [ph, setPh] = React.useState(6.2);
-
-  React.useEffect(() => {
-    // Oscilação orgânica simulada para simular instrumentação ao vivo
-    const id = setInterval(() => {
-      setPh(6.2 + Math.sin(Date.now() / 2000) * 0.04);
-    }, 150);
-    return () => clearInterval(id);
-  }, []);
-
-  return (
-    <div className="hud-layer hud-aesthetic transition-opacity duration-1000">
-      
-      {/* Top-left: rotation tracker */}
-      <div className="hud-readout hud-tl" style={{ top: '8%', left: '8%' }}>
-        <span className="hud-key">AXIS Y</span>
-        <span className="hud-val" id="hud-rot-val">000.0°</span>
-        <svg width="64" height="64" viewBox="0 0 64 64" className="hud-dial" style={{marginTop: '8px'}}>
-          <circle cx="32" cy="32" r="28" fill="none" stroke="currentColor" strokeOpacity="0.12" strokeWidth="1" />
-          <circle cx="32" cy="32" r="28" fill="none" stroke={accent} strokeWidth="1.5"
-                  strokeDasharray={`140 175.9`}
-                  strokeLinecap="round"
-                  transform="rotate(-90 32 32)" />
-          <circle cx="32" cy="4" r="1.5" fill={accent} />
-        </svg>
-      </div>
-
-      {/* Bússola 360 Radial ao redor do produto */}
-      <BussolaRadial />
-    </div>
-  );
-}
-
-function BussolaRadial() {
-  return (
-    <svg className="hud-compass" viewBox="0 0 800 800" aria-hidden="true">
-      <g fill="currentColor" opacity="0.14">
-        {Array.from({ length: 72 }).map((_, i) => {
-          const angle = (i * 5 * Math.PI) / 180;
-          const major = i % 9 === 0;
-          const r1 = 360;
-          const r2 = major ? 380 : 370;
-          const x1 = 400 + Math.cos(angle) * r1;
-          const y1 = 400 + Math.sin(angle) * r1;
-          const x2 = 400 + Math.cos(angle) * r2;
-          const y2 = 400 + Math.sin(angle) * r2;
-          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth={major ? 1.5 : 0.6} />;
-        })}
-      </g>
-      <g fontFamily="var(--font-mono)" fontSize="10" fill="currentColor" opacity="0.3" letterSpacing="1">
-        <text x="400" y="22" textAnchor="middle">000°</text>
-        <text x="782" y="404" textAnchor="end">090°</text>
-        <text x="400" y="790" textAnchor="middle">180°</text>
-        <text x="18" y="404">270°</text>
-      </g>
-    </svg>
-  );
+function HudReadouts({ accent: _accent }: { accent: string }) {
+  // HUD readouts simplificados — Axis Y + Bússola Radial removidos (feios, mal posicionados).
+  // Mantém apenas a camada base; readouts adicionais podem voltar em phases futuras se for caso.
+  return null;
 }
 
 useGLTF.preload("/models/ap001.glb");
