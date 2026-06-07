@@ -6,8 +6,10 @@ import { HeroContent } from "./HeroContent";
 import { HeroProduct } from "./HeroProduct";
 import { ScrollIndicator } from "./ScrollIndicator";
 import { AnacBadge } from "../../ui/AnacBadge";
+import { useT } from "@/i18n/LanguageProvider";
 
 export function Hero() {
+  const { t } = useT();
   const heroRef = React.useRef<HTMLElement>(null);
 
   React.useEffect(() => {
@@ -63,8 +65,8 @@ export function Hero() {
             </div>
 
             <div className="relative z-20">
-              <p className="text-[15px] font-semibold text-[var(--color-text-primary)] leading-tight group-hover:text-aero-red transition-colors duration-400">Girar em 360º</p>
-              <p className="text-sm text-[var(--color-text-tertiary)] leading-tight">interaja com o frasco</p>
+              <p className="text-[15px] font-semibold text-[var(--color-text-primary)] leading-tight group-hover:text-aero-red transition-colors duration-400">{t.hero.rotate360}</p>
+              <p className="text-sm text-[var(--color-text-tertiary)] leading-tight">{t.hero.rotateHint}</p>
             </div>
           </div>
         </div>

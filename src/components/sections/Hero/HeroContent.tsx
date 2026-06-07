@@ -6,8 +6,10 @@ import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { Badge } from "@/components/ui/Badge";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { ShieldCheck } from "lucide-react";
+import { useT } from "@/i18n/LanguageProvider";
 
 export function HeroContent() {
+  const { t } = useT();
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,27 +45,27 @@ export function HeroContent() {
             {/* Ponto Vermelho Sincronizado */}
             <div className="w-1.5 h-1.5 rounded-full bg-aero-red shrink-0 group-hover:scale-125 transition-transform duration-300" />
             <span className="inline-block translate-y-[2px] transition-colors duration-500 group-hover:text-gray-800">
-              Aviação & MRO
+              {t.hero.badge}
             </span>
           </Badge>
         </div>
 
         {/* Título Monumental Editorial Escuro */}
         <h1 className="editorial-slide-up text-[4rem] sm:text-[5.5rem] lg:text-[6.5rem] xl:text-[7.5rem] tracking-tight text-[var(--color-text-primary)] font-medium leading-[0.92] mb-5 relative">
-          <span className="relative z-10">Estética.</span>
+          <span className="relative z-10">{t.hero.titleLine1}</span>
           <br />
-          <span className="relative z-10 text-[var(--color-text-primary)]">Aeronáutica.</span>
+          <span className="relative z-10 text-[var(--color-text-primary)]">{t.hero.titleLine2}</span>
         </h1>
 
         {/* Subtítulo Clean Crú de Alta Autoridade */}
         <p className="editorial-slide-up text-[1rem] md:text-[1.15rem] xl:text-[1.2rem] text-[var(--color-text-secondary)] font-normal leading-[1.65] lg:leading-[1.7] mb-7 w-full max-w-[650px] lg:max-w-[700px] tracking-[0.01em]">
-          Fórmulas puras desenvolvidas para o detalhamento aeronáutico rigoroso. Da remoção de oxidação severa à proteção final, com segurança e aprovação internacional.
+          {t.hero.subtitle}
         </p>
 
         {/* C.T.A Minimalista e Magnético */}
         <div className="editorial-slide-up mb-6">
           <button className="bg-aero-red hover:bg-[var(--color-aero-red-hover)] text-white px-8 py-5 lg:py-6 rounded-full text-[13px] tracking-widest font-bold uppercase transition-all duration-500 shadow-[0_15px_30px_rgba(189,22,34,0.25)] hover:shadow-[0_20px_40px_rgba(189,22,34,0.35)] flex items-center gap-3 group">
-            Conhecer Produtos
+            {t.hero.cta}
             <span className="transform transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1">↗</span>
           </button>
         </div>
@@ -81,8 +83,8 @@ export function HeroContent() {
                </svg>
             </div>
             <div className="flex flex-col justify-center">
-              <span className="block text-[8px] uppercase tracking-[0.2em] text-[var(--color-text-tertiary)] font-bold mb-0.5">Certificação</span>
-              <span className="block text-[11px] lg:text-[12px] font-bold tracking-wide text-[var(--color-text-primary)] leading-none uppercase">Conformidade AMS</span>
+              <span className="block text-[8px] uppercase tracking-[0.2em] text-[var(--color-text-tertiary)] font-bold mb-0.5">{t.hero.cert1Label}</span>
+              <span className="block text-[11px] lg:text-[12px] font-bold tracking-wide text-[var(--color-text-primary)] leading-none uppercase">{t.hero.cert1Value}</span>
             </div>
           </div>
 
@@ -98,8 +100,8 @@ export function HeroContent() {
                </svg>
             </div>
             <div className="flex flex-col justify-center">
-              <span className="block text-[8px] uppercase tracking-[0.2em] text-[var(--color-text-tertiary)] font-bold mb-0.5">Qualidade MRO</span>
-              <span className="block text-[11px] lg:text-[12px] font-bold tracking-wide text-[var(--color-text-primary)] leading-none uppercase">Padrão Internacional</span>
+              <span className="block text-[8px] uppercase tracking-[0.2em] text-[var(--color-text-tertiary)] font-bold mb-0.5">{t.hero.cert2Label}</span>
+              <span className="block text-[11px] lg:text-[12px] font-bold tracking-wide text-[var(--color-text-primary)] leading-none uppercase">{t.hero.cert2Value}</span>
             </div>
           </div>
 

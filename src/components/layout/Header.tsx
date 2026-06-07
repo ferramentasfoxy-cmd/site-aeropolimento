@@ -2,8 +2,10 @@
 import * as React from "react";
 import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
+import { useT } from "@/i18n/LanguageProvider";
 
 export function Header() {
+  const { t, locale, setLocale } = useT();
   const headerRef = React.useRef<HTMLElement>(null);
   const [isSticky, setIsSticky] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -54,20 +56,41 @@ export function Header() {
 
         {/* Links de Nav Centrais (Estilo Editorial) */}
         <nav className="hidden lg:flex items-center gap-10">
-          <a href="/sobre" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Sobre</a>
-          <a href="/produtos" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Produtos</a>
-          <a href="/portfolio" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Portfólio</a>
-          <a href="/recursos" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Recursos</a>
-          <a href="/contato" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Contato</a>
+          <a href="/#sobre" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">{t.nav.sobre}</a>
+          <a href="/#produtos" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">{t.nav.produtos}</a>
+          <a href="/#homologacao" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">{t.nav.homologacao}</a>
+          <a href="/#blog" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">{t.nav.recursos}</a>
+          <a href="/#contato" className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">{t.nav.contato}</a>
         </nav>
 
         {/* Botões / Call to Action Direito */}
-        <div className="hidden lg:flex items-center gap-4">
-          <a href="/blog" className="relative group px-6 py-2.5 rounded-full overflow-hidden text-[10px] font-bold text-[var(--color-text-tertiary)] tracking-widest bg-white border border-gray-300 transition-all duration-500 hover:shadow-[0_15px_40px_rgba(0,0,0,0.06)] flex items-center justify-center gap-2.5 hover:-translate-y-0.5">
+        <div className="hidden lg:flex items-center gap-6">
+          {/* Seletor de idioma PT|EN — editorial minimalista */}
+          <div className="flex items-center gap-1.5 font-mono text-[11px] tracking-widest" role="group" aria-label={t.nav.ariaLanguage}>
+            <button
+              type="button"
+              onClick={() => setLocale("pt")}
+              aria-pressed={locale === "pt"}
+              className={`uppercase transition-colors ${locale === "pt" ? "text-[var(--color-text-primary)] font-bold" : "text-gray-400 hover:text-gray-600"}`}
+            >
+              PT
+            </button>
+            <span className="text-gray-300" aria-hidden="true">/</span>
+            <button
+              type="button"
+              onClick={() => setLocale("en")}
+              aria-pressed={locale === "en"}
+              className={`uppercase transition-colors ${locale === "en" ? "text-[var(--color-text-primary)] font-bold" : "text-gray-400 hover:text-gray-600"}`}
+            >
+              EN
+            </button>
+          </div>
+
+          <a href="/#blog" className="relative group px-6 py-2.5 rounded-full overflow-hidden text-[10px] font-bold text-[var(--color-text-tertiary)] tracking-widest bg-white border border-gray-300 transition-all duration-500 hover:shadow-[0_15px_40px_rgba(0,0,0,0.06)] flex items-center justify-center gap-2.5 hover:-translate-y-0.5">
             <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-aero-red/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></span>
             <span className="relative z-10 flex items-center gap-2.5 transition-colors duration-500 group-hover:text-[var(--color-text-primary)]">
               <div className="w-1.5 h-1.5 rounded-full bg-aero-red shrink-0 group-hover:scale-125 transition-transform duration-500"></div>
-              <span className="uppercase tracking-[0.2em] mt-[1px]">Acessar Blog</span>
+              <span className="uppercase tracking-[0.2em] mt-[1px]">{t.nav.acessarBlog}</span>
             </span>
           </a>
         </div>
@@ -88,12 +111,33 @@ export function Header() {
         className={`lg:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-200 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[400px] py-8 shadow-lg' : 'max-h-0 py-0 border-transparent'}`}
       >
         <nav className="flex flex-col items-center gap-6 px-8">
-          <a href="/sobre" onClick={() => setIsOpen(false)} className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Sobre</a>
-          <a href="/produtos" onClick={() => setIsOpen(false)} className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Produtos</a>
-          <a href="/portfolio" onClick={() => setIsOpen(false)} className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Portfólio</a>
-          <a href="/recursos" onClick={() => setIsOpen(false)} className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Recursos</a>
-          <a href="/contato" onClick={() => setIsOpen(false)} className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">Contato</a>
-          <a href="/blog" onClick={() => setIsOpen(false)} className="px-6 py-2.5 mt-2 rounded-full border border-gray-300 text-[10px] font-bold text-gray-500 tracking-widest uppercase text-center w-full max-w-[200px]">Acessar Blog</a>
+          <a href="/#sobre" onClick={() => setIsOpen(false)} className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">{t.nav.sobre}</a>
+          <a href="/#produtos" onClick={() => setIsOpen(false)} className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">{t.nav.produtos}</a>
+          <a href="/#homologacao" onClick={() => setIsOpen(false)} className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">{t.nav.homologacao}</a>
+          <a href="/#blog" onClick={() => setIsOpen(false)} className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">{t.nav.recursos}</a>
+          <a href="/#contato" onClick={() => setIsOpen(false)} className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors">{t.nav.contato}</a>
+          <a href="/#blog" onClick={() => setIsOpen(false)} className="px-6 py-2.5 mt-2 rounded-full border border-gray-300 text-[10px] font-bold text-gray-500 tracking-widest uppercase text-center w-full max-w-[200px]">{t.nav.acessarBlog}</a>
+
+          {/* Seletor de idioma PT|EN (mobile) */}
+          <div className="flex items-center gap-2 font-mono text-[12px] tracking-widest mt-4" role="group" aria-label={t.nav.ariaLanguage}>
+            <button
+              type="button"
+              onClick={() => setLocale("pt")}
+              aria-pressed={locale === "pt"}
+              className={`uppercase transition-colors ${locale === "pt" ? "text-[var(--color-text-primary)] font-bold" : "text-gray-400"}`}
+            >
+              PT
+            </button>
+            <span className="text-gray-300" aria-hidden="true">/</span>
+            <button
+              type="button"
+              onClick={() => setLocale("en")}
+              aria-pressed={locale === "en"}
+              className={`uppercase transition-colors ${locale === "en" ? "text-[var(--color-text-primary)] font-bold" : "text-gray-400"}`}
+            >
+              EN
+            </button>
+          </div>
         </nav>
       </div>
     </header>
