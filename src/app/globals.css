@@ -388,8 +388,17 @@
 
   html {
     scroll-behavior: smooth;
+    /* Compensa o header fixo: âncoras (#sobre, #produtos...) param abaixo dele. */
+    scroll-padding-top: 6rem;
     -webkit-text-size-adjust: 100%;
     @apply font-sans;
+  }
+
+  /* WCAG: respeita prefers-reduced-motion — sem rolagem animada. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
   }
 
   body {
