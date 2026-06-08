@@ -2,8 +2,10 @@
 import * as React from "react";
 import gsap from "gsap";
 import { prefersReducedMotion, EASE } from "@/lib/animations/defaults";
+import { useT } from "@/i18n/LanguageProvider";
 
 export function AboutStats() {
+  const { t } = useT();
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   const stats = [
@@ -79,7 +81,7 @@ export function AboutStats() {
           <span ref={(el) => { valRefs.current[0] = el; }} className="text-4xl md:text-[3.25rem] leading-none tracking-tighter font-semibold">0</span>
         </div>
         <span className="text-[0.65rem] md:text-xs uppercase tracking-[0.2em] text-gray-500 font-bold mt-4 max-w-[120px] leading-relaxed group-hover:text-gray-800 transition-colors duration-500">
-          Anos de <br/>Mercado
+          {t.about.statYears}
         </span>
       </div>
 
@@ -90,7 +92,7 @@ export function AboutStats() {
           <span className="text-2xl md:text-3xl leading-none text-aero-red font-semibold">+</span>
         </div>
         <span className="text-[0.65rem] md:text-xs uppercase tracking-[0.2em] text-gray-500 font-bold mt-4 max-w-[120px] leading-relaxed group-hover:text-gray-800 transition-colors duration-500">
-          Aeronaves <br/>Tratadas
+          {t.about.statAircraft}
         </span>
       </div>
 
@@ -101,7 +103,7 @@ export function AboutStats() {
           <div className="w-1.5 h-1.5 bg-aero-red rounded-full ml-1 mb-1" />
         </div>
         <span className="text-[0.65rem] md:text-xs uppercase tracking-[0.2em] text-gray-500 font-bold mt-4 max-w-[120px] leading-relaxed group-hover:text-gray-800 transition-colors duration-500">
-          Homologação <br/>Oficial
+          {t.about.statAnac}
         </span>
       </div>
 
@@ -112,7 +114,7 @@ export function AboutStats() {
           <div className="w-1.5 h-1.5 bg-aero-red rounded-full ml-1 mb-1" />
         </div>
         <span className="text-[0.65rem] md:text-xs uppercase tracking-[0.2em] text-gray-500 font-bold mt-4 max-w-[120px] leading-relaxed group-hover:text-gray-800 transition-colors duration-500">
-          Membro <br/>Internacional
+          {t.about.statIda}
         </span>
       </div>
 

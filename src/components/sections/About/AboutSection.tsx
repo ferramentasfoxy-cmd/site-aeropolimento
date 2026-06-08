@@ -4,8 +4,10 @@ import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { AboutStats } from "./AboutStats";
 import { AboutCards } from "./AboutCards";
+import { useT } from "@/i18n/LanguageProvider";
 
 export function AboutSection() {
+  const { t } = useT();
   const containerRef = React.useRef<HTMLElement>(null);
 
   React.useEffect(() => {
@@ -42,7 +44,7 @@ export function AboutSection() {
       
       {/* --- CORTES TÁTICOS HUD --- */}
       <span className="corner corner--tl">
-        <span><span className="dot"></span>SEC 01 / QUEM SOMOS</span>
+        <span><span className="dot"></span>{t.about.cornerCode}</span>
         <span>LAT -19.9208 · LNG -43.9378</span>
       </span>
       <span className="corner corner--tr">
@@ -64,22 +66,21 @@ export function AboutSection() {
           <div className="about-text-reveal flex items-center gap-3 mb-6">
             <div className="w-2 h-2 rounded-full bg-aero-red shadow-[0_0_8px_rgba(189,22,34,0.6)]" />
             <span className="text-xs uppercase tracking-[0.25em] font-bold text-gray-500">
-              Quem Somos
+              {t.about.label}
             </span>
           </div>
 
           {/* Headline Principal */}
           <h2 className="about-text-reveal font-display text-[1.75rem] md:text-4xl lg:text-[2.65rem] xl:text-[2.85rem] leading-[1.15] uppercase font-semibold text-[var(--color-text-primary)] tracking-tight mb-8">
-            <span className="block">A referência brasileira</span>
-            <span className="block">em química aeronáutica</span>
+            <span className="block">{t.about.headlineLine1}</span>
+            <span className="block">{t.about.headlineLine2}</span>
           </h2>
 
           {/* Descrição Autoridade */}
           <p className="about-text-reveal text-gray-600 text-lg md:text-[1.15rem] leading-[1.7] max-w-[95%] font-body">
-            Desde 2013, a Aeropolimento desenvolve produtos químicos de alta performance para o 
-            cuidado profissional de aeronaves. Somos a <span className="font-bold text-gray-900 border-b-2 border-red-200">primeira empresa do Brasil 
-            com homologação para fabricação de compostos de polimento e preservação</span> — formulados para 
-            asa fixa e rotativa —, com conformidade AMS e aprovação oficial ANAC.
+            {t.about.descBefore}
+            <span className="font-bold text-gray-900 border-b-2 border-red-200">{t.about.descHighlight}</span>
+            {t.about.descAfter}
           </p>
 
           {/* GSAP Counters Matrix */}

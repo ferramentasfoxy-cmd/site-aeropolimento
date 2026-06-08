@@ -3,31 +3,11 @@
 import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
-
-const steps = [
-  {
-    id: "01",
-    title: "A Jornada da Homologação",
-    desc: "A certificação ANAC não é um mero selo comercial. É a chancela máxima da autoridade de aviação civil brasileira, comprovando que o produto preserva rigorosamente a integridade estrutural da aeronave.",
-  },
-  {
-    id: "02",
-    title: "Critérios Técnicos Implacáveis",
-    desc: "Nossos produtos passam por testes extremos de cisalhamento, variação de temperatura, corrosão química e análise molecular em laboratórios credenciados para garantir segurança absoluta em voo.",
-  },
-  {
-    id: "03",
-    title: "Rigor e Exclusividade",
-    desc: "Pelo altíssimo custo de P&D, a imensa maioria dos produtos de mercado não se qualificam. A Aeropolimento investiu anos em formulações puras, consolidando-se no seleto grupo homologado.",
-  },
-  {
-    id: "04",
-    title: "Parceria Estratégica",
-    desc: "O processo técnico é elevado por colaborações de engenharia de ponta. Nosso desenvolvimento foi validado juntamente aos laboratórios de grandes potências da aviação, como a Embraer.",
-  }
-];
+import { useT } from "@/i18n/LanguageProvider";
 
 export function AnacSection() {
+  const { t } = useT();
+  const steps = t.anac.steps;
   const containerRef = useRef<HTMLDivElement>(null);
   const sealRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<HTMLDivElement>(null);
@@ -142,16 +122,16 @@ export function AnacSection() {
         <div className="lg:sticky top-32 flex flex-col items-start justify-start">
           <div className="flex items-center gap-3 mb-6 bg-white/5 border border-white/10 px-4 py-2 rounded-full w-fit">
            <div className="w-1.5 h-1.5 bg-aero-red rounded-full animate-pulse shadow-[0_0_8px_#bd1622]" />
-           <span className="font-mono text-[10px] tracking-[0.2em] font-bold uppercase text-gray-300">Padrão Ouro da Aviação</span>
+           <span className="font-mono text-[10px] tracking-[0.2em] font-bold uppercase text-gray-300">{t.anac.badge}</span>
           </div>
-          
+
           <h2 className="font-display text-5xl md:text-6xl font-medium tracking-tight mb-6 leading-[1.05] text-white">
-            A chancela <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-500 font-bold">Oficial ANAC.</span>
+            {t.anac.titleLine1} <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-500 font-bold">{t.anac.titleLine2}</span>
           </h2>
-          
+
           <p className="text-gray-400 text-lg md:text-xl mb-12 max-w-md leading-relaxed font-medium">
-            Não basta limpar. Em aviação, o produto químico deve ter segurança estrutural inviolável e certificação das autoridades máximas.
+            {t.anac.subtitle}
           </p>
 
           {/* Selo ANAC Gráfico CSS/SVG */}
@@ -164,8 +144,8 @@ export function AnacSection() {
                   <svg className="w-10 h-10 text-white mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
-                  <span className="font-display text-base font-black uppercase tracking-widest text-aero-red">Aprovado</span>
-                  <span className="font-mono text-[9px] text-gray-300 tracking-widest mt-1 uppercase">AMS Certified</span>
+                  <span className="font-display text-base font-black uppercase tracking-widest text-aero-red">{t.anac.sealApproved}</span>
+                  <span className="font-mono text-[9px] text-gray-300 tracking-widest mt-1 uppercase">{t.anac.sealAms}</span>
                </div>
             </div>
             
@@ -175,7 +155,7 @@ export function AnacSection() {
           </div>
 
           <a href="#produtos" className="inline-flex items-center gap-4 px-8 py-4 bg-white text-[var(--color-text-primary)] font-bold uppercase tracking-widest text-xs hover:bg-aero-red hover:text-white transition-colors duration-500 rounded-sm">
-            Linha Homologada
+            {t.anac.cta}
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
           </a>
         </div>
@@ -200,7 +180,7 @@ export function AnacSection() {
 
                 {/* Conteúdo Textual */}
                 <div className="timeline-content pt-2 pb-6">
-                  <span className="font-mono text-[10px] text-red-500 tracking-widest uppercase block mb-3 font-semibold">Fase {step.id}</span>
+                  <span className="font-mono text-[10px] text-red-500 tracking-widest uppercase block mb-3 font-semibold">{t.anac.phaseLabel} {String(idx + 1).padStart(2, "0")}</span>
                   <h3 className="font-display text-2xl md:text-3xl font-medium text-white mb-4 group-hover:text-gray-200 transition-colors tracking-tight">{step.title}</h3>
                   <p className="text-gray-400 text-base md:text-lg leading-[1.7] font-medium">{step.desc}</p>
                 </div>

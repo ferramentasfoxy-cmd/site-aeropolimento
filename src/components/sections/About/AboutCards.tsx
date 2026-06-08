@@ -2,23 +2,10 @@
 import * as React from "react";
 import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
-
-const CARDS = [
-  {
-    title: "Missão",
-    desc: "Desenvolver produtos químicos de alta performance que preservam aeronaves com rigor técnico, respeitando as normas de cada fabricante e órgão regulador."
-  },
-  {
-    title: "Visão",
-    desc: "Consolidar o padrão brasileiro de química aeronáutica no cenário internacional, com formulações próprias e homologações reconhecidas."
-  },
-  {
-    title: "Valores",
-    desc: "Precisão técnica. Conformidade regulatória. Transparência com cada cliente. Zero atalhos."
-  }
-];
+import { useT } from "@/i18n/LanguageProvider";
 
 export function AboutCards() {
+  const { t } = useT();
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
@@ -53,7 +40,7 @@ export function AboutCards() {
 
   return (
     <div ref={containerRef} className="flex flex-col gap-4 w-full">
-      {CARDS.map((card, i) => (
+      {t.about.cards.map((card, i) => (
         <div 
           key={i} 
           className="hud-card opacity-0 relative overflow-hidden bg-white/60 backdrop-blur-2xl border border-gray-200/60 shadow-sm rounded-2xl p-7 lg:p-9 group transition-all duration-500 ease-out hover:shadow-md hover:border-gray-300/80 hover:-translate-y-1"

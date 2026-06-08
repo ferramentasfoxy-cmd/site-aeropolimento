@@ -2,6 +2,7 @@
 import * as React from "react";
 import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
+import { useT } from "@/i18n/LanguageProvider";
 
 function PurePremiumLogo({ brand }: { brand: { name: string, src: string } }) {
   return (
@@ -22,6 +23,7 @@ function PurePremiumLogo({ brand }: { brand: { name: string, src: string } }) {
 }
 
 export function BrandsMarquee() {
+  const { t } = useT();
   const containerRef = React.useRef<HTMLElement>(null);
   
   React.useEffect(() => {
@@ -71,7 +73,7 @@ export function BrandsMarquee() {
     >
       <div className="w-full mb-16 flex flex-col items-center justify-center pointer-events-none">
         <p className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-medium text-[var(--color-text-tertiary)] text-center max-w-xl px-4">
-          Empresas que confiam na referência brasileira
+          {t.brands.trustLine}
         </p>
       </div>
 
