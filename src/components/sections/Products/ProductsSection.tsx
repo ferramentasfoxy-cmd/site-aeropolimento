@@ -4,31 +4,25 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { ProductCard } from "./ProductCard";
+import { useT } from "@/i18n/LanguageProvider";
 
 export function ProductsSection() {
+  const { t } = useT();
   const containerRef = React.useRef<HTMLDivElement>(null);
 
-  // Payload Baseado no copy-homepage.md
-  const products = [
-    {
-      badge: "Aprovado ANAC",
-      title: "APC — All Purpose Cleaner",
-      description: "Limpador multiuso de alta performance. Remove contaminações de fuselagem, trem de pouso e interiores sem comprometer pinturas ou revestimentos.",
-      imageSrc: "/images/products/ap001.png"
-    },
-    {
-      badge: "Aprovado ANAC",
-      title: "Cera Líquida",
-      description: "Camada protetora contra raios UV e contaminantes ambientais. Restaura e mantém o brilho da fuselagem por semanas após a aplicação.",
-      imageSrc: "/images/products/ap0010.png"
-    },
-    {
-      badge: "Aprovado ANAC",
-      title: "Massa de Polir",
-      description: "Composto de correção para superfícies com pintura poliéster e poliuretano. Elimina micro-riscos e marcas sem agressividade, restaurando o acabamento.",
-      imageSrc: "/images/products/ap0020.png"
-    }
+  // Texto vem do dicionário (t.products.items); imagens permanecem locais
+  // e parelhas por índice — separação conteúdo (i18n) × asset (estático).
+  const productImages = [
+    "/images/products/ap001.png",
+    "/images/products/ap0010.png",
+    "/images/products/ap0020.png",
   ];
+  const products = t.products.items.map((item, i) => ({
+    badge: t.products.badgeApproved,
+    title: item.title,
+    description: item.description,
+    imageSrc: productImages[i],
+  }));
 
   React.useEffect(() => {
     const container = containerRef.current;
@@ -266,7 +260,7 @@ export function ProductsSection() {
           <div className="flex flex-col items-start justify-center h-full w-full mx-auto text-left z-10 md:pl-[6vw]">
             <div className="titulo relative flex items-center gap-3 mb-8 bg-white border border-gray-100 px-5 py-2 rounded-full w-fit">
               <div className="w-1.5 h-1.5 bg-aero-red rounded-full" />
-              <span className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] text-gray-700 font-bold uppercase pt-0.5">Apresentando a Linha Aerocare</span>
+              <span className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] text-gray-700 font-bold uppercase pt-0.5">{t.products.introBadge}</span>
               {/* Floating dot from print */}
               <div className="absolute -top-3 -right-3 w-1 h-1 bg-aero-red rounded-full"></div>
               {/* Floating hollow circle from print */}
@@ -274,12 +268,12 @@ export function ProductsSection() {
             </div>
             
             <h2 className="titulo font-display text-[4rem] md:text-[5.5rem] lg:text-[7rem] uppercase font-black text-[var(--color-text-primary)] tracking-tighter leading-[0.85] mb-8">
-              Padrão <br/><span className="text-aero-red">Aeronáutico</span>
+              {t.products.introTitleLine1} <br/><span className="text-aero-red">{t.products.introTitleLine2}</span>
             </h2>
-            
+
             <div className="descricao flex flex-col gap-4 text-gray-500 font-medium text-base md:text-lg max-w-[460px] leading-[1.8]">
-              <p className="text-[var(--color-text-primary)] font-display font-semibold text-2xl lg:text-3xl tracking-tight leading-[1.2]">A química da perfeição e excelência.</p>
-              <p>Foram anos de P&D em laboratórios dedicados à engenharia aeroespacial para criarmos formulações que não apenas limpam, mas preservam e extendem a vida útil da estrutura da aeronave contra intempéries e atmosferas extremas.</p>
+              <p className="text-[var(--color-text-primary)] font-display font-semibold text-2xl lg:text-3xl tracking-tight leading-[1.2]">{t.products.introLead}</p>
+              <p>{t.products.introParagraph}</p>
             </div>
           </div>
           

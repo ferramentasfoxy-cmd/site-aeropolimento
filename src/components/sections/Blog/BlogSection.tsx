@@ -4,35 +4,18 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
 import Image from "next/image";
+import { useT } from "@/i18n/LanguageProvider";
 
-const posts = [
-  {
-    id: 1,
-    tag: "Artigo Técnico",
-    date: "15 de Abril, 2026",
-    title: "A evolução dos selantes cerâmicos na aviação executiva",
-    excerpt: "Descubra como as nanopartículas de SiO2 protegem bordos de ataque contra atrito extremo e degradação em velocidades transônicas.",
-    image: "https://images.unsplash.com/photo-1544015759-247ab1889072?q=80&w=2670&auto=format&fit=crop"
-  },
-  {
-    id: 2,
-    tag: "Normalização",
-    date: "22 de Março, 2026",
-    title: "O que exige a certificação aeronáutica na prática?",
-    excerpt: "Um mergulho nas entrelinhas dos testes de degradação estrutural e por que hangares de alta exigência demandam esse rigor técnico.",
-    image: "https://images.unsplash.com/photo-1559091605-e99d8d69784e?q=80&w=2755&auto=format&fit=crop"
-  },
-  {
-    id: 3,
-    tag: "Estudos de Caso",
-    date: "05 de Fevereiro, 2026",
-    title: "Radomes: Integridade protetora dos equipamentos",
-    excerpt: "Análise analítica de abrasão e correção: garantindo segurança absoluta no nariz da aeronave sem interferir em sinais de radar meteorológico.",
-    image: "https://images.unsplash.com/photo-1583416750470-965b2707b355?q=80&w=2670&auto=format&fit=crop"
-  }
+// Imagens dos posts — estáticas, parelhas por índice com t.blog.posts.
+const postImages = [
+  "https://images.unsplash.com/photo-1544015759-247ab1889072?q=80&w=2670&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1559091605-e99d8d69784e?q=80&w=2755&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1583416750470-965b2707b355?q=80&w=2670&auto=format&fit=crop",
 ];
 
 export function BlogSection() {
+  const { t } = useT();
+  const posts = t.blog.posts.map((post, i) => ({ ...post, id: i + 1, image: postImages[i] }));
   const containerRef = useRef<HTMLDivElement>(null);
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -91,7 +74,7 @@ export function BlogSection() {
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.includes("@") || !email.includes(".")) {
-      setEmailError("Insira um endereço de e-mail corporativo válido.");
+      setEmailError(t.blog.emailError);
       return;
     }
     setEmailError("");
@@ -105,7 +88,7 @@ export function BlogSection() {
     <section ref={containerRef} id="blog" className="relative w-full bg-[var(--color-surface-base)] py-24 md:py-32 overflow-hidden z-20">
       {/* --- CORTES TÁTICOS HUD --- */}
       <span className="corner corner--tl">
-        <span><span className="dot"></span>SEC 09 / INTELIGÊNCIA B2B</span>
+        <span><span className="dot"></span>{t.blog.cornerCode}</span>
       </span>
 
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12">
@@ -115,18 +98,18 @@ export function BlogSection() {
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-1.5 h-1.5 bg-aero-red rounded-full" />
-              <span className="font-mono text-[10px] tracking-[0.2em] font-bold uppercase text-gray-500">Inteligência Estratégica</span>
+              <span className="font-mono text-[10px] tracking-[0.2em] font-bold uppercase text-gray-500">{t.blog.label}</span>
             </div>
             <h2 className="font-display text-4xl md:text-5xl font-medium tracking-tight mb-4 text-[var(--color-text-primary)]">
-              Conteúdo Exclusivo.
+              {t.blog.title}
             </h2>
             <p className="text-gray-600 text-lg leading-relaxed">
-              Manuais de protocolo, análises de mercado de insumos, regulamentações químicas e white papers técnicos. Direto dos laboratórios para seu hangar.
+              {t.blog.subtitle}
             </p>
           </div>
-          
+
           <a href="#" className="group inline-flex items-center gap-3 px-6 py-3 border border-gray-300 text-sm font-bold uppercase tracking-widest text-[var(--color-text-primary)] hover:bg-[var(--color-text-primary)] hover:text-white transition-all duration-300 rounded-sm">
-            Ver Todos
+            {t.blog.viewAll}
             <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
         </div>
@@ -158,7 +141,7 @@ export function BlogSection() {
 
                 {/* Micro CTA / Barra Animada */}
                 <div className="mt-8 flex items-center justify-between text-sm font-bold uppercase tracking-widest text-aero-red overflow-hidden pt-4 border-t border-gray-100">
-                  <span className="group-hover:translate-x-2 transition-transform duration-300">Ler artigo completo</span>
+                  <span className="group-hover:translate-x-2 transition-transform duration-300">{t.blog.readArticle}</span>
                   <svg className="w-4 h-4 transform -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </div>
                 
@@ -176,8 +159,8 @@ export function BlogSection() {
            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:10px_10px] opacity-10 pointer-events-none" />
            
            <div className="relative z-10 max-w-xl">
-             <h3 className="font-display text-3xl md:text-4xl font-medium tracking-tight mb-3">Newsletter <span className="text-aero-red font-black">PRO</span></h3>
-             <p className="text-gray-400 text-sm md:text-base">Informações regulatórias, novas químicas e protocolos ANAC mensais enviados aos executivos autorizados.</p>
+             <h3 className="font-display text-3xl md:text-4xl font-medium tracking-tight mb-3">{t.blog.newsletterTitle} <span className="text-aero-red font-black">{t.blog.newsletterPro}</span></h3>
+             <p className="text-gray-400 text-sm md:text-base">{t.blog.newsletterDesc}</p>
            </div>
            
            <div className="relative z-10 w-full lg:w-auto flex-grow max-w-lg">
@@ -188,7 +171,7 @@ export function BlogSection() {
                      type="text" 
                      value={email}
                      onChange={(e) => setEmail(e.target.value)}
-                     placeholder="Insira seu e-mail corporativo" 
+                     placeholder={t.blog.emailPlaceholder}
                      className="w-full px-5 py-4 bg-white/5 border border-white/10 text-white placeholder-gray-500 font-mono text-xs md:text-sm focus:outline-none focus:border-aero-red transition-colors rounded-sm"
                    />
                    {emailError && <span className="absolute -bottom-6 left-1 text-[10px] text-red-500 font-mono">{emailError}</span>}
@@ -197,13 +180,13 @@ export function BlogSection() {
                    type="submit" 
                    className="whitespace-nowrap px-8 py-4 bg-aero-red text-white font-bold uppercase tracking-widest text-xs hover:bg-red-700 transition-colors duration-300 rounded-sm"
                  >
-                   Inscrever-se
+                   {t.blog.subscribe}
                  </button>
                </form>
              ) : (
                <div className="subs-feedback w-full flex items-center justify-center gap-3 px-5 py-4 bg-green-900/20 border border-green-500/30 rounded-sm">
                  <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                 <span className="font-mono text-xs uppercase tracking-widest text-green-400 font-bold">Inscrição Validada</span>
+                 <span className="font-mono text-xs uppercase tracking-widest text-green-400 font-bold">{t.blog.subscribed}</span>
                </div>
              )}
            </div>

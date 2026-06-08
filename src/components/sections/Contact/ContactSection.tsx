@@ -4,10 +4,12 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { Mail, Phone, MapPin, ArrowRight, ShieldCheck, TrendingUp, Box } from "lucide-react";
+import { useT } from "@/i18n/LanguageProvider";
 
 type TabState = "contato" | "revendedor";
 
 export function ContactSection() {
+  const { t } = useT();
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<TabState>("contato");
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
@@ -67,10 +69,10 @@ export function ContactSection() {
     <section ref={containerRef} id="contato" className="relative w-full py-24 md:py-32 bg-white flex justify-center overflow-hidden z-20">
       {/* --- CORTES TÁTICOS HUD --- */}
       <span className="corner corner--tl">
-        <span><span className="dot"></span>SEC 10 / B2B OPERATIONS</span>
+        <span><span className="dot"></span>{t.contact.cornerCode}</span>
       </span>
       <span className="corner corner--tr">
-        <span>COORDENADAS DE HUB</span>
+        <span>{t.contact.cornerCoords}</span>
       </span>
 
       <div className="w-full max-w-[1400px] px-6 md:px-12 mx-auto relative z-10">
@@ -79,13 +81,13 @@ export function ContactSection() {
         <div className="contact-header flex flex-col items-center text-center mb-16">
            <div className="flex items-center gap-3 mb-4">
               <div className="w-1.5 h-1.5 bg-aero-red rounded-full" />
-              <span className="font-mono text-[10px] tracking-[0.2em] font-bold uppercase text-gray-500">Conexão B2B</span>
+              <span className="font-mono text-[10px] tracking-[0.2em] font-bold uppercase text-gray-500">{t.contact.kicker}</span>
            </div>
            <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-medium tracking-tight text-[var(--color-text-primary)] mb-6">
-             Inicie suas operações.
+             {t.contact.title}
            </h2>
            <p className="text-gray-500 text-lg max-w-xl leading-relaxed">
-             Suporte técnico, cotações em massa ou aplicação para se tornar um distribuidor homologado da nossa linha.
+             {t.contact.subtitle}
            </p>
         </div>
 
@@ -98,14 +100,14 @@ export function ContactSection() {
              <div className="absolute top-0 right-0 w-64 h-64 bg-aero-red/20 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2" />
 
              <div className="relative z-10 mb-16">
-               <h3 className="font-display text-3xl font-medium mb-8">Base de Operações</h3>
+               <h3 className="font-display text-3xl font-medium mb-8">{t.contact.infoTitle}</h3>
                <ul className="space-y-8">
                  <li className="flex items-start gap-4">
                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
                      <Phone className="w-4 h-4 text-aero-red" />
                    </div>
                    <div>
-                     <span className="font-mono text-[9px] uppercase tracking-widest text-gray-400 block mb-1">WhatsApp Comercial</span>
+                     <span className="font-mono text-[9px] uppercase tracking-widest text-gray-400 block mb-1">{t.contact.whatsappLabel}</span>
                      <a href="https://wa.me/5531989477030" className="text-lg font-medium hover:text-aero-red transition-colors">+55 (31) 98947-7030</a>
                    </div>
                  </li>
@@ -115,7 +117,7 @@ export function ContactSection() {
                      <Mail className="w-4 h-4 text-aero-red" />
                    </div>
                    <div>
-                     <span className="font-mono text-[9px] uppercase tracking-widest text-gray-400 block mb-1">Cotações e Ofícios</span>
+                     <span className="font-mono text-[9px] uppercase tracking-widest text-gray-400 block mb-1">{t.contact.emailLabel}</span>
                      <a href="mailto:contato@aeropolimento.com.br" className="text-lg font-medium hover:text-aero-red transition-colors">contato@aeropolimento.com.br</a>
                    </div>
                  </li>
@@ -125,8 +127,8 @@ export function ContactSection() {
                      <MapPin className="w-4 h-4 text-aero-red" />
                    </div>
                    <div>
-                     <span className="font-mono text-[9px] uppercase tracking-widest text-gray-400 block mb-1">Sede Brasil</span>
-                     <p className="text-lg font-medium text-gray-300">Hub Tecnológico<br/>Minas Gerais - Brasil</p>
+                     <span className="font-mono text-[9px] uppercase tracking-widest text-gray-400 block mb-1">{t.contact.hqLabel}</span>
+                     <p className="text-lg font-medium text-gray-300">{t.contact.hqValue}</p>
                    </div>
                  </li>
                </ul>
@@ -134,13 +136,13 @@ export function ContactSection() {
 
              {/* Partner Banner Lateral */}
              <div className="relative z-10 bg-white/5 border border-white/10 p-6 rounded-md">
-                <span className="text-sm font-bold block mb-2">Rede de Distribuidores</span>
-                <p className="text-xs text-gray-400 leading-relaxed mb-4">Acesso a preços de atacado, materiais de marketing e suporte B2B prioritário.</p>
-                <button 
+                <span className="text-sm font-bold block mb-2">{t.contact.partnerTitle}</span>
+                <p className="text-xs text-gray-400 leading-relaxed mb-4">{t.contact.partnerDesc}</p>
+                <button
                   onClick={() => setActiveTab("revendedor")}
                  className={`text-[10px] font-mono tracking-widest uppercase pb-1 border-b ${activeTab === 'revendedor' ? 'border-aero-red text-aero-red' : 'border-gray-500 text-gray-400 hover:text-white'} transition-colors inline-block`}
                 >
-                  Aplicar Agora
+                  {t.contact.partnerCta}
                 </button>
              </div>
           </div>
@@ -154,14 +156,14 @@ export function ContactSection() {
                  onClick={() => setActiveTab("contato")}
                  className={`pb-4 text-sm font-bold uppercase tracking-widest transition-colors relative ${activeTab === 'contato' ? 'text-[var(--color-text-primary)]' : 'text-gray-400 hover:text-[var(--color-text-primary)]'}`}
                >
-                 Contato Direto
+                 {t.contact.tabContact}
                  {activeTab === 'contato' && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-aero-red" />}
                </button>
                <button 
                  onClick={() => setActiveTab("revendedor")}
                  className={`pb-4 text-sm font-bold uppercase tracking-widest transition-colors relative ${activeTab === 'revendedor' ? 'text-[var(--color-text-primary)]' : 'text-gray-400 hover:text-[var(--color-text-primary)]'}`}
                >
-                 Seja um Revendedor
+                 {t.contact.tabReseller}
                  {activeTab === 'revendedor' && <div className="absolute bottom-0 left-0 w-full h-[2px] bg-aero-red" />}
                </button>
              </div>
@@ -169,44 +171,49 @@ export function ContactSection() {
              {/* TAB: CONTATO DIRETO */}
              {activeTab === "contato" && (
                <div className="w-full h-full animate-in fade-in slide-in-from-right-4 duration-500">
-                  <h3 className="font-display text-2xl font-medium mb-6">Como podemos ajudar?</h3>
+                  <h3 className="font-display text-2xl font-medium mb-6">{t.contact.formTitle}</h3>
                   <form ref={formRef} onSubmit={handleSubmit} className="space-y-6 flex flex-col justify-between h-[80%]">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">Nome ou Empresa</label>
-                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder="Ex: Hangar Alpha" />
+                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelName}</label>
+                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder={t.contact.placeholderName} />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">E-mail Corporativo</label>
-                        <input required type="email" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder="seu@email.com" />
+                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelEmail}</label>
+                        <input required type="email" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder={t.contact.placeholderEmail} />
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2">
-                       <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">Telefone / WhatsApp</label>
-                       <input required type="tel" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder="+55 (00) 00000-0000" />
+                       <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelPhone}</label>
+                       <input required type="tel" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder={t.contact.placeholderPhone} />
                     </div>
 
                     <div className="space-y-2 flex-grow">
-                       <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">Sua Mensagem</label>
-                       <textarea required rows={4} className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm resize-none" placeholder="Detalhes do seu projeto ou dúvidas técnicas..." />
+                       <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelMessage}</label>
+                       <textarea required rows={4} className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm resize-none" placeholder={t.contact.placeholderMessage} />
                     </div>
 
                     {formStatus === "idle" && (
                       <button type="submit" className="w-full sm:w-auto px-10 py-4 bg-[var(--color-text-primary)] text-white text-xs font-bold uppercase tracking-widest hover:bg-aero-red transition-colors rounded-sm flex items-center justify-center gap-3 mt-4">
-                        Enviar Mensagem <ArrowRight className="w-4 h-4" />
+                        {t.contact.submit} <ArrowRight className="w-4 h-4" />
                       </button>
                     )}
                     {formStatus === "loading" && (
                       <div className="w-full sm:w-auto px-10 py-4 bg-gray-200 text-gray-500 text-xs font-bold uppercase tracking-widest rounded-sm flex items-center justify-center gap-3 mt-4 cursor-not-allowed">
                         <div className="w-4 h-4 border-2 border-gray-400 border-t-gray-600 rounded-full animate-spin" />
-                        Processando...
+                        {t.contact.processing}
                       </div>
                     )}
                     {formStatus === "success" && (
                       <div className="success-msg w-full px-6 py-4 bg-green-50 text-green-700 text-xs font-bold uppercase tracking-widest border border-green-200 rounded-sm flex items-center gap-3 mt-4">
                         <ShieldCheck className="w-5 h-5 text-green-600" />
-                        Recebemos sua mensagem com sucesso! Retornaremos em breve.
+                        {t.contact.successContact}
+                      </div>
+                    )}
+                    {formStatus === "error" && (
+                      <div className="w-full px-6 py-4 bg-red-50 text-red-700 text-xs font-bold uppercase tracking-widest border border-red-200 rounded-sm flex items-center gap-3 mt-4">
+                        {t.contact.errorContact}
                       </div>
                     )}
                   </form>
@@ -216,63 +223,63 @@ export function ContactSection() {
              {/* TAB: SEJA UM REVENDEDOR */}
              {activeTab === "revendedor" && (
                <div className="w-full h-full animate-in fade-in slide-in-from-left-4 duration-500">
-                  <h3 className="font-display text-2xl font-medium mb-4">Programa Oficial de Distribuição</h3>
+                  <h3 className="font-display text-2xl font-medium mb-4">{t.contact.resellerTitle}</h3>
                   <p className="text-sm text-gray-500 mb-8 max-w-md leading-relaxed">
-                    Torne-se um agente autorizado da Aeropolimento na sua região administrativa.
+                    {t.contact.resellerDesc}
                   </p>
-                  
+
                   {/* Benefícios rápidos */}
                   <div className="grid grid-cols-2 gap-4 mb-8">
                      <div className="bg-gray-50 p-4 border border-gray-100 rounded-sm">
                         <Box className="w-5 h-5 text-aero-red mb-3" />
-                        <span className="text-xs font-bold uppercase tracking-wider block mb-1">Preços B2B</span>
-                        <p className="text-xs text-gray-500">Margem altamente competitiva para distribuidores ativos.</p>
+                        <span className="text-xs font-bold uppercase tracking-wider block mb-1">{t.contact.benefit1Title}</span>
+                        <p className="text-xs text-gray-500">{t.contact.benefit1Desc}</p>
                      </div>
                      <div className="bg-gray-50 p-4 border border-gray-100 rounded-sm">
                         <TrendingUp className="w-5 h-5 text-aero-red mb-3" />
-                        <span className="text-xs font-bold uppercase tracking-wider block mb-1">Capacitação</span>
-                        <p className="text-xs text-gray-500">Treinamento técnico direto nos protocolos do laboratório.</p>
+                        <span className="text-xs font-bold uppercase tracking-wider block mb-1">{t.contact.benefit2Title}</span>
+                        <p className="text-xs text-gray-500">{t.contact.benefit2Desc}</p>
                      </div>
                   </div>
 
                   <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">Razão Social</label>
+                        <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelCompany}</label>
                         <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">CNPJ</label>
+                        <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelCnpj}</label>
                         <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
                       </div>
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">Região de Atuação (UF)</label>
+                        <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelRegion}</label>
                         <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">E-mail Responsável</label>
+                        <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelRespEmail}</label>
                         <input required type="email" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
                       </div>
                     </div>
 
                     {formStatus === "idle" && (
                       <button type="submit" className="w-full px-10 py-4 bg-aero-red text-white text-xs font-bold uppercase tracking-widest hover:bg-red-800 transition-colors rounded-sm flex items-center justify-center gap-3 mt-4">
-                        Aplicar para Distribuição Especializada
+                        {t.contact.resellerSubmit}
                       </button>
                     )}
                     {formStatus === "loading" && (
                       <div className="w-full px-10 py-4 bg-gray-200 text-gray-500 text-xs font-bold uppercase tracking-widest rounded-sm flex items-center justify-center gap-3 mt-4 cursor-not-allowed">
                         <div className="w-4 h-4 border-2 border-gray-400 border-t-gray-600 rounded-full animate-spin" />
-                        Enviando Aplicação...
+                        {t.contact.sendingApplication}
                       </div>
                     )}
                     {formStatus === "success" && (
                       <div className="success-msg w-full px-6 py-4 bg-green-50 text-green-700 text-[11px] font-bold uppercase tracking-widest border border-green-200 rounded-sm flex items-center justify-center gap-3 mt-4">
                         <ShieldCheck className="w-5 h-5 text-green-600 shrink-0" />
-                        Aplicação submetida! Nossa diretoria avaliará seu perfil.
+                        {t.contact.successReseller}
                       </div>
                     )}
                   </form>

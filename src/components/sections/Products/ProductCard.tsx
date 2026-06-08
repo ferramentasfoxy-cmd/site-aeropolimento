@@ -2,6 +2,7 @@
 import * as React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { useT } from "@/i18n/LanguageProvider";
 
 interface ProductCardProps {
   title: string;
@@ -12,6 +13,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ title, description, imageSrc, badge, reverse }: ProductCardProps) {
+  const { t } = useT();
   const mainTitle = title.includes("—") ? title.split("—")[0].trim() : title;
   const subTitle = title.includes("—") ? title.split("—")[1].trim() : "";
 
@@ -104,7 +106,7 @@ export function ProductCard({ title, description, imageSrc, badge, reverse }: Pr
           className="descricao relative group overflow-hidden flex items-center justify-between w-full max-w-[280px] border border-gray-300 bg-transparent py-4 px-8 transition-all duration-300 hover:border-aero-red mx-auto md:mx-0"
         >
           <span className="font-bold text-sm tracking-[0.1em] text-[var(--color-text-primary)] group-hover:text-white uppercase z-10 transition-colors duration-300">
-            Saiba Mais
+            {t.products.knowMore}
           </span>
           <span className="font-mono text-[var(--color-text-primary)] group-hover:text-white z-10 group-hover:translate-x-2 transition-all duration-300">
             →
