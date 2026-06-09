@@ -20,18 +20,19 @@ export const pt = {
   },
 
   hero: {
-    badge: "Aviação & MRO",
+    eyebrow: "QUÍMICA AERONÁUTICA",
     titleLine1: "Estética.",
     titleLine2: "Aeronáutica.",
-    subtitle:
-      "Fórmulas puras desenvolvidas para o detalhamento aeronáutico rigoroso. Da remoção de oxidação severa à proteção final, com segurança e aprovação internacional.",
-    cta: "Conhecer Produtos",
-    cert1Label: "Certificação",
-    cert1Value: "Conformidade AMS",
-    cert2Label: "Qualidade MRO",
-    cert2Value: "Padrão Internacional",
-    rotate360: "Girar em 360º",
-    rotateHint: "interaja com o frasco",
+    subtitle: "Fórmulas homologadas ANAC para preservação visual e técnica de aeronaves.",
+    ctaPrimary: "Solicitar orçamento",
+    ctaPrimaryAria: "Solicitar orçamento comercial",
+    ctaSecondary: "Ver certificação ANAC",
+    ctaSecondaryAria: "Ver homologação ANAC oficial",
+    scrollAria: "Descer para credibilidade",
+    scrollLabel: "Scroll",
+    hudCertKey: "CERT",
+    hudCompatValue: "ASA FIXA/ROTATIVA",
+    hudSeal: "HOMOLOGADO ANAC",
   },
 
   brands: {

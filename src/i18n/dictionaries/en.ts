@@ -18,18 +18,19 @@ export const en: Dictionary = {
   },
 
   hero: {
-    badge: "Aviation & MRO",
+    eyebrow: "AVIATION CHEMISTRY",
     titleLine1: "Aesthetics.",
     titleLine2: "Aeronautics.",
-    subtitle:
-      "Pure formulations engineered for rigorous aircraft detailing. From severe oxidation removal to final protection — with safety and international approval.",
-    cta: "Explore Products",
-    cert1Label: "Certification",
-    cert1Value: "AMS Compliance",
-    cert2Label: "MRO Quality",
-    cert2Value: "International Standard",
-    rotate360: "Rotate 360°",
-    rotateHint: "interact with the bottle",
+    subtitle: "ANAC-approved formulas for the visual and technical preservation of aircraft.",
+    ctaPrimary: "Request a quote",
+    ctaPrimaryAria: "Request a commercial quote",
+    ctaSecondary: "View ANAC certification",
+    ctaSecondaryAria: "View official ANAC certification",
+    scrollAria: "Scroll to credibility",
+    scrollLabel: "Scroll",
+    hudCertKey: "CERT",
+    hudCompatValue: "FIXED/ROTARY WING",
+    hudSeal: "ANAC APPROVED",
   },
 
   brands: {

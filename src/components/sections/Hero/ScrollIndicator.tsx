@@ -1,51 +1,88 @@
 'use client';
-import * as React from 'react';
+
+import { useRef } from 'react';
 import gsap from 'gsap';
-import { prefersReducedMotion } from '@/lib/animations/defaults';
+import { useGSAP } from '@gsap/react';
+import { prefersReducedMotion, DURATION, EASE } from '@/lib/animations/defaults';
+import { cn } from '@/lib/utils';
+import { useT } from '@/i18n/LanguageProvider';
+
+gsap.registerPlugin(useGSAP);
 
 export function ScrollIndicator() {
-  const dotRef = React.useRef(null);
+  const { t } = useT();
+  const container = useRef<HTMLButtonElement>(null);
 
-  React.useEffect(() => {
-    const ctx = gsap.context(() => {
+  useGSAP(
+    () => {
       if (prefersReducedMotion()) {
-        gsap.set(dotRef.current, { y: 0, opacity: 1, scaleY: 1 });
+        gsap.set(container.current, { opacity: 1, y: 0 });
         return;
       }
-      // duration custom (1.6s) mantida — ritmo específico de pulso "mouse scroll".
-      // ease: "power2.inOut" mantido literal (não está na tabela EASE — bounce smooth específico).
-      gsap.fromTo(
-        dotRef.current,
-        { y: 0, opacity: 1, scaleY: 1 },
-        {
-          y: 14,
-          opacity: 0,
-          scaleY: 1.5,
-          duration: 1.6,
-          repeat: -1,
-          ease: "power2.inOut",
-        }
-      );
-    });
-    return () => ctx.revert();
-  }, []);
+
+      // Stage 9: fade-in (delay 2.8 + 1.7 absolute)
+      gsap.from(container.current, {
+        opacity: 0,
+        y: -10,
+        duration: DURATION.normal,
+        ease: EASE.standard,
+        delay: 2.8 + 1.7,
+      });
+
+      // Pulse loop no chevron (gated por reducedMotion acima)
+      gsap.to('.scroll-indicator-chevron', {
+        y: 6,
+        duration: 1.2,
+        ease: 'power2.inOut',
+        repeat: -1,
+        yoyo: true,
+        delay: 2.8 + 2.2,
+      });
+    },
+    { scope: container }
+  );
+
+  const handleClick = () => {
+    const target = document.getElementById('credibilidade');
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      // Fallback se a seção BLK-02 ainda não existir no DOM
+      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+    }
+  };
 
   return (
-    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-30 group cursor-pointer">
-      <span className="text-[8px] font-bold tracking-[0.4em] uppercase text-[var(--color-text-tertiary)] transition-colors duration-500 group-hover:text-aero-red">
-        Descubra
-      </span>
-
-      {/* Container "Mouse" HUD (Glassmorphism alinhado com Cards Auth) */}
-      <div className="w-[22px] h-[36px] rounded-[20px] border border-gray-300 flex justify-center pt-[5px] transition-all duration-300 group-hover:border-gray-400 bg-white/40 backdrop-blur-md shadow-[0_4px_15px_rgba(0,0,0,0.03)] group-hover:shadow-[0_8px_25px_rgba(0,0,0,0.06)]">
-
-        {/* Scroll Dot/Wheel Animado com GSAP Engine */}
-        <div
-          ref={dotRef}
-          className="w-[3px] h-[6px] bg-aero-red rounded-full shadow-[0_0_6px_rgba(189,22,34,0.5)]"
-        />
-        
-      </div>
-    </div>
+    <button
+      ref={container}
+      type="button"
+      onClick={handleClick}
+      aria-label={t.hero.scrollAria}
+      className={cn(
+        'hero-scroll-indicator hud-aesthetic',
+        'absolute bottom-8 left-1/2 -translate-x-1/2 z-30',
+        'flex flex-col items-center gap-2',
+        'cursor-pointer',
+        'text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)]',
+        'transition-colors duration-300',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aero-red focus-visible:ring-offset-4 rounded-sm',
+        'p-2'
+      )}
+    >
+      {/* Mouse SVG — decorativo */}
+      <svg
+        width="24"
+        height="38"
+        viewBox="0 0 24 38"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        aria-hidden="true"
+      >
+        <rect x="1" y="1" width="22" height="36" rx="11" />
+        <line className="scroll-indicator-chevron" x1="12" y1="10" x2="12" y2="16" strokeLinecap="round" />
+      </svg>
+      <span className="font-mono text-[10px] tracking-widest uppercase">{t.hero.scrollLabel}</span>
+    </button>
   );
 }
