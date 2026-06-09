@@ -100,24 +100,24 @@ export function HeroContent() {
   );
 
   return (
-    <div ref={container} className="flex flex-col gap-6 md:gap-8 max-w-2xl">
+    <div ref={container} className="flex flex-col max-w-2xl">
       {/* Eyebrow: QUÍMICA AERONÁUTICA + barra vermelha */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 mb-5">
         <span className="hero-eyebrow-bar inline-block h-[2px] w-8 bg-aero-red" aria-hidden="true" />
         <span className="hero-eyebrow label-badge">{t.hero.eyebrow}</span>
       </div>
 
       {/* Headline: split em 2 linhas, heading único da rota */}
-      <h1 className="heading-hero">
+      <h1 className="heading-hero mb-6">
         <span className="hero-h1-line-1 block">{t.hero.titleLine1}</span>
         <span className="hero-h1-line-2 block">{t.hero.titleLine2}</span>
       </h1>
 
       {/* Subhead */}
-      <p className="hero-subhead text-subhead max-w-xl">{t.hero.subtitle}</p>
+      <p className="hero-subhead text-subhead max-w-xl mb-9">{t.hero.subtitle}</p>
 
       {/* CTAs */}
-      <div className="flex flex-col sm:flex-row gap-4 mt-2">
+      <div className="flex flex-col sm:flex-row gap-4">
         <Link
           href="#contato"
           aria-label={t.hero.ctaPrimaryAria}

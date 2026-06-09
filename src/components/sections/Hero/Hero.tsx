@@ -49,7 +49,7 @@ export function Hero() {
       />
 
       {/* Content grid */}
-      <div className="section-container relative h-full grid lg:grid-cols-[1fr_1fr] gap-8 md:gap-12 items-center py-24 md:py-32">
+      <div className="section-container relative h-full grid lg:grid-cols-[1.1fr_0.9fr] gap-8 md:gap-12 items-center py-24 md:py-32">
         {/* Text column — natural first = esquerda desktop / topo mobile */}
         <div>
           <HeroContent />
