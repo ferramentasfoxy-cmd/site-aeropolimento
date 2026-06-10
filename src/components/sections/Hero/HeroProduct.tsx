@@ -112,7 +112,7 @@ function ProductModel() {
     // Animação espetacular de Entrada (Scale + Rotação 3D)
     if (!outerGroupRef.current) return;
     if (prefersReducedMotion()) {
-      gsap.set(outerGroupRef.current.scale, { x: 2.5, y: 2.5, z: 2.5 });
+      gsap.set(outerGroupRef.current.scale, { x: 2.0, y: 2.0, z: 2.0 });
       gsap.set(outerGroupRef.current.rotation, { y: -Math.PI / 7 });
       gsap.set(outerGroupRef.current.position, { y: -0.15 });
       return;
@@ -122,7 +122,7 @@ function ProductModel() {
     gsap.fromTo(
       outerGroupRef.current.scale,
       { x: 0, y: 0, z: 0 },
-      { x: 2.5, y: 2.5, z: 2.5, duration: 3.2, ease: "expo.out", delay: 0.6 }
+      { x: 2.0, y: 2.0, z: 2.0, duration: 3.2, ease: "expo.out", delay: 0.6 }
     );
 
     // Rotação Y: 2.5 voltas completas durante a entrada (5π = 900° de spin) terminando na pose -π/7.
@@ -211,9 +211,9 @@ function Scene() {
       </React.Suspense>
 
       <ContactShadows
-        position={[0, -1.5, 0]}
-        opacity={0.18}
-        scale={10}
+        position={[0, -1.4, 0]}
+        opacity={0.16}
+        scale={9}
         blur={4.5}
         far={3.5}
         resolution={512}
@@ -273,7 +273,7 @@ export function HeroProduct() {
           <Canvas
             shadows
             dpr={[1, 1.5]}
-            camera={{ position: [0, 0.1, 8.0], fov: 33 }}
+            camera={{ position: [0, 0.1, 8.8], fov: 33 }}
             gl={{
               powerPreference: "default",
               failIfMajorPerformanceCaveat: false,
