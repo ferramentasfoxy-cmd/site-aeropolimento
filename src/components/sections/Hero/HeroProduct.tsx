@@ -12,6 +12,7 @@ import {
 } from "@react-three/drei";
 import * as THREE from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
 // ─────────────────────────────────────────────────────────────
 // DETECÇÃO DE WebGL — verifica UMA VEZ antes de montar o Canvas
@@ -183,14 +184,18 @@ function Scene() {
 
   return (
     <>
-      <color attach="background" args={["#ffffff"]} />
-      <fog attach="fog" args={["#ffffff", 8, 28]} />
+      {/* Canvas transparente (gl.alpha) — sem <color> bg: o frasco vive na atmosfera
+          HTML (spotlight + grain + vignette), não numa caixa branca opaca. */}
 
-      <ambientLight intensity={1.1} />
-      <Environment preset="studio" environmentIntensity={0.6} resolution={256} />
-      {/* Ajuste suave nas luzes principais para destacar os vincos do frasco branco */}
-      <directionalLight position={[4, 10, 6]} intensity={0.7} castShadow shadow-mapSize={[1024, 1024]} />
-      <directionalLight position={[-5, 5, -2]} intensity={0.25} />
+      {/* Relight cinematográfica: key quente + rim frio + fill; ambient baixo p/ contraste. */}
+      <ambientLight intensity={0.6} />
+      <Environment preset="studio" environmentIntensity={0.5} resolution={256} />
+      {/* Key quente — luz principal, frente-superior direita */}
+      <directionalLight position={[5, 9, 6]} intensity={1.5} color="#fff3e0" castShadow shadow-mapSize={[2048, 2048]} />
+      {/* Rim frio — recorta o frasco do fundo (separação cinematográfica) */}
+      <directionalLight position={[-6, 3.5, -5]} intensity={0.9} color="#d6e4ff" />
+      {/* Fill suave */}
+      <directionalLight position={[-3, 2, 4]} intensity={0.25} />
 
       <OrbitControls
         ref={controlsRef}
@@ -219,6 +224,11 @@ function Scene() {
         resolution={512}
         color="#171717"
       />
+
+      {/* Post-processing cinematográfico — Bloom só nos highlights do frasco */}
+      <EffectComposer enableNormalPass={false}>
+        <Bloom intensity={0.5} luminanceThreshold={0.9} luminanceSmoothing={0.25} mipmapBlur />
+      </EffectComposer>
     </>
   );
 }
@@ -275,6 +285,7 @@ export function HeroProduct() {
             dpr={[1, 1.5]}
             camera={{ position: [0, 0.1, 8.8], fov: 33 }}
             gl={{
+              alpha: true,
               powerPreference: "default",
               failIfMajorPerformanceCaveat: false,
               antialias: true,
