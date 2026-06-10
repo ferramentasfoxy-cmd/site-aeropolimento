@@ -48,15 +48,16 @@ export function Hero() {
         aria-hidden="true"
       />
 
-      {/* Content grid */}
-      <div className="section-container relative h-full grid lg:grid-cols-[1.1fr_0.9fr] gap-8 md:gap-12 items-center py-24 md:py-32">
+      {/* Content grid — container largo (max-1536) p/ menos margem lateral;
+          texto ancorado no topo (não no centro); coluna do produto maior. */}
+      <div className="mx-auto w-full max-w-[1536px] px-[clamp(1.5rem,4vw,4rem)] relative h-full grid lg:grid-cols-[1fr_1.05fr] gap-10 lg:gap-16 items-start lg:items-stretch pt-28 md:pt-32 pb-16">
         {/* Text column — natural first = esquerda desktop / topo mobile */}
-        <div>
+        <div className="flex flex-col justify-center lg:pt-6">
           <HeroContent />
         </div>
 
         {/* Product column — natural second = direita desktop / base mobile */}
-        <div className="relative min-h-[400px] md:min-h-[600px]">
+        <div className="relative min-h-[460px] md:min-h-[620px] lg:min-h-[680px]">
           <HeroProduct />
         </div>
       </div>

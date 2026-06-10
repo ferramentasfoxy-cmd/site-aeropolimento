@@ -48,8 +48,9 @@ export function Header() {
           : "bg-transparent border-b border-transparent py-5"
       }`}
     >
-      {/* section-container alinha o header EXATAMENTE com o conteúdo (hero, seções). */}
-      <div className="section-container flex items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr]">
+      {/* Mesmo container largo (1536) + padding do hero — mantém logo alinhado
+          com a borda esquerda do texto do hero e o cluster com a borda do produto. */}
+      <div className="mx-auto w-full max-w-[1536px] px-[clamp(1.5rem,4vw,4rem)] flex items-center justify-between lg:grid lg:grid-cols-[1fr_auto_1fr]">
         {/* Zone 1 — Brand */}
         <div className="flex items-center">
           <Link href="/" aria-label="Aeropolimento — página inicial">

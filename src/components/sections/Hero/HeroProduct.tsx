@@ -112,9 +112,9 @@ function ProductModel() {
     // Animação espetacular de Entrada (Scale + Rotação 3D)
     if (!outerGroupRef.current) return;
     if (prefersReducedMotion()) {
-      gsap.set(outerGroupRef.current.scale, { x: 1.85, y: 1.85, z: 1.85 });
+      gsap.set(outerGroupRef.current.scale, { x: 2.5, y: 2.5, z: 2.5 });
       gsap.set(outerGroupRef.current.rotation, { y: -Math.PI / 7 });
-      gsap.set(outerGroupRef.current.position, { y: -0.45 });
+      gsap.set(outerGroupRef.current.position, { y: -0.15 });
       return;
     }
     // Entrada cinematográfica V3: zoom-in girando (scale 0→1.85 + rotação 2.5 voltas) + flutuação suave.
@@ -122,7 +122,7 @@ function ProductModel() {
     gsap.fromTo(
       outerGroupRef.current.scale,
       { x: 0, y: 0, z: 0 },
-      { x: 1.85, y: 1.85, z: 1.85, duration: 3.2, ease: "expo.out", delay: 0.6 }
+      { x: 2.5, y: 2.5, z: 2.5, duration: 3.2, ease: "expo.out", delay: 0.6 }
     );
 
     // Rotação Y: 2.5 voltas completas durante a entrada (5π = 900° de spin) terminando na pose -π/7.
@@ -135,7 +135,7 @@ function ProductModel() {
     gsap.fromTo(
       outerGroupRef.current.position,
       { y: -2 },
-      { y: -0.45, duration: 2.8, ease: EASE.snappy, delay: 0.6 }
+      { y: -0.15, duration: 2.8, ease: EASE.snappy, delay: 0.6 }
     );
   }, []);
 
@@ -154,7 +154,7 @@ function ProductModel() {
   });
 
   return (
-    <group ref={outerGroupRef} position={[0, -0.45, 0]} rotation={[0, -Math.PI / 7, 0]} scale={0}>
+    <group ref={outerGroupRef} position={[0, -0.15, 0]} rotation={[0, -Math.PI / 7, 0]} scale={0}>
       <group ref={innerGroupRef}>
         <primitive object={scene} />
       </group>
@@ -211,9 +211,9 @@ function Scene() {
       </React.Suspense>
 
       <ContactShadows
-        position={[0, -1.25, 0]} // Ajustado para a nova escala menor
-        opacity={0.15}
-        scale={8}
+        position={[0, -1.5, 0]}
+        opacity={0.18}
+        scale={10}
         blur={4.5}
         far={3.5}
         resolution={512}
@@ -273,7 +273,7 @@ export function HeroProduct() {
           <Canvas
             shadows
             dpr={[1, 1.5]}
-            camera={{ position: [0, 0.8, 10], fov: 30 }}
+            camera={{ position: [0, 0.1, 8.0], fov: 33 }}
             gl={{
               powerPreference: "default",
               failIfMajorPerformanceCaveat: false,
@@ -287,9 +287,7 @@ export function HeroProduct() {
         <ProductFallback />
       )}
 
-      {/* Vinheta lateral */}
-      <div className="absolute inset-0 pointer-events-none z-20 bg-[radial-gradient(ellipse_at_top_right,_rgba(255,255,255,0.6)_0%,_transparent_60%)]" />
-      <div className="absolute inset-y-0 left-0 w-1/4 pointer-events-none z-20 bg-gradient-to-r from-white to-transparent" />
+      {/* Máscaras brancas removidas — comiam o frasco no layout novo (produto agora ocupa a coluna inteira). */}
     </div>
   );
 }
