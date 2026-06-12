@@ -38,36 +38,39 @@ export function Hero() {
       aria-labelledby="hero-h1-line-1"
       className="relative min-h-screen h-[100svh] md:min-h-[800px] overflow-hidden bg-[var(--color-bg-primary)]"
     >
-      {/* ── Atmosfera cinematográfica ── */}
-      {/* Base wash (fade-in stage 1) */}
+      {/* ── Studio Cove — palco de estúdio claro graduado ── */}
+      {/* Base cove: sweep vertical (topo cinza-frio → base quase-branca) = profundidade real,
+          o oposto do branco chapado. O frasco fica claro contra o topo mais cinza. */}
       <div
-        className="hero-bg-layer absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,1)_0%,_rgba(244,244,247,1)_72%)]"
+        className="hero-bg-layer absolute inset-0 bg-[linear-gradient(180deg,rgb(228,231,236)_0%,rgb(237,239,242)_38%,rgb(246,247,249)_72%,rgb(250,251,252)_100%)]"
         aria-hidden="true"
       />
-      {/* Spotlight de estúdio atrás do produto (direita) — o frasco parece iluminado por um feixe */}
+      {/* Hot-spot do sweep: glow de estúdio atrás do frasco (coluna direita) */}
       <div
-        className="hero-bg-layer absolute inset-0 bg-[radial-gradient(58%_55%_at_72%_42%,_rgba(255,250,240,0.95)_0%,_rgba(255,250,240,0)_60%)]"
+        className="hero-bg-layer absolute inset-0 bg-[radial-gradient(46%_50%_at_68%_46%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0)_62%)]"
         aria-hidden="true"
       />
-      {/* Grid técnico sutil */}
+      {/* Light pad no piso — o frasco parece pousado numa superfície iluminada */}
       <div
-        className="hero-bg-layer border-grid-pattern absolute inset-0 opacity-[0.025] bg-[linear-gradient(to_right,#000000_1px,transparent_1px),linear-gradient(to_bottom,#000000_1px,transparent_1px)] bg-[size:34px_34px]"
+        className="hero-bg-layer absolute inset-0 bg-[radial-gradient(26%_10%_at_68%_82%,rgba(255,255,255,0.75)_0%,rgba(255,255,255,0)_72%)]"
         aria-hidden="true"
       />
-      {/* Vignette cinematográfica — cantos escurecem sutil (enquadramento filmado) */}
-      <div
-        className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,_transparent_50%,_rgba(15,15,15,0.07)_100%)]"
-        aria-hidden="true"
-      />
-      {/* Film grain — textura de filme (o sinal cinematográfico mais eficaz) */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.045] mix-blend-multiply"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
-        }}
-        aria-hidden="true"
-      />
+      {/* Guias técnicas finas — linguagem de prancha de engenharia (Airbus/Pilatus spec).
+          Tudo em --color-border-default (token) p/ ficar dentro do sistema. */}
+      <div className="hero-bg-layer absolute inset-0 pointer-events-none hidden lg:block" aria-hidden="true">
+        {/* centerline vertical do produto */}
+        <div className="absolute top-[20%] bottom-[15%] left-[68%] w-px bg-[var(--color-border-default)] opacity-60" />
+        {/* ticks de medição */}
+        <div className="absolute top-[34%] left-[calc(68%-7px)] h-px w-[14px] bg-[var(--color-border-default)] opacity-70" />
+        <div className="absolute top-[66%] left-[calc(68%-7px)] h-px w-[14px] bg-[var(--color-border-default)] opacity-70" />
+        {/* crosshair de registro */}
+        <div className="absolute top-[23%] left-[87%] h-px w-3 bg-[var(--color-border-default)]" />
+        <div className="absolute top-[calc(23%-6px)] left-[calc(87%+6px)] h-3 w-px bg-[var(--color-border-default)]" />
+        {/* spec label mono */}
+        <span className="absolute top-[17%] left-[68%] -translate-x-1/2 font-mono text-[9px] tracking-[0.2em] text-[var(--color-text-tertiary)] opacity-50">
+          AP·001
+        </span>
+      </div>
 
       {/* Content grid — container largo (max-1536) p/ menos margem lateral;
           texto ancorado no topo (não no centro); coluna do produto maior. */}

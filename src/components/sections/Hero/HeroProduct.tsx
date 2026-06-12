@@ -9,10 +9,10 @@ import {
   OrbitControls,
   ContactShadows,
   Environment,
+  MeshReflectorMaterial,
 } from "@react-three/drei";
 import * as THREE from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
-import { EffectComposer, Bloom } from "@react-three/postprocessing";
 
 // ─────────────────────────────────────────────────────────────
 // DETECÇÃO DE WebGL — verifica UMA VEZ antes de montar o Canvas
@@ -184,18 +184,18 @@ function Scene() {
 
   return (
     <>
-      {/* Canvas transparente (gl.alpha) — sem <color> bg: o frasco vive na atmosfera
-          HTML (spotlight + grain + vignette), não numa caixa branca opaca. */}
+      {/* Canvas transparente (gl.alpha) — o frasco vive no Studio Cove (CSS);
+          tone mapping ACES no renderer faz o material responder de forma fílmica. */}
 
-      {/* Relight cinematográfica: key quente + rim frio + fill; ambient baixo p/ contraste. */}
-      <ambientLight intensity={0.6} />
-      <Environment preset="studio" environmentIntensity={0.5} resolution={256} />
+      {/* Relight de estúdio: key quente + rim frio (recorta contra o topo cinza do cove) + fill. */}
+      <ambientLight intensity={0.5} />
+      <Environment preset="studio" environmentIntensity={0.7} resolution={256} />
       {/* Key quente — luz principal, frente-superior direita */}
-      <directionalLight position={[5, 9, 6]} intensity={1.5} color="#fff3e0" castShadow shadow-mapSize={[2048, 2048]} />
-      {/* Rim frio — recorta o frasco do fundo (separação cinematográfica) */}
-      <directionalLight position={[-6, 3.5, -5]} intensity={0.9} color="#d6e4ff" />
-      {/* Fill suave */}
-      <directionalLight position={[-3, 2, 4]} intensity={0.25} />
+      <directionalLight position={[5, 9, 6]} intensity={1.4} color="#fff3e0" castShadow shadow-mapSize={[2048, 2048]} />
+      {/* Rim frio — recorta o frasco do cove (separação) */}
+      <directionalLight position={[-6, 3.5, -5]} intensity={1.15} color="#d6e4ff" />
+      {/* Fill suave frontal */}
+      <directionalLight position={[-3, 2, 4]} intensity={0.28} />
 
       <OrbitControls
         ref={controlsRef}
@@ -215,20 +215,36 @@ function Scene() {
         <ProductModel />
       </React.Suspense>
 
+      {/* Piso reflexivo — reflexo suave do frasco (assinatura premium do cove).
+          É o que transforma "render flutuando" em "produto pousado num estúdio". */}
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.42, 0]}>
+        <circleGeometry args={[3.4, 64]} />
+        <MeshReflectorMaterial
+          resolution={512}
+          blur={[320, 120]}
+          mixBlur={1}
+          mixStrength={1.1}
+          roughness={1}
+          depthScale={1.1}
+          minDepthThreshold={0.4}
+          maxDepthThreshold={1.3}
+          color="#e9ebef"
+          metalness={0}
+          transparent
+          opacity={0.5}
+        />
+      </mesh>
+
+      {/* Sombra de contato — aterra o frasco no cove (mais presente que antes) */}
       <ContactShadows
         position={[0, -1.4, 0]}
-        opacity={0.16}
-        scale={9}
-        blur={4.5}
-        far={3.5}
+        opacity={0.3}
+        scale={8}
+        blur={3.2}
+        far={3.2}
         resolution={512}
         color="#171717"
       />
-
-      {/* Post-processing cinematográfico — Bloom só nos highlights do frasco */}
-      <EffectComposer enableNormalPass={false}>
-        <Bloom intensity={0.5} luminanceThreshold={0.9} luminanceSmoothing={0.25} mipmapBlur />
-      </EffectComposer>
     </>
   );
 }
@@ -289,6 +305,8 @@ export function HeroProduct() {
               powerPreference: "default",
               failIfMajorPerformanceCaveat: false,
               antialias: true,
+              toneMapping: THREE.ACESFilmicToneMapping,
+              toneMappingExposure: 1.05,
             }}
           >
             <Scene />
