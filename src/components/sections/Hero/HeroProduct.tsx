@@ -89,69 +89,6 @@ function ProductModel() {
   const { scene } = useGLTF("/models/ap001.glb");
   const outerGroupRef = React.useRef<THREE.Group>(null);
   const innerGroupRef = React.useRef<THREE.Group>(null);
-  const mirrorOuterRef = React.useRef<THREE.Group>(null);
-  const mirrorInnerRef = React.useRef<THREE.Group>(null);
-  const mirrorPlaneRef = React.useRef<THREE.Group>(null);
-  const reflectBox = React.useRef(new THREE.Box3());
-  // Uniforms de fade coletados no compile de cada material do reflexo (atualizados no useFrame).
-  const fadeUniforms = React.useRef<
-    Array<{ uFadeStart: { value: number }; uFadeEnd: { value: number } }>
-  >([]);
-
-  // Clone espelhado p/ o reflexo de piso — materiais translúcidos PRÓPRIOS (não toca o frasco real).
-  const reflection = React.useMemo(() => {
-    fadeUniforms.current = [];
-    const clone = scene.clone(true);
-    clone.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        const src = Array.isArray(child.material) ? child.material : [child.material];
-        const cloned = src.map((m) => {
-          const c = m.clone() as THREE.MeshStandardMaterial;
-          if ("color" in c && typeof c.color?.set === "function") c.color.set(0xfafafa);
-          if ("roughness" in c) c.roughness = 0.65; // reflexo fosco, não espelho
-          if ("metalness" in c) c.metalness = 0;
-          c.transparent = true;
-          c.opacity = 0.28; // BackSide é 1 camada (mais fraco que DoubleSide) → sobe um pouco
-          c.depthWrite = false;
-          // FIX sintoma 1: scale -1 inverte o winding; BackSide mostra a casca externa correta
-          // e descarta o interior — sem vazar as marcações da face traseira pela transparência.
-          c.side = THREE.BackSide;
-          // FADE: injeta atenuação de alpha por Y-de-mundo (opaco na base → some descendo).
-          c.onBeforeCompile = (shader) => {
-            shader.uniforms.uFadeStart = { value: 0 };
-            shader.uniforms.uFadeEnd = { value: -10 };
-            shader.vertexShader = shader.vertexShader
-              .replace("#include <common>", "#include <common>\nvarying float vWorldY;")
-              .replace(
-                "#include <begin_vertex>",
-                "#include <begin_vertex>\n  vWorldY = (modelMatrix * vec4(transformed, 1.0)).y;"
-              );
-            shader.fragmentShader = shader.fragmentShader
-              .replace(
-                "#include <common>",
-                "#include <common>\nvarying float vWorldY;\nuniform float uFadeStart;\nuniform float uFadeEnd;"
-              )
-              .replace(
-                "#include <dithering_fragment>",
-                "#include <dithering_fragment>\n  gl_FragColor.a *= smoothstep(uFadeEnd, uFadeStart, vWorldY);"
-              );
-            fadeUniforms.current.push(
-              shader.uniforms as unknown as {
-                uFadeStart: { value: number };
-                uFadeEnd: { value: number };
-              }
-            );
-          };
-          c.needsUpdate = true;
-          return c;
-        });
-        child.material = cloned.length === 1 ? cloned[0] : cloned;
-        child.castShadow = false;
-        child.receiveShadow = false;
-      }
-    });
-    return clone;
-  }, [scene]);
 
   React.useEffect(() => {
     scene.traverse((child) => {
@@ -213,52 +150,14 @@ function ProductModel() {
       innerGroupRef.current.rotation.z = Math.sin(clock.current.floatT * 0.5) * 0.015;
       innerGroupRef.current.rotation.x = Math.cos(clock.current.floatT * 0.5) * 0.01;
     }
-
-    // Reflexo segue a pose do frasco (entrada + float); o grupo pai faz o espelhamento em Y.
-    if (mirrorOuterRef.current && outerGroupRef.current) {
-      mirrorOuterRef.current.position.copy(outerGroupRef.current.position);
-      mirrorOuterRef.current.rotation.copy(outerGroupRef.current.rotation);
-      mirrorOuterRef.current.scale.copy(outerGroupRef.current.scale);
-    }
-    if (mirrorInnerRef.current && innerGroupRef.current) {
-      mirrorInnerRef.current.position.copy(innerGroupRef.current.position);
-      mirrorInnerRef.current.rotation.copy(innerGroupRef.current.rotation);
-    }
-
-    // FIX sintoma 2: mede a base REAL do frasco (bbox no mundo) e crava o plano de reflexão
-    // nela (pai.y = 2×base) → base e reflexo se beijam sem gap, mesmo durante entrada/float.
-    if (mirrorPlaneRef.current && outerGroupRef.current) {
-      reflectBox.current.setFromObject(outerGroupRef.current);
-      const baseY = reflectBox.current.min.y;
-      const topY = reflectBox.current.max.y;
-      mirrorPlaneRef.current.position.y = 2 * baseY;
-      // Fade: opaco na base (contato) → some ao longo de ~90% da altura do frasco.
-      const fadeLen = Math.max(0.001, (topY - baseY) * 0.9);
-      for (const u of fadeUniforms.current) {
-        u.uFadeStart.value = baseY;
-        u.uFadeEnd.value = baseY - fadeLen;
-      }
-    }
   });
 
   return (
-    <>
-      <group ref={outerGroupRef} position={[0, -0.15, 0]} rotation={[0, -Math.PI / 7, 0]} scale={0}>
-        <group ref={innerGroupRef}>
-          <primitive object={scene} />
-        </group>
+    <group ref={outerGroupRef} position={[0, -0.15, 0]} rotation={[0, -Math.PI / 7, 0]} scale={0}>
+      <group ref={innerGroupRef}>
+        <primitive object={scene} />
       </group>
-
-      {/* Reflexo espelhado: o pai inverte em Y (scale -1); position.y é cravado no useFrame
-          em 2×base-real (Box3) → reflexo beija a base sem gap. */}
-      <group ref={mirrorPlaneRef} position={[0, -2.8, 0]} scale={[1, -1, 1]}>
-        <group ref={mirrorOuterRef} position={[0, -0.15, 0]} rotation={[0, -Math.PI / 7, 0]} scale={0}>
-          <group ref={mirrorInnerRef}>
-            <primitive object={reflection} />
-          </group>
-        </group>
-      </group>
-    </>
+    </group>
   );
 }
 
@@ -314,13 +213,26 @@ function Scene() {
         <ProductModel />
       </React.Suspense>
 
-      {/* Sombra de contato — aterra o frasco no cove (mais presente que antes) */}
+      {/* ── Profundidade por sombra em 2 camadas ──
+          Núcleo escuro (aterra) + halo largo suave (finge oclusão ambiente) →
+          o frasco ganha peso e descola do cove, sem os artefatos do reflexo. */}
+      {/* Núcleo de contato — nítido e escuro logo sob a base */}
       <ContactShadows
         position={[0, -1.4, 0]}
-        opacity={0.3}
-        scale={8}
-        blur={3.2}
-        far={3.2}
+        opacity={0.45}
+        scale={6}
+        blur={2.3}
+        far={2}
+        resolution={1024}
+        color="#0a0a0a"
+      />
+      {/* Halo de profundidade — largo, muito difuso, baixa opacidade */}
+      <ContactShadows
+        position={[0, -1.42, 0]}
+        opacity={0.14}
+        scale={13}
+        blur={9}
+        far={5}
         resolution={512}
         color="#171717"
       />
