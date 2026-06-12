@@ -9,7 +9,6 @@ import {
   OrbitControls,
   ContactShadows,
   Environment,
-  MeshReflectorMaterial,
 } from "@react-three/drei";
 import * as THREE from "three";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
@@ -90,6 +89,34 @@ function ProductModel() {
   const { scene } = useGLTF("/models/ap001.glb");
   const outerGroupRef = React.useRef<THREE.Group>(null);
   const innerGroupRef = React.useRef<THREE.Group>(null);
+  const mirrorOuterRef = React.useRef<THREE.Group>(null);
+  const mirrorInnerRef = React.useRef<THREE.Group>(null);
+
+  // Clone espelhado p/ o reflexo de piso — materiais translúcidos PRÓPRIOS (não toca o frasco real).
+  const reflection = React.useMemo(() => {
+    const clone = scene.clone(true);
+    clone.traverse((child) => {
+      if (child instanceof THREE.Mesh) {
+        const src = Array.isArray(child.material) ? child.material : [child.material];
+        const cloned = src.map((m) => {
+          const c = m.clone() as THREE.MeshStandardMaterial;
+          if ("color" in c && typeof c.color?.set === "function") c.color.set(0xfafafa);
+          if ("roughness" in c) c.roughness = 0.65; // reflexo fosco, não espelho
+          if ("metalness" in c) c.metalness = 0;
+          c.transparent = true;
+          c.opacity = 0.2; // sutil — o cove claro "come" o reflexo
+          c.depthWrite = false;
+          c.side = THREE.DoubleSide; // scale -1 inverte winding; DoubleSide evita faces sumirem
+          c.needsUpdate = true;
+          return c;
+        });
+        child.material = cloned.length === 1 ? cloned[0] : cloned;
+        child.castShadow = false;
+        child.receiveShadow = false;
+      }
+    });
+    return clone;
+  }, [scene]);
 
   React.useEffect(() => {
     scene.traverse((child) => {
@@ -143,23 +170,45 @@ function ProductModel() {
   const clock = React.useRef({ floatT: 0 });
 
   useFrame((_, delta) => {
-    if (!innerGroupRef.current) return;
-    
     // Float orgânico contínuo (no grupo interno para NÃO brigar com o GSAP do grupo externo)
-    clock.current.floatT += delta * 0.8;
-    innerGroupRef.current.position.y = Math.sin(clock.current.floatT) * 0.05;
-    
-    // Micro-oscilação direcional
-    innerGroupRef.current.rotation.z = Math.sin(clock.current.floatT * 0.5) * 0.015;
-    innerGroupRef.current.rotation.x = Math.cos(clock.current.floatT * 0.5) * 0.01;
+    if (innerGroupRef.current) {
+      clock.current.floatT += delta * 0.8;
+      innerGroupRef.current.position.y = Math.sin(clock.current.floatT) * 0.05;
+      // Micro-oscilação direcional
+      innerGroupRef.current.rotation.z = Math.sin(clock.current.floatT * 0.5) * 0.015;
+      innerGroupRef.current.rotation.x = Math.cos(clock.current.floatT * 0.5) * 0.01;
+    }
+
+    // Reflexo segue a pose do frasco (entrada + float); o grupo pai faz o espelhamento em Y.
+    if (mirrorOuterRef.current && outerGroupRef.current) {
+      mirrorOuterRef.current.position.copy(outerGroupRef.current.position);
+      mirrorOuterRef.current.rotation.copy(outerGroupRef.current.rotation);
+      mirrorOuterRef.current.scale.copy(outerGroupRef.current.scale);
+    }
+    if (mirrorInnerRef.current && innerGroupRef.current) {
+      mirrorInnerRef.current.position.copy(innerGroupRef.current.position);
+      mirrorInnerRef.current.rotation.copy(innerGroupRef.current.rotation);
+    }
   });
 
   return (
-    <group ref={outerGroupRef} position={[0, -0.15, 0]} rotation={[0, -Math.PI / 7, 0]} scale={0}>
-      <group ref={innerGroupRef}>
-        <primitive object={scene} />
+    <>
+      <group ref={outerGroupRef} position={[0, -0.15, 0]} rotation={[0, -Math.PI / 7, 0]} scale={0}>
+        <group ref={innerGroupRef}>
+          <primitive object={scene} />
+        </group>
       </group>
-    </group>
+
+      {/* Reflexo espelhado no piso (plano y=-1.4): o pai inverte em Y (scale -1, pos 2*piso);
+          os refs copiam a pose do frasco a cada frame → reflexo sempre sincronizado, sem disco. */}
+      <group position={[0, -2.8, 0]} scale={[1, -1, 1]}>
+        <group ref={mirrorOuterRef} position={[0, -0.15, 0]} rotation={[0, -Math.PI / 7, 0]} scale={0}>
+          <group ref={mirrorInnerRef}>
+            <primitive object={reflection} />
+          </group>
+        </group>
+      </group>
+    </>
   );
 }
 
@@ -214,26 +263,6 @@ function Scene() {
       <React.Suspense fallback={null}>
         <ProductModel />
       </React.Suspense>
-
-      {/* Piso reflexivo — reflexo suave do frasco (assinatura premium do cove).
-          É o que transforma "render flutuando" em "produto pousado num estúdio". */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1.42, 0]}>
-        <circleGeometry args={[3.4, 64]} />
-        <MeshReflectorMaterial
-          resolution={512}
-          blur={[320, 120]}
-          mixBlur={1}
-          mixStrength={1.1}
-          roughness={1}
-          depthScale={1.1}
-          minDepthThreshold={0.4}
-          maxDepthThreshold={1.3}
-          color="#e9ebef"
-          metalness={0}
-          transparent
-          opacity={0.5}
-        />
-      </mesh>
 
       {/* Sombra de contato — aterra o frasco no cove (mais presente que antes) */}
       <ContactShadows
