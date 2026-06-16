@@ -51,7 +51,7 @@ export const en: Dictionary = {
     statYears: "Years in Market",
     statAircraft: "Aircraft Treated",
     statAnac: "Official Certification",
-    statIda: "International Member",
+    statAms: "In Compliance",
     cards: [
       {
         title: "Mission",

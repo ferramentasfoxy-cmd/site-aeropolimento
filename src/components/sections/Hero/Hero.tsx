@@ -36,41 +36,47 @@ export function Hero() {
       ref={container}
       id="hero"
       aria-labelledby="hero-h1-line-1"
-      className="relative min-h-screen h-[100svh] md:min-h-[800px] overflow-hidden bg-[var(--color-bg-primary)]"
+      className="relative min-h-screen h-[100svh] md:min-h-[800px] overflow-hidden bg-[var(--color-surface-base)]"
     >
-      {/* ── Studio Cove — palco de estúdio claro graduado ── */}
-      {/* Base cove: sweep vertical (topo cinza-frio → base quase-branca) = profundidade real,
-          o oposto do branco chapado. O frasco fica claro contra o topo mais cinza. */}
+      {/* ── Fundo = mesmo sistema visual da seção "Quem Somos" (coesão) ──
+          Base off-white (--color-surface-base, não branco puro) + grid blueprint
+          + bloom de fábrica + corner markers. Replica AboutSection 1:1. */}
+
+      {/* Grid blueprint técnico — 32px, 1px. Máscara radial: some atrás do
+          produto (respiro) e fica mais visível nas bordas. NÃO chapado. */}
       <div
-        className="hero-bg-layer absolute inset-0 bg-[linear-gradient(180deg,rgb(228,231,236)_0%,rgb(237,239,242)_38%,rgb(246,247,249)_72%,rgb(250,251,252)_100%)]"
+        className="hero-bg-layer border-grid-pattern absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,rgba(0,0,0,1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,1)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_68%_64%_at_72%_44%,transparent_0%,transparent_32%,black_80%)] [-webkit-mask-image:radial-gradient(ellipse_68%_64%_at_72%_44%,transparent_0%,transparent_32%,black_80%)] pointer-events-none"
         aria-hidden="true"
       />
-      {/* Hot-spot do sweep: glow de estúdio atrás do frasco (coluna direita) */}
+      {/* Respiro radial — CÍRCULO (proporção redonda) centrado no produto.
+          Mesmo centro 72%/44% da máscara do grid (sem desalinho = sem "torto"). */}
       <div
-        className="hero-bg-layer absolute inset-0 bg-[radial-gradient(46%_50%_at_68%_46%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0)_62%)]"
+        className="hero-bg-layer absolute inset-0 bg-[radial-gradient(circle_30vw_at_72%_44%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0)_100%)] pointer-events-none"
         aria-hidden="true"
       />
-      {/* Light pad no piso — o frasco parece pousado numa superfície iluminada */}
+      {/* Bloom suave de fábrica — eco do decorativo do "Quem Somos" (discreto) */}
       <div
-        className="hero-bg-layer absolute inset-0 bg-[radial-gradient(26%_10%_at_68%_82%,rgba(255,255,255,0.75)_0%,rgba(255,255,255,0)_72%)]"
+        className="hero-bg-layer absolute top-[-12%] right-[-6%] w-[42vw] h-[42vw] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-200/40 via-gray-100/5 to-transparent opacity-25 blur-3xl rounded-full pointer-events-none"
         aria-hidden="true"
       />
-      {/* Guias técnicas finas — linguagem de prancha de engenharia (Airbus/Pilatus spec).
-          Tudo em --color-border-default (token) p/ ficar dentro do sistema. */}
-      <div className="hero-bg-layer absolute inset-0 pointer-events-none hidden lg:block" aria-hidden="true">
-        {/* centerline vertical do produto */}
-        <div className="absolute top-[20%] bottom-[15%] left-[68%] w-px bg-[var(--color-border-default)] opacity-60" />
-        {/* ticks de medição */}
-        <div className="absolute top-[34%] left-[calc(68%-7px)] h-px w-[14px] bg-[var(--color-border-default)] opacity-70" />
-        <div className="absolute top-[66%] left-[calc(68%-7px)] h-px w-[14px] bg-[var(--color-border-default)] opacity-70" />
-        {/* crosshair de registro */}
-        <div className="absolute top-[23%] left-[87%] h-px w-3 bg-[var(--color-border-default)]" />
-        <div className="absolute top-[calc(23%-6px)] left-[calc(87%+6px)] h-3 w-px bg-[var(--color-border-default)]" />
-        {/* spec label mono */}
-        <span className="absolute top-[17%] left-[68%] -translate-x-1/2 font-mono text-[9px] tracking-[0.2em] text-[var(--color-text-tertiary)] opacity-50">
-          AP·001
-        </span>
-      </div>
+
+      {/* Corner markers — mesma linguagem do "Quem Somos" (mono + dot vermelho).
+          Variantes BOTTOM p/ não colidir com o header. Mesmos códigos (LAT/LNG,
+          DOC.REV) = identidade da mesma instalação (Belo Horizonte/MG). */}
+      <span className="hero-bg-layer corner corner--bl">
+        <span><span className="dot"></span>AP-001</span>
+        <span>LAT -19.9208 · LNG -43.9378</span>
+      </span>
+      <span className="hero-bg-layer corner corner--br">
+        <span>DOC.REV 04.2026</span>
+        <span>P&D MG · BR</span>
+      </span>
+
+      {/* Vignette sutil — escurece bordas pra focar o olhar no produto */}
+      <div
+        className="hero-bg-layer absolute inset-0 pointer-events-none bg-[radial-gradient(82%_88%_at_50%_44%,transparent_56%,rgba(0,0,0,0.06)_100%)]"
+        aria-hidden="true"
+      />
 
       {/* Content grid — container largo (max-1536) p/ menos margem lateral;
           texto ancorado no topo (não no centro); coluna do produto maior. */}
@@ -80,8 +86,16 @@ export function Hero() {
           <HeroContent />
         </div>
 
-        {/* Product column — natural second = direita desktop / base mobile */}
+        {/* Product column — natural second = direita desktop / base mobile.
+            Integração ao plano = sombra ambiente (ContactShadows 3D) + leve
+            reflexo de piso fosco premium (sheen elíptico discreto na base).
+            O grid já está mascarado aqui (respiro), então o sheen não o corta. */}
         <div className="relative min-h-[460px] md:min-h-[620px] lg:min-h-[680px]">
+          {/* Reflexo/sheen de piso fosco — bem sutil, só sob a base */}
+          <div
+            className="absolute inset-0 pointer-events-none bg-[radial-gradient(22%_6%_at_50%_80%,rgba(255,255,255,0.5)_0%,rgba(255,255,255,0)_76%)]"
+            aria-hidden="true"
+          />
           <HeroProduct />
         </div>
       </div>

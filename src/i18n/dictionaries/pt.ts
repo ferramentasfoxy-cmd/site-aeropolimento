@@ -53,7 +53,7 @@ export const pt = {
     statYears: "Anos de Mercado",
     statAircraft: "Aeronaves Tratadas",
     statAnac: "Homologação Oficial",
-    statIda: "Membro Internacional",
+    statAms: "Em Conformidade",
     cards: [
       {
         title: "Missão",

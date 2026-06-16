@@ -9,8 +9,8 @@ export function AboutStats() {
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   const stats = [
-    { label: "Anos de Mercado", value: 13, suffix: "" },
-    { label: "Aeronaves Tratadas", value: 500, suffix: "+" }
+    { label: "Anos de Mercado", value: 10, suffix: "" },
+    { label: "Aeronaves Tratadas", value: 200, suffix: "+" }
   ];
 
   /* Utilizamos Ref Array em vez de State para não saturar o ciclo de vida do React a 60 FPS */
@@ -110,11 +110,11 @@ export function AboutStats() {
       {/* 4. Certificação IDA (Visual Typography Element) */}
       <div className="stat-item flex flex-col opacity-0 group relative transition-colors duration-500">
         <div className="flex items-baseline gap-1 text-[var(--color-text-primary)] font-mono transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:text-aero-red">
-          <span className="text-3xl md:text-[2.5rem] leading-none tracking-tighter font-bold uppercase">IDA</span>
+          <span className="text-3xl md:text-[2.5rem] leading-none tracking-tighter font-bold uppercase">AMS</span>
           <div className="w-1.5 h-1.5 bg-aero-red rounded-full ml-1 mb-1" />
         </div>
         <span className="text-[0.65rem] md:text-xs uppercase tracking-[0.2em] text-gray-500 font-bold mt-4 max-w-[120px] leading-relaxed group-hover:text-gray-800 transition-colors duration-500">
-          {t.about.statIda}
+          {t.about.statAms}
         </span>
       </div>
 

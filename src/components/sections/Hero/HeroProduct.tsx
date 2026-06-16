@@ -100,7 +100,8 @@ function ProductModel() {
           if ("color" in mat && typeof mat.color?.set === "function") {
             mat.color.set(0xfafafa);
           }
-          if ("roughness" in mat) mat.roughness = 0.12;
+          // Especular controlado no plástico (sem estourar — brief §iluminação)
+          if ("roughness" in mat) mat.roughness = 0.18;
           if ("metalness" in mat) mat.metalness = 0.08;
           mat.needsUpdate = true;
         });
@@ -145,6 +146,9 @@ function ProductModel() {
     // Float orgânico contínuo (no grupo interno para NÃO brigar com o GSAP do grupo externo)
     if (innerGroupRef.current) {
       clock.current.floatT += delta * 0.8;
+      // Turntable horário (visto de cima): o produto gira de verdade → a
+      // ContactShadows (projeção da silhueta) acompanha sozinha. Câmera e luz fixas.
+      innerGroupRef.current.rotation.y -= delta * 0.3;
       innerGroupRef.current.position.y = Math.sin(clock.current.floatT) * 0.05;
       // Micro-oscilação direcional
       innerGroupRef.current.rotation.z = Math.sin(clock.current.floatT * 0.5) * 0.015;
@@ -185,13 +189,14 @@ function Scene() {
       {/* Canvas transparente (gl.alpha) — o frasco vive no Studio Cove (CSS);
           tone mapping ACES no renderer faz o material responder de forma fílmica. */}
 
-      {/* Relight de estúdio: key quente + rim frio (recorta contra o topo cinza do cove) + fill. */}
-      <ambientLight intensity={0.5} />
+      {/* Relight de estúdio: key quente + rim frio + fill. Ambient baixo p/
+          fechar a base do frasco (peso + tridimensionalidade — brief). */}
+      <ambientLight intensity={0.42} />
       <Environment preset="studio" environmentIntensity={0.7} resolution={256} />
-      {/* Key quente — luz principal, frente-superior direita */}
-      <directionalLight position={[5, 9, 6]} intensity={1.4} color="#fff3e0" castShadow shadow-mapSize={[2048, 2048]} />
-      {/* Rim frio — recorta o frasco do cove (separação) */}
-      <directionalLight position={[-6, 3.5, -5]} intensity={1.15} color="#d6e4ff" />
+      {/* Key quente — ALTO-ESQUERDA, define volume (brief §iluminação) */}
+      <directionalLight position={[-5, 8.5, 6]} intensity={1.45} color="#fff3e0" castShadow shadow-mapSize={[2048, 2048]} />
+      {/* Rim frio — borda DIREITA, destaca o contorno contra o fundo (brief) */}
+      <directionalLight position={[6, 4, -5]} intensity={1.4} color="#d6e4ff" />
       {/* Fill suave frontal */}
       <directionalLight position={[-3, 2, 4]} intensity={0.28} />
 
@@ -202,8 +207,7 @@ function Scene() {
         enableRotate={true}
         enableDamping
         dampingFactor={0.04}
-        autoRotate={true} // Cinemático ativado infinitamente!
-        autoRotateSpeed={1.2} // Rotação bem lenta, como gravação de estúdio
+        target={[0, -0.2, 0]} // olha de leve p/ baixo → a sombra de contato aparece
         minPolarAngle={Math.PI / 2 - 0.3} // Limita a visão aérea
         maxPolarAngle={Math.PI / 2 + 0.15} // Limita a visão inferior
         makeDefault
@@ -213,25 +217,27 @@ function Scene() {
         <ProductModel />
       </React.Suspense>
 
-      {/* ── Profundidade por sombra em 2 camadas ──
-          Núcleo escuro (aterra) + halo largo suave (finge oclusão ambiente) →
-          o frasco ganha peso e descola do cove, sem os artefatos do reflexo. */}
-      {/* Núcleo de contato — nítido e escuro logo sob a base */}
+      {/* ── Sombra de contato suave + alongada, falloff gradual (brief) ──
+          Offset p/ baixo-direita (key vem do alto-esquerda) + escala não-uniforme
+          = sombra alongada, não um disco. Re-renderiza por frame → acompanha o
+          giro do produto. Nada de plano manual (que quebrou): só ContactShadows. */}
+      {/* Núcleo de contato — FECHADO sob a base: denso, escuro e curto = peso.
+          (brief: "sombra mais fechada na base pra dar peso e tridimensionalidade") */}
       <ContactShadows
-        position={[0, -1.4, 0]}
-        opacity={0.45}
-        scale={6}
-        blur={2.3}
+        position={[0.15, -1.4, 0.1]}
+        opacity={0.52}
+        scale={[4, 5]}
+        blur={2.5}
         far={2}
         resolution={1024}
         color="#0a0a0a"
       />
-      {/* Halo de profundidade — largo, muito difuso, baixa opacidade */}
+      {/* Halo de profundidade — largo, alongado e muito difuso (falloff gradual) */}
       <ContactShadows
-        position={[0, -1.42, 0]}
-        opacity={0.14}
-        scale={13}
-        blur={9}
+        position={[0.4, -1.42, 0.25]}
+        opacity={0.15}
+        scale={[11, 16]}
+        blur={11}
         far={5}
         resolution={512}
         color="#171717"
@@ -290,14 +296,14 @@ export function HeroProduct() {
           <Canvas
             shadows
             dpr={[1, 1.5]}
-            camera={{ position: [0, 0.1, 8.8], fov: 33 }}
+            camera={{ position: [0, 0.9, 8.8], fov: 33 }}
             gl={{
               alpha: true,
               powerPreference: "default",
               failIfMajorPerformanceCaveat: false,
               antialias: true,
               toneMapping: THREE.ACESFilmicToneMapping,
-              toneMappingExposure: 1.05,
+              toneMappingExposure: 1.1, // contraste elevado mas elegante (brief)
             }}
           >
             <Scene />
