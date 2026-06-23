@@ -3,9 +3,8 @@
 import { useRef, useState } from "react";
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/Badge";
-import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Counter } from "@/components/ui/Counter";
 import { Timeline } from "@/components/ui/Timeline";
@@ -773,7 +772,7 @@ export default function DesignSystemPage() {
           <p className="text-xs text-[var(--color-text-muted)] font-mono">
             Aeropolimento Design System v2.0 · <span className="text-[var(--color-aero-red)]">globals.css</span> + <span className="text-[var(--color-aero-red)]">tokens.ts</span>
           </p>
-          <p className="text-xs text-[var(--color-text-disabled)] mt-1">"Leve como ar. Preciso como engenharia."</p>
+          <p className="text-xs text-[var(--color-text-disabled)] mt-1">&ldquo;Leve como ar. Preciso como engenharia.&rdquo;</p>
         </div>
       </main>
     </div>

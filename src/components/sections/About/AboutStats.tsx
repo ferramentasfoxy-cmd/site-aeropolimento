@@ -8,15 +8,14 @@ export function AboutStats() {
   const { t } = useT();
   const containerRef = React.useRef<HTMLDivElement>(null);
 
-  const stats = [
-    { label: "Anos de Mercado", value: 10, suffix: "" },
-    { label: "Aeronaves Tratadas", value: 200, suffix: "+" }
-  ];
-
   /* Utilizamos Ref Array em vez de State para não saturar o ciclo de vida do React a 60 FPS */
   const valRefs = React.useRef<(HTMLSpanElement | null)[]>([]);
 
   React.useEffect(() => {
+    // Valores-alvo dos counters (labels vêm do dicionário no JSX). Declarados
+    // dentro do efeito: não são prop reativa, então não entram nas deps.
+    const stats = [{ value: 10 }, { value: 200 }];
+
     const ctx = gsap.context(() => {
       if (prefersReducedMotion()) {
         // Estado final imediato: counters nos valores finais + cards visíveis.
@@ -70,7 +69,7 @@ export function AboutStats() {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [stats]);
+  }, []);
 
   return (
     <div ref={containerRef} className="grid grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-6 w-full pt-10 border-t border-gray-200/60 mt-10">
