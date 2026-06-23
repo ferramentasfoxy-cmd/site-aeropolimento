@@ -9,12 +9,17 @@ import { TechBackground } from "@/components/ui/TechBackground";
 
 type TabState = "contato" | "revendedor";
 
+// Endpoint do Worker de contato (static export não tem backend próprio).
+// Configurável por env no build; fallback aponta para o Worker padrão.
+const CONTACT_ENDPOINT =
+  process.env.NEXT_PUBLIC_CONTACT_ENDPOINT ??
+  "https://aeropolimento-contact.workers.dev/api/contact";
+
 export function ContactSection() {
   const { t } = useT();
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<TabState>("contato");
   const [formStatus, setFormStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -46,24 +51,57 @@ export function ContactSection() {
     return () => ctx.revert();
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, formType: TabState) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+    const honeypot = String(fd.get("_gotcha") ?? "");
+
+    const payload =
+      formType === "contato"
+        ? {
+            formType,
+            nome: String(fd.get("nome") ?? "").trim(),
+            email: String(fd.get("email") ?? "").trim(),
+            telefone: String(fd.get("telefone") ?? "").trim(),
+            mensagem: String(fd.get("mensagem") ?? "").trim(),
+            _gotcha: honeypot,
+          }
+        : {
+            formType,
+            empresa: String(fd.get("empresa") ?? "").trim(),
+            cnpj: String(fd.get("cnpj") ?? "").trim(),
+            regiao: String(fd.get("regiao") ?? "").trim(),
+            emailResponsavel: String(fd.get("emailResponsavel") ?? "").trim(),
+            _gotcha: honeypot,
+          };
+
     setFormStatus("loading");
 
-    // Simulação de delay de rede
-    setTimeout(() => {
-      setFormStatus("success");
-      
-      // Animação de Sucesso
-      gsap.fromTo('.success-msg', 
-        { scale: 0.8, opacity: 0 }, 
-        { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(2)" }
-      );
+    try {
+      const res = await fetch(CONTACT_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-      if (formRef.current) formRef.current.reset();
-      
-      setTimeout(() => setFormStatus("idle"), 5000);
-    }, 1500);
+      setFormStatus("success");
+      form.reset();
+      // Anima após o próximo frame para garantir que .success-msg já montou.
+      requestAnimationFrame(() => {
+        gsap.fromTo(
+          ".success-msg",
+          { scale: 0.8, opacity: 0 },
+          { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(2)" }
+        );
+      });
+      setTimeout(() => setFormStatus("idle"), 6000);
+    } catch (err) {
+      console.error("[contact] envio falhou:", err);
+      setFormStatus("error");
+      setTimeout(() => setFormStatus("idle"), 6000);
+    }
   };
 
   return (
@@ -174,26 +212,28 @@ export function ContactSection() {
              {activeTab === "contato" && (
                <div className="w-full h-full animate-in fade-in slide-in-from-right-4 duration-500">
                   <h3 className="font-display text-2xl font-medium mb-6">{t.contact.formTitle}</h3>
-                  <form ref={formRef} onSubmit={handleSubmit} className="space-y-6 flex flex-col justify-between h-[80%]">
+                  <form onSubmit={(e) => handleSubmit(e, "contato")} className="space-y-6 flex flex-col justify-between h-[80%]">
+                    {/* Honeypot anti-bot — oculto para humanos */}
+                    <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelName}</label>
-                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder={t.contact.placeholderName} />
+                        <label htmlFor="ct-nome" className="text-[10px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelName}</label>
+                        <input id="ct-nome" name="nome" required type="text" autoComplete="name" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder={t.contact.placeholderName} />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelEmail}</label>
-                        <input required type="email" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder={t.contact.placeholderEmail} />
+                        <label htmlFor="ct-email" className="text-[10px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelEmail}</label>
+                        <input id="ct-email" name="email" required type="email" autoComplete="email" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder={t.contact.placeholderEmail} />
                       </div>
                     </div>
 
                     <div className="space-y-2">
-                       <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelPhone}</label>
-                       <input required type="tel" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder={t.contact.placeholderPhone} />
+                       <label htmlFor="ct-telefone" className="text-[10px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelPhone}</label>
+                       <input id="ct-telefone" name="telefone" required type="tel" autoComplete="tel" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm" placeholder={t.contact.placeholderPhone} />
                     </div>
 
                     <div className="space-y-2 flex-grow">
-                       <label className="text-[10px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelMessage}</label>
-                       <textarea required rows={4} className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm resize-none" placeholder={t.contact.placeholderMessage} />
+                       <label htmlFor="ct-mensagem" className="text-[10px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelMessage}</label>
+                       <textarea id="ct-mensagem" name="mensagem" required rows={4} className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red rounded-sm text-sm resize-none" placeholder={t.contact.placeholderMessage} />
                     </div>
 
                     {formStatus === "idle" && (
@@ -244,26 +284,28 @@ export function ContactSection() {
                      </div>
                   </div>
 
-                  <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                  <form onSubmit={(e) => handleSubmit(e, "revendedor")} className="space-y-4">
+                    {/* Honeypot anti-bot — oculto para humanos */}
+                    <input type="text" name="_gotcha" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelCompany}</label>
-                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
+                        <label htmlFor="rv-empresa" className="text-[9px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelCompany}</label>
+                        <input id="rv-empresa" name="empresa" required type="text" autoComplete="organization" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelCnpj}</label>
-                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
+                        <label htmlFor="rv-cnpj" className="text-[9px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelCnpj}</label>
+                        <input id="rv-cnpj" name="cnpj" required type="text" inputMode="numeric" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
                       </div>
                     </div>
-                    
+
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-1">
-                        <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelRegion}</label>
-                        <input required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
+                        <label htmlFor="rv-regiao" className="text-[9px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelRegion}</label>
+                        <input id="rv-regiao" name="regiao" required type="text" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
                       </div>
                       <div className="space-y-1">
-                        <label className="text-[9px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelRespEmail}</label>
-                        <input required type="email" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
+                        <label htmlFor="rv-email" className="text-[9px] font-mono uppercase tracking-widest text-gray-500">{t.contact.labelRespEmail}</label>
+                        <input id="rv-email" name="emailResponsavel" required type="email" autoComplete="email" className="w-full bg-gray-50 border border-gray-200 py-3 px-4 focus:outline-none focus:border-aero-red text-sm" />
                       </div>
                     </div>
 
@@ -282,6 +324,11 @@ export function ContactSection() {
                       <div className="success-msg w-full px-6 py-4 bg-green-50 text-green-700 text-[11px] font-bold uppercase tracking-widest border border-green-200 rounded-sm flex items-center justify-center gap-3 mt-4">
                         <ShieldCheck className="w-5 h-5 text-green-600 shrink-0" />
                         {t.contact.successReseller}
+                      </div>
+                    )}
+                    {formStatus === "error" && (
+                      <div className="w-full px-6 py-4 bg-red-50 text-red-700 text-[11px] font-bold uppercase tracking-widest border border-red-200 rounded-sm flex items-center justify-center gap-3 mt-4">
+                        {t.contact.errorContact}
                       </div>
                     )}
                   </form>
