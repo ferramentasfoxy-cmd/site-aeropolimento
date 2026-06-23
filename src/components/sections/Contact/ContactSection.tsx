@@ -105,8 +105,8 @@ export function ContactSection() {
   };
 
   return (
-    <section ref={containerRef} id="contato" className="relative w-full py-24 md:py-32 bg-white flex justify-center overflow-hidden z-20">
-      <TechBackground glow={false} />
+    <section ref={containerRef} id="contato" className="relative w-full py-24 md:py-32 bg-[var(--color-surface-base)] flex justify-center overflow-hidden z-20">
+      <TechBackground />
       {/* --- CORTES TÁTICOS HUD --- */}
       <span className="corner corner--tl">
         <span><span className="dot"></span>{t.contact.cornerCode}</span>

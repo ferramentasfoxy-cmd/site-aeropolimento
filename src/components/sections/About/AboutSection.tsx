@@ -53,8 +53,9 @@ export function AboutSection() {
         <span>P&D MG · BR</span>
       </span>
 
-      {/* Atmosfera técnica unificada (fonte única: TechBackground) */}
-      <TechBackground glow={false} />
+      {/* Atmosfera técnica unificada (fonte única: TechBackground).
+          glow sutil (default 0.4) = respiro vivo sem competir com a Hero. */}
+      <TechBackground />
 
       
       <div className="max-w-[90rem] mx-auto px-6 md:px-12 xl:px-16 relative z-10 w-full flex flex-col lg:flex-row lg:justify-between items-center gap-20 lg:gap-12">

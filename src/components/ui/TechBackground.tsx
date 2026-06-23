@@ -7,6 +7,12 @@ interface TechBackgroundProps {
   focus?: string;
   /** mostra o glow radial (respiro) atrás do conteúdo focal */
   glow?: boolean;
+  /**
+   * Intensidade do respiro radial (0–1). Omitido = default sutil por variante
+   * (0.4 light / 0.05 dark). A Hero usa um valor mais alto (protagonista);
+   * as demais seções herdam o default sutil = coesão sem competir com a Hero.
+   */
+  glowOpacity?: number;
 }
 
 /**
@@ -22,10 +28,12 @@ export function TechBackground({
   variant = 'light',
   focus = '50% 42%',
   glow = true,
+  glowOpacity,
 }: TechBackgroundProps) {
   const dark = variant === 'dark';
   const line = dark ? 'rgba(255,255,255,1)' : 'rgba(0,0,0,1)';
-  const glowColor = dark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.85)';
+  const go = glowOpacity ?? (dark ? 0.05 : 0.4);
+  const glowColor = `rgba(255,255,255,${go})`;
   const vignetteColor = dark ? 'rgba(0,0,0,0.30)' : 'rgba(0,0,0,0.05)';
   const mask = `radial-gradient(ellipse 68% 64% at ${focus}, transparent 0%, transparent 32%, black 80%)`;
 

@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { useT } from "@/i18n/LanguageProvider";
+import { TechBackground } from "@/components/ui/TechBackground";
 
 export function AnacSection() {
   const { t } = useT();
@@ -110,9 +111,11 @@ export function AnacSection() {
   return (
     <section ref={containerRef} id="homologacao" className="relative w-full min-h-screen bg-[var(--color-text-primary)] text-white flex items-center justify-center py-24 md:py-32 overflow-hidden z-20">
       
-      {/* Background Geométrico e Limpo */}
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4vw_4vw]" />
+      {/* Atmosfera técnica unificada — variante dark (mesmo grid 32px da Hero e
+          das seções claras, só invertido). Costura a Anac ao sistema em vez do
+          grid legado de 4vw. O respiro vermelho da homologação fica por cima. */}
+      <TechBackground variant="dark" glow={false} />
+      <div className="absolute inset-0 pointer-events-none -z-10" aria-hidden="true">
         <div className="absolute top-0 right-0 w-[50vw] h-[70vh] bg-[radial-gradient(ellipse_at_top_right,rgba(189,22,34,0.15)_0%,transparent_70%)]" />
       </div>
 

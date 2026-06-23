@@ -87,7 +87,7 @@ export function BlogSection() {
 
   return (
     <section ref={containerRef} id="blog" className="relative w-full bg-[var(--color-surface-base)] py-24 md:py-32 overflow-hidden z-20">
-      <TechBackground glow={false} />
+      <TechBackground />
       {/* --- CORTES TÁTICOS HUD --- */}
       <span className="corner corner--tl">
         <span><span className="dot"></span>{t.blog.cornerCode}</span>

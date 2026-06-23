@@ -164,7 +164,7 @@ export function ProductsSection() {
           width: 100%;
           position: relative; /* Fluxo Orgânico Nativo - Sem Stacking Bugs */
           overflow: hidden;
-          background-color: #fdfdfd; 
+          background-color: var(--color-surface-base); /* branco único do sistema */
           will-change: transform, opacity;
           display: flex;
           align-items: center;
@@ -260,8 +260,9 @@ export function ProductsSection() {
       {/* Bloco 1: Linha Aerocare (Intro Fullscreen) */}
       <section id="linha-aerocare" className="produto-fullscreen">
         <div className="background absolute inset-0 z-0 bg-[var(--color-surface-base)]">
-           {/* Technical Grid Sutíl */}
-           <div className="absolute inset-0 opacity-[0.35] bg-[linear-gradient(to_right,#eaeaea_1px,transparent_1px),linear-gradient(to_bottom,#eaeaea_1px,transparent_1px)] bg-[size:4vw_4vw]" />
+           {/* Grid técnico unificado — mesma escala 32px / opacity 0.06 / máscara
+               radial da Hero e das demais seções. Antes: 4vw / 0.35 = outlier. */}
+           <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,rgba(0,0,0,1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,1)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_68%_64%_at_50%_42%,transparent_0%,transparent_32%,black_80%)] [-webkit-mask-image:radial-gradient(ellipse_68%_64%_at_50%_42%,transparent_0%,transparent_32%,black_80%)]" />
         </div>
         <div className="marca-dagua">AEROCARE</div>
         <div className="conteudo-grid">
@@ -308,7 +309,9 @@ export function ProductsSection() {
       {/* Blocos dos Produtos */}
       {products.map((product, idx) => (
         <section key={idx} id={`produto-${idx + 1}`} className="produto-fullscreen">
-          <div className="background absolute inset-0 bg-[var(--color-surface-elevated)] z-0">
+          <div className="background absolute inset-0 bg-[var(--color-surface-base)] z-0">
+             {/* Grid técnico unificado (igual às outras seções) — coesão visual */}
+             <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,rgba(0,0,0,1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,1)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_68%_64%_at_50%_42%,transparent_0%,transparent_32%,black_80%)] [-webkit-mask-image:radial-gradient(ellipse_68%_64%_at_50%_42%,transparent_0%,transparent_32%,black_80%)]" />
              <div className="absolute top-0 right-0 w-[50vw] h-[50vh] bg-[radial-gradient(ellipse_at_top_right,_rgba(240,240,240,1)_0%,_rgba(253,253,253,0)_70%)]" />
              <div className="absolute bottom-0 left-0 w-[50vw] h-[50vh] bg-[radial-gradient(ellipse_at_bottom_left,_rgba(255,240,240,0.5)_0%,_rgba(253,253,253,0)_70%)]" />
           </div>

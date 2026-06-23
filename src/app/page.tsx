@@ -13,7 +13,7 @@ export default function Home() {
       <Hero />
 
       {/* Faixa Inferior Rotativa de Clientes Oficiais */}
-      <div className="w-full relative z-20 bg-white">
+      <div className="w-full relative z-20 bg-[var(--color-surface-base)]">
         <BrandsMarquee />
       </div>
 
