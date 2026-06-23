@@ -3,16 +3,19 @@ import * as React from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useT } from "@/i18n/LanguageProvider";
+import { Product3D } from "./Product3D";
 
 interface ProductCardProps {
   title: string;
   description: string;
   imageSrc: string;
+  /** GLB do produto. Quando presente, o frasco é renderizado em 3D (com fallback PNG via imageSrc). */
+  modelSrc?: string;
   badge?: string;
   reverse?: boolean;
 }
 
-export function ProductCard({ title, description, imageSrc, badge, reverse }: ProductCardProps) {
+export function ProductCard({ title, description, imageSrc, modelSrc, badge, reverse }: ProductCardProps) {
   const { t } = useT();
   const mainTitle = title.includes("—") ? title.split("—")[0].trim() : title;
   const subTitle = title.includes("—") ? title.split("—")[1].trim() : "";
@@ -52,23 +55,31 @@ export function ProductCard({ title, description, imageSrc, badge, reverse }: Pr
           <div className="w-1.5 h-1.5 bg-aero-red rounded-full" />
         </div>
 
-        {/* Garrafa — imagem principal */}
-        <div
-          className="relative w-full max-w-[340px] lg:max-w-[420px] aspect-[4/5] z-10 transition-transform duration-[1200ms] hover:scale-[1.04]"
-          style={{ animation: "hoverBottle 5s ease-in-out infinite" }}
-        >
-          <Image
-            src={imageSrc}
-            fill
-            alt={mainTitle}
-            sizes="(max-width: 768px) 80vw, (max-width: 1280px) 45vw, 420px"
-            className="object-contain drop-shadow-[0_40px_40px_rgba(0,0,0,0.16)] transition-all duration-[1200ms]"
-            priority={false}
-          />
-        </div>
+        {/* Frasco — 3D (Product3D traz a própria sombra de contato) ou imagem PNG */}
+        {modelSrc ? (
+          <div className="relative w-full h-full min-h-[48vh] md:min-h-[70vh] z-10">
+            <Product3D modelSrc={modelSrc} fallbackSrc={imageSrc} alt={mainTitle} />
+          </div>
+        ) : (
+          <>
+            <div
+              className="relative w-full max-w-[340px] lg:max-w-[420px] aspect-[4/5] z-10 transition-transform duration-[1200ms] hover:scale-[1.04]"
+              style={{ animation: "hoverBottle 5s ease-in-out infinite" }}
+            >
+              <Image
+                src={imageSrc}
+                fill
+                alt={mainTitle}
+                sizes="(max-width: 768px) 80vw, (max-width: 1280px) 45vw, 420px"
+                className="object-contain drop-shadow-[0_40px_40px_rgba(0,0,0,0.16)] transition-all duration-[1200ms]"
+                priority={false}
+              />
+            </div>
 
-        {/* Sombra de chão */}
-        <div className="absolute bottom-[8%] left-1/2 -translate-x-1/2 w-[60%] h-[24px] bg-black/10 blur-[18px] rounded-full pointer-events-none" />
+            {/* Sombra de chão */}
+            <div className="absolute bottom-[8%] left-1/2 -translate-x-1/2 w-[60%] h-[24px] bg-black/10 blur-[18px] rounded-full pointer-events-none" />
+          </>
+        )}
       </div>
 
       {/* ── LADO B: Copy e CTA ── */}

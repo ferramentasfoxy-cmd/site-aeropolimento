@@ -17,11 +17,19 @@ export function ProductsSection() {
     "/images/products/ap0010.png",
     "/images/products/ap0020.png",
   ];
+  // Modelos 3D pareados por índice (fallback PNG = productImages acima).
+  // APC=apc.glb, Cera=cera.glb, Massa=massa.glb (comprimidos meshopt+webp).
+  const productModels = [
+    "/models/apc.glb",
+    "/models/cera.glb",
+    "/models/massa.glb",
+  ];
   const products = t.products.items.map((item, i) => ({
     badge: t.products.badgeApproved,
     title: item.title,
     description: item.description,
     imageSrc: productImages[i],
+    modelSrc: productModels[i],
   }));
 
   React.useEffect(() => {
@@ -306,10 +314,11 @@ export function ProductsSection() {
           </div>
           
           <div className="marca-dagua">AEROCARE</div>
-          <ProductCard 
+          <ProductCard
             title={product.title}
             description={product.description}
             imageSrc={product.imageSrc}
+            modelSrc={product.modelSrc}
             badge={product.badge}
             reverse={idx % 2 !== 0} // Zig-zag
           />
