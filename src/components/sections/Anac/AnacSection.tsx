@@ -147,7 +147,7 @@ export function AnacSection() {
                   <svg className="w-10 h-10 text-white mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
-                  <span className="font-display text-base font-black uppercase tracking-widest text-aero-red">{t.anac.sealApproved}</span>
+                  <span className="font-display text-base font-black uppercase tracking-widest text-aero-red-accent">{t.anac.sealApproved}</span>
                   <span className="font-mono text-[9px] text-gray-300 tracking-widest mt-1 uppercase">{t.anac.sealAms}</span>
                </div>
             </div>
@@ -183,7 +183,7 @@ export function AnacSection() {
 
                 {/* Conteúdo Textual */}
                 <div className="timeline-content pt-2 pb-6">
-                  <span className="font-mono text-[10px] text-red-500 tracking-widest uppercase block mb-3 font-semibold">{t.anac.phaseLabel} {String(idx + 1).padStart(2, "0")}</span>
+                  <span className="font-mono text-[10px] text-aero-red-accent tracking-widest uppercase block mb-3 font-semibold">{t.anac.phaseLabel} {String(idx + 1).padStart(2, "0")}</span>
                   <h3 className="font-display text-2xl md:text-3xl font-medium text-white mb-4 group-hover:text-gray-200 transition-colors tracking-tight">{step.title}</h3>
                   <p className="text-gray-400 text-base md:text-lg leading-[1.7] font-medium">{step.desc}</p>
                 </div>

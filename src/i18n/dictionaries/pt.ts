@@ -95,7 +95,7 @@ export const pt = {
       },
       {
         title: "Parceria Estratégica",
-        desc: "O processo técnico é elevado por colaborações de engenharia de ponta. Nosso desenvolvimento foi validado juntamente aos laboratórios de grandes potências da aviação, como a Embraer.",
+        desc: "O processo técnico é elevado por colaborações de engenharia de ponta. Nosso desenvolvimento foi validado juntamente aos laboratórios de grandes potências da aviação.",
       },
     ],
   },

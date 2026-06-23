@@ -93,7 +93,7 @@ export const en: Dictionary = {
       },
       {
         title: "Strategic Partnership",
-        desc: "The technical process is elevated by cutting-edge engineering collaborations. Our development was validated alongside the laboratories of major aviation powers, such as Embraer.",
+        desc: "The technical process is elevated by cutting-edge engineering collaborations. Our development was validated alongside the laboratories of major aviation powers.",
       },
     ],
   },
