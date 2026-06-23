@@ -3,6 +3,7 @@ import * as React from "react";
 import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { useT } from "@/i18n/LanguageProvider";
+import { TechBackground } from "@/components/ui/TechBackground";
 
 function PurePremiumLogo({ brand }: { brand: { name: string, src: string } }) {
   return (
@@ -71,6 +72,7 @@ export function BrandsMarquee() {
       ref={containerRef}
       className="w-full pt-16 pb-20 bg-[var(--color-surface-base)] border-b border-gray-100 overflow-hidden relative opacity-0 transform-gpu"
     >
+      <TechBackground glow={false} />
       <div className="w-full mb-16 flex flex-col items-center justify-center pointer-events-none">
         <p className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-medium text-[var(--color-text-tertiary)] text-center max-w-xl px-4">
           {t.brands.trustLine}

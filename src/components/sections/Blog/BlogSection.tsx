@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
 import Image from "next/image";
 import { useT } from "@/i18n/LanguageProvider";
+import { TechBackground } from "@/components/ui/TechBackground";
 
 // Imagens dos posts — estáticas, parelhas por índice com t.blog.posts.
 const postImages = [
@@ -86,6 +87,7 @@ export function BlogSection() {
 
   return (
     <section ref={containerRef} id="blog" className="relative w-full bg-[var(--color-surface-base)] py-24 md:py-32 overflow-hidden z-20">
+      <TechBackground glow={false} />
       {/* --- CORTES TÁTICOS HUD --- */}
       <span className="corner corner--tl">
         <span><span className="dot"></span>{t.blog.cornerCode}</span>

@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { Mail, Phone, MapPin, ArrowRight, ShieldCheck, TrendingUp, Box } from "lucide-react";
 import { useT } from "@/i18n/LanguageProvider";
+import { TechBackground } from "@/components/ui/TechBackground";
 
 type TabState = "contato" | "revendedor";
 
@@ -67,6 +68,7 @@ export function ContactSection() {
 
   return (
     <section ref={containerRef} id="contato" className="relative w-full py-24 md:py-32 bg-white flex justify-center overflow-hidden z-20">
+      <TechBackground glow={false} />
       {/* --- CORTES TÁTICOS HUD --- */}
       <span className="corner corner--tl">
         <span><span className="dot"></span>{t.contact.cornerCode}</span>
