@@ -5,3 +5,21 @@ compatibility_flags = ["nodejs_compat"]
 
 [observability]
 enabled = true
+
+# Variáveis públicas (não-secretas). Edite os destinos antes do deploy.
+[vars]
+# Destino dos formulários. TODO: trocar pelo e-mail real informado pelo cliente.
+CONTACT_TO_EMAIL = "contato@aeropolimento.com.br"
+# Opcional: destino separado para solicitações de revenda (cai em CONTACT_TO_EMAIL se vazio).
+# RESELLER_TO_EMAIL = "comercial@aeropolimento.com.br"
+# Remetente verificado no Resend (precisa do domínio validado lá).
+RESEND_FROM = "Aeropolimento <site@aeropolimento.com.br>"
+
+# Secret (NÃO vai aqui — versionado seria vazamento):
+#   wrangler secret put RESEND_API_KEY
+#
+# Rate-limit por IP é opcional. Para ativar, crie um KV e descomente:
+#   wrangler kv namespace create CONTACT_RATELIMIT
+# [[kv_namespaces]]
+# binding = "CONTACT_RATELIMIT"
+# id = "<id-gerado-pelo-comando-acima>"
