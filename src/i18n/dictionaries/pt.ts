@@ -23,7 +23,7 @@ export const pt = {
     eyebrow: "QUÍMICA AERONÁUTICA",
     titleLine1: "Estética.",
     titleLine2: "Aeronáutica.",
-    subtitle: "Fórmulas homologadas ANAC para preservação visual e técnica de aeronaves.",
+    subtitle: "A segurança da certificação ANAC aliada ao cuidado que sua aeronave merece: preservação visual e proteção técnica em cada fórmula.",
     ctaPrimary: "Solicitar orçamento",
     ctaPrimaryAria: "Solicitar orçamento comercial",
     ctaSecondary: "Ver certificação ANAC",

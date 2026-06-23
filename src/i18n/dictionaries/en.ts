@@ -21,7 +21,7 @@ export const en: Dictionary = {
     eyebrow: "AVIATION CHEMISTRY",
     titleLine1: "Aesthetics.",
     titleLine2: "Aeronautics.",
-    subtitle: "ANAC-approved formulas for the visual and technical preservation of aircraft.",
+    subtitle: "The security of ANAC certification combined with the care your aircraft deserves: visual preservation and technical protection in every formula.",
     ctaPrimary: "Request a quote",
     ctaPrimaryAria: "Request a commercial quote",
     ctaSecondary: "View ANAC certification",

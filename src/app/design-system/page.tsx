@@ -279,7 +279,7 @@ export default function DesignSystemPage() {
               </code>
               ) ou{" "}
               <code className="font-mono text-xs bg-[var(--color-surface-muted)] px-1.5 py-0.5 rounded">
-                bg-[var(--color-*)]
+                bg-[var(--color-NAME)]
               </code>{" "}
               em casos especiais. Fixture de validação em{" "}
               <code className="font-mono text-xs bg-[var(--color-surface-muted)] px-1.5 py-0.5 rounded">
