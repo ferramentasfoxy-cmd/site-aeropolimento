@@ -22,7 +22,7 @@ export function ProductsSection() {
   const productModels = [
     "/models/apc.glb",
     "/models/cera.glb",
-    "/models/massa-v2.glb",
+    "/models/massa-v3.glb",
   ];
   const products = t.products.items.map((item, i) => ({
     code: item.code,
