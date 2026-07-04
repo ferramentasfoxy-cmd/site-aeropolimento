@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { prefersReducedMotion, DURATION, EASE } from '@/lib/animations/defaults';
+import { prefersReducedMotion, DURATION, EASE, HERO_HANDOFF } from '@/lib/animations/defaults';
 import { HeroContent } from './HeroContent';
 import { HeroProduct } from './HeroProduct';
 import { ScrollIndicator } from './ScrollIndicator';
@@ -20,12 +20,12 @@ export function Hero() {
         return;
       }
 
-      // Stage 1: background fade-in (Preloader handoff)
+      // Stage 1: background fade-in (Preloader handoff — colado à subida do véu)
       gsap.from('.hero-bg-layer', {
         opacity: 0,
         duration: DURATION.slow,
         ease: EASE.standard,
-        delay: 2.8,
+        delay: HERO_HANDOFF,
       });
     },
     { scope: container }
@@ -38,39 +38,20 @@ export function Hero() {
       aria-labelledby="hero-h1-line-1"
       className="relative min-h-screen h-[100svh] md:min-h-[800px] overflow-hidden bg-[var(--color-surface-base)]"
     >
-      {/* ── Fundo = mesmo sistema visual da seção "Quem Somos" (coesão) ──
-          Base off-white (--color-surface-base, não branco puro) + grid blueprint
-          + bloom de fábrica + corner markers. Replica AboutSection 1:1. */}
+      {/* ── Fundo = respiro de luz (sem grade blueprint) ──
+          Base off-white (--color-surface-base) + respiro radial no produto +
+          bloom de fábrica + vignette. Profundidade só pela luz. */}
 
-      {/* Grid blueprint técnico — 32px, 1px. Máscara radial: some atrás do
-          produto (respiro) e fica mais visível nas bordas. NÃO chapado. */}
-      <div
-        className="hero-bg-layer border-grid-pattern absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,rgba(0,0,0,1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,1)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_68%_64%_at_72%_44%,transparent_0%,transparent_32%,black_80%)] [-webkit-mask-image:radial-gradient(ellipse_68%_64%_at_72%_44%,transparent_0%,transparent_32%,black_80%)] pointer-events-none"
-        aria-hidden="true"
-      />
-      {/* Respiro radial — CÍRCULO (proporção redonda) centrado no produto.
-          Mesmo centro 72%/44% da máscara do grid (sem desalinho = sem "torto"). */}
+      {/* Respiro radial — CÍRCULO (proporção redonda) centrado no produto (72%/44%). */}
       <div
         className="hero-bg-layer absolute inset-0 bg-[radial-gradient(circle_30vw_at_72%_44%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0)_100%)] pointer-events-none"
         aria-hidden="true"
       />
-      {/* Bloom suave de fábrica — eco do decorativo do "Quem Somos" (discreto) */}
+      {/* Bloom suave de fábrica — discreto */}
       <div
         className="hero-bg-layer absolute top-[-12%] right-[-6%] w-[42vw] h-[42vw] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-200/40 via-gray-100/5 to-transparent opacity-25 blur-3xl rounded-full pointer-events-none"
         aria-hidden="true"
       />
-
-      {/* Corner markers — mesma linguagem do "Quem Somos" (mono + dot vermelho).
-          Variantes BOTTOM p/ não colidir com o header. Mesmos códigos (LAT/LNG,
-          DOC.REV) = identidade da mesma instalação (Belo Horizonte/MG). */}
-      <span className="hero-bg-layer corner corner--bl">
-        <span><span className="dot"></span>AP-001</span>
-        <span>LAT -19.9208 · LNG -43.9378</span>
-      </span>
-      <span className="hero-bg-layer corner corner--br">
-        <span>DOC.REV 04.2026</span>
-        <span>P&D MG · BR</span>
-      </span>
 
       {/* Vignette sutil — escurece bordas pra focar o olhar no produto */}
       <div

@@ -3,7 +3,7 @@
 interface TechBackgroundProps {
   /** 'light' para seções #FAFAFA, 'dark' para #0F0F0F (ex.: Anac) */
   variant?: 'light' | 'dark';
-  /** centro do respiro do grid + glow (CSS position), ex.: "72% 44%" */
+  /** centro do respiro/glow (CSS position), ex.: "72% 44%" */
   focus?: string;
   /** mostra o glow radial (respiro) atrás do conteúdo focal */
   glow?: boolean;
@@ -16,9 +16,9 @@ interface TechBackgroundProps {
 }
 
 /**
- * Atmosfera técnica compartilhada ("nível Hero"): grid blueprint mascarado que
- * "respira" no foco + glow radial opcional + vignette sutil. Fonte ÚNICA da
- * verdade pro tratamento de fundo — evita divergência entre seções.
+ * Atmosfera suave compartilhada: glow radial (respiro) + vignette sutil.
+ * SEM grade blueprint (removida a pedido — profundidade vem só da luz).
+ * Fonte ÚNICA da verdade pro tratamento de fundo — evita divergência entre seções.
  *
  * Uso: colocar como PRIMEIRO filho de uma `<section className="relative ...">`.
  * É puramente decorativo (-z-10 + pointer-events-none), então o conteúdo da
@@ -31,25 +31,13 @@ export function TechBackground({
   glowOpacity,
 }: TechBackgroundProps) {
   const dark = variant === 'dark';
-  const line = dark ? 'rgba(255,255,255,1)' : 'rgba(0,0,0,1)';
   const go = glowOpacity ?? (dark ? 0.05 : 0.4);
   const glowColor = `rgba(255,255,255,${go})`;
   const vignetteColor = dark ? 'rgba(0,0,0,0.30)' : 'rgba(0,0,0,0.05)';
-  const mask = `radial-gradient(ellipse 68% 64% at ${focus}, transparent 0%, transparent 32%, black 80%)`;
 
   return (
     <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
-      {/* Grid blueprint mascarado — respira no foco, aparece nas bordas */}
-      <div
-        className={dark ? 'absolute inset-0 opacity-[0.05]' : 'absolute inset-0 opacity-[0.06]'}
-        style={{
-          backgroundImage: `linear-gradient(to right, ${line} 1px, transparent 1px), linear-gradient(to bottom, ${line} 1px, transparent 1px)`,
-          backgroundSize: '32px 32px',
-          maskImage: mask,
-          WebkitMaskImage: mask,
-        }}
-      />
-      {/* Respiro radial opcional */}
+      {/* Respiro radial opcional — profundidade suave pela luz */}
       {glow && (
         <div
           className="absolute inset-0"

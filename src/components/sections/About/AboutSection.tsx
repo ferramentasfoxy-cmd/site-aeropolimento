@@ -5,7 +5,6 @@ import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { AboutStats } from "./AboutStats";
 import { AboutCards } from "./AboutCards";
 import { useT } from "@/i18n/LanguageProvider";
-import { TechBackground } from "@/components/ui/TechBackground";
 
 export function AboutSection() {
   const { t } = useT();
@@ -41,21 +40,19 @@ export function AboutSection() {
   }, []);
 
   return (
-    <section id="sobre" ref={containerRef} className="relative w-full py-24 lg:py-36 bg-[var(--color-surface-base)] overflow-hidden">
-      
-      {/* --- CORTES TÁTICOS HUD --- */}
-      <span className="corner corner--tl">
-        <span><span className="dot"></span>{t.about.cornerCode}</span>
-        <span>LAT -19.9208 · LNG -43.9378</span>
-      </span>
-      <span className="corner corner--tr">
-        <span>DOC.REV 04.2026</span>
-        <span>P&D MG · BR</span>
-      </span>
+    <section id="sobre" ref={containerRef} className="relative w-full py-24 lg:py-36 bg-[var(--color-surface-subtle)] overflow-hidden">
 
-      {/* Atmosfera técnica unificada (fonte única: TechBackground).
-          glow sutil (default 0.4) = respiro vivo sem competir com a Hero. */}
-      <TechBackground />
+      {/* ── Fundo = respiro de luz (sem grade blueprint) ──
+          Tom sutil (#F5F5F5, diferencia do Hero/Brands) + respiro radial branco
+          + bloom de fábrica + vignette. Profundidade só pela luz. */}
+      <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden="true">
+        {/* Respiro radial — círculo branco forte centrado no foco. */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_30vw_at_72%_44%,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0)_100%)]" />
+        {/* Bloom suave de fábrica. */}
+        <div className="absolute top-[-12%] right-[-6%] w-[42vw] h-[42vw] bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-200/40 via-gray-100/5 to-transparent opacity-25 blur-3xl rounded-full" />
+        {/* Vignette sutil. */}
+        <div className="absolute inset-0 bg-[radial-gradient(82%_88%_at_50%_44%,transparent_56%,rgba(0,0,0,0.06)_100%)]" />
+      </div>
 
       
       <div className="max-w-[90rem] mx-auto px-6 md:px-12 xl:px-16 relative z-10 w-full flex flex-col lg:flex-row lg:justify-between items-center gap-20 lg:gap-12">

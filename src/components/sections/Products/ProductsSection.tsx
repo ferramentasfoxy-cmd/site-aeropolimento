@@ -22,12 +22,13 @@ export function ProductsSection() {
   const productModels = [
     "/models/apc.glb",
     "/models/cera.glb",
-    "/models/massa.glb",
+    "/models/massa-v2.glb",
   ];
   const products = t.products.items.map((item, i) => ({
-    badge: t.products.badgeApproved,
+    code: item.code,
     title: item.title,
-    description: item.description,
+    lead: item.lead,
+    specs: item.specs,
     imageSrc: productImages[i],
     modelSrc: productModels[i],
   }));
@@ -259,21 +260,13 @@ export function ProductsSection() {
 
       {/* Bloco 1: Linha Aerocare (Intro Fullscreen) */}
       <section id="linha-aerocare" className="produto-fullscreen">
-        <div className="background absolute inset-0 z-0 bg-[var(--color-surface-base)]">
-           {/* Grid técnico unificado — mesma escala 32px / opacity 0.06 / máscara
-               radial da Hero e das demais seções. Antes: 4vw / 0.35 = outlier. */}
-           <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,rgba(0,0,0,1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,1)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_68%_64%_at_50%_42%,transparent_0%,transparent_32%,black_80%)] [-webkit-mask-image:radial-gradient(ellipse_68%_64%_at_50%_42%,transparent_0%,transparent_32%,black_80%)]" />
-        </div>
+        <div className="background absolute inset-0 z-0 bg-[var(--color-surface-base)]" />
         <div className="marca-dagua">AEROCARE</div>
         <div className="conteudo-grid">
           <div className="flex flex-col items-start justify-center h-full w-full mx-auto text-left z-10 md:pl-[6vw]">
-            <div className="titulo relative flex items-center gap-3 mb-8 bg-white border border-gray-100 px-5 py-2 rounded-full w-fit">
+            <div className="titulo flex items-center gap-3 mb-8 bg-white border border-gray-100 px-5 py-2 rounded-full w-fit">
               <div className="w-1.5 h-1.5 bg-aero-red rounded-full" />
               <span className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] text-gray-700 font-bold uppercase pt-0.5">{t.products.introBadge}</span>
-              {/* Floating dot from print */}
-              <div className="absolute -top-3 -right-3 w-1 h-1 bg-aero-red rounded-full"></div>
-              {/* Floating hollow circle from print */}
-              <div className="absolute -top-12 -right-16 w-6 h-6 border border-gray-300 rounded-full"></div>
             </div>
             
             <h2 className="titulo font-display text-[4rem] md:text-[5.5rem] lg:text-[7rem] uppercase font-black text-[var(--color-text-primary)] tracking-tighter leading-[0.85] mb-8">
@@ -287,21 +280,25 @@ export function ProductsSection() {
           </div>
           
           <div className="imagem-produto w-full h-full flex items-center justify-center relative z-10">
-              {/* Radar Element / Arte Geométrica EXATA DO PRINT */}
-              <div className="relative w-full max-w-[600px] aspect-square flex items-center justify-center -ml-[10%]">
-                  {/* Outer Circle */}
-                  <div className="absolute w-[85%] h-[85%] rounded-full border border-gray-200/60"></div>
-                  {/* Inner Circle */}
-                  <div className="absolute w-[50%] h-[50%] rounded-full border border-gray-200/60"></div>
-                  
-                  {/* Crosshair (X) */}
-                  <div className="absolute w-[80%] h-[1px] bg-gray-200/60 rotate-45"></div>
-                  <div className="absolute w-[80%] h-[1px] bg-gray-200/60 -rotate-45"></div>
-                  
-                  {/* Custom Dots to match print */}
-                  <div className="absolute w-1.5 h-1.5 bg-aero-red rounded-full top-[50%] right-[7.5%] -translate-y-[50%] shadow-[0_0_10px_rgba(189,22,34,0.4)]"></div>
-                  <div className="absolute w-1 h-1 bg-[var(--color-text-muted)] rounded-full top-[31%] right-[23%]"></div>
+            <div className="w-full max-w-[440px] md:pl-[4vw]">
+              {/* Índice do catálogo — conecta o intro às fichas técnicas */}
+              <div className="flex items-center gap-3 mb-2 font-mono text-[10px] tracking-[0.22em] uppercase text-gray-400">
+                <span className="w-6 h-px bg-gray-300" aria-hidden="true" />
+                <span>{t.products.catalogLabel}</span>
               </div>
+              <ul className="border-t border-gray-200/90">
+                {t.products.items.map((item, i) => {
+                  const name = item.title.includes("—") ? item.title.split("—")[0].trim() : item.title;
+                  return (
+                    <li key={i} className="group flex items-baseline gap-5 py-5 border-b border-gray-200/90">
+                      <span className="font-mono text-xs font-bold text-aero-red tracking-widest shrink-0 w-[64px]">{item.code}</span>
+                      <span className="font-display text-lg md:text-xl font-semibold text-[var(--color-text-primary)] tracking-tight">{name}</span>
+                      <span className="ml-auto font-mono text-gray-300 transition-all duration-300 group-hover:text-aero-red group-hover:translate-x-1">→</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -310,19 +307,18 @@ export function ProductsSection() {
       {products.map((product, idx) => (
         <section key={idx} id={`produto-${idx + 1}`} className="produto-fullscreen">
           <div className="background absolute inset-0 bg-[var(--color-surface-base)] z-0">
-             {/* Grid técnico unificado (igual às outras seções) — coesão visual */}
-             <div className="absolute inset-0 opacity-[0.06] bg-[linear-gradient(to_right,rgba(0,0,0,1)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,1)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_68%_64%_at_50%_42%,transparent_0%,transparent_32%,black_80%)] [-webkit-mask-image:radial-gradient(ellipse_68%_64%_at_50%_42%,transparent_0%,transparent_32%,black_80%)]" />
              <div className="absolute top-0 right-0 w-[50vw] h-[50vh] bg-[radial-gradient(ellipse_at_top_right,_rgba(240,240,240,1)_0%,_rgba(253,253,253,0)_70%)]" />
              <div className="absolute bottom-0 left-0 w-[50vw] h-[50vh] bg-[radial-gradient(ellipse_at_bottom_left,_rgba(255,240,240,0.5)_0%,_rgba(253,253,253,0)_70%)]" />
           </div>
           
           <div className="marca-dagua">AEROCARE</div>
           <ProductCard
+            code={product.code}
             title={product.title}
-            description={product.description}
+            lead={product.lead}
+            specs={product.specs}
             imageSrc={product.imageSrc}
             modelSrc={product.modelSrc}
-            badge={product.badge}
             reverse={idx % 2 !== 0} // Zig-zag
           />
         </section>

@@ -107,21 +107,44 @@ export const en: Dictionary = {
       "Years of R&D in laboratories dedicated to aerospace engineering went into formulations that not only clean, but preserve and extend the service life of the aircraft structure against weathering and extreme atmospheres.",
     badgeApproved: "ANAC Approved",
     knowMore: "Learn More",
+    datasheet: "View datasheet",
+    catalogLabel: "Line · 3 approved products",
     items: [
       {
+        code: "AP-001",
         title: "APC — All Purpose Cleaner",
+        lead: "High-performance multipurpose cleaner.",
         description:
           "High-performance multipurpose cleaner. Removes contamination from fuselage, landing gear and interiors without compromising paint or coatings.",
+        specs: [
+          { label: "Type", value: "Multipurpose cleaner" },
+          { label: "Application", value: "Fuselage · Landing gear · Interiors" },
+          { label: "Compliance", value: "ANAC" },
+        ],
       },
       {
+        code: "AP-0010",
         title: "Liquid Wax",
+        lead: "Lasting protection and gloss for the fuselage.",
         description:
           "Protective layer against UV rays and environmental contaminants. Restores and maintains fuselage gloss for weeks after application.",
+        specs: [
+          { label: "Type", value: "Protective wax" },
+          { label: "Protection", value: "UV rays · Contaminants" },
+          { label: "Compliance", value: "ANAC" },
+        ],
       },
       {
+        code: "AP-0020",
         title: "Polishing Compound",
+        lead: "Precise correction, gentle on the surface.",
         description:
           "Correction compound for polyester and polyurethane painted surfaces. Removes micro-scratches and marks without aggression, restoring the finish.",
+        specs: [
+          { label: "Type", value: "Correction compound" },
+          { label: "Surfaces", value: "Polyester · Polyurethane" },
+          { label: "Compliance", value: "ANAC" },
+        ],
       },
     ],
   },

@@ -86,12 +86,8 @@ export function BlogSection() {
   };
 
   return (
-    <section ref={containerRef} id="blog" className="relative w-full bg-[var(--color-surface-base)] py-24 md:py-32 overflow-hidden z-20">
+    <section ref={containerRef} id="blog" className="relative w-full bg-[var(--color-surface-subtle)] py-24 md:py-32 overflow-hidden z-20">
       <TechBackground />
-      {/* --- CORTES TÁTICOS HUD --- */}
-      <span className="corner corner--tl">
-        <span><span className="dot"></span>{t.blog.cornerCode}</span>
-      </span>
 
       <div className="w-full max-w-[1400px] mx-auto px-6 md:px-12">
         
@@ -158,7 +154,6 @@ export function BlogSection() {
         <div className="newsletter-strip relative bg-[var(--color-text-primary)] text-white py-14 px-8 md:px-16 rounded-lg overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-10">
            {/* Grafismo de Fundo Premium */}
            <div className="absolute right-0 top-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_center,rgba(189,22,34,0.15)_0%,transparent_70%)] pointer-events-none" />
-           <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:10px_10px] opacity-10 pointer-events-none" />
            
            <div className="relative z-10 max-w-xl">
              <h3 className="font-display text-3xl md:text-4xl font-medium tracking-tight mb-3">{t.blog.newsletterTitle} <span className="text-aero-red font-black">{t.blog.newsletterPro}</span></h3>

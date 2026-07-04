@@ -58,10 +58,10 @@ function ProductFallback({ src, alt }: { src: string; alt: string }) {
           fill
           alt={alt}
           sizes="(max-width: 768px) 80vw, (max-width: 1280px) 45vw, 420px"
-          className="object-contain drop-shadow-[0_40px_40px_rgba(0,0,0,0.16)]"
+          className="object-contain drop-shadow-[0_40px_44px_rgba(0,0,0,0.11)]"
         />
       </div>
-      <div className="absolute bottom-[8%] left-1/2 -translate-x-1/2 w-[55%] h-[20px] bg-black/10 blur-[16px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-[8%] left-1/2 -translate-x-1/2 w-[55%] h-[20px] bg-black/[0.07] blur-[18px] rounded-full pointer-events-none" />
       <style>{`
         @keyframes product3dFloat {
           0%, 100% { transform: translateY(0px); }
@@ -216,12 +216,12 @@ function Scene({ modelSrc }: { modelSrc: string }) {
         <ProductModel modelSrc={modelSrc} />
       </React.Suspense>
 
-      {/* Núcleo de contato — denso e curto = peso na base */}
+      {/* Núcleo de contato — aterra o produto, mas suave (fundos limpos) */}
       <ContactShadows
         position={[0.1, -1.35, 0.1]}
-        opacity={0.5}
+        opacity={0.32}
         scale={[4, 5]}
-        blur={2.5}
+        blur={3.4}
         far={2}
         resolution={1024}
         color="#0a0a0a"
@@ -229,9 +229,9 @@ function Scene({ modelSrc }: { modelSrc: string }) {
       {/* Halo de profundidade — largo e difuso */}
       <ContactShadows
         position={[0.35, -1.37, 0.25]}
-        opacity={0.14}
+        opacity={0.1}
         scale={[11, 16]}
-        blur={11}
+        blur={14}
         far={5}
         resolution={512}
         color="#171717"

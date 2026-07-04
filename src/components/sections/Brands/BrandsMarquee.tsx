@@ -3,7 +3,6 @@ import * as React from "react";
 import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { useT } from "@/i18n/LanguageProvider";
-import { TechBackground } from "@/components/ui/TechBackground";
 
 function PurePremiumLogo({ brand }: { brand: { name: string, src: string } }) {
   return (
@@ -13,7 +12,7 @@ function PurePremiumLogo({ brand }: { brand: { name: string, src: string } }) {
           src={brand.src} 
           alt={brand.name}
           className="relative h-10 md:h-[3.25rem] w-auto min-w-[140px] md:min-w-[180px] object-contain 
-                     brightness-0 opacity-[0.25] 
+                     brightness-0 opacity-[0.5]
                      transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)]
                      group-hover:opacity-100 group-hover:scale-[1.08]
                      will-change-transform pointer-events-none"
@@ -68,13 +67,12 @@ export function BrandsMarquee() {
   ];
 
   return (
-    <section 
+    <section
       ref={containerRef}
-      className="w-full pt-16 pb-20 bg-[var(--color-surface-base)] border-b border-gray-100 overflow-hidden relative opacity-0 transform-gpu"
+      className="w-full pt-24 pb-24 bg-white border-b border-gray-100 overflow-hidden relative opacity-0 transform-gpu shadow-[0_8px_30px_-18px_rgba(0,0,0,0.10)]"
     >
-      <TechBackground />
       <div className="w-full mb-16 flex flex-col items-center justify-center pointer-events-none">
-        <p className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-medium text-[var(--color-text-tertiary)] text-center max-w-xl px-4">
+        <p className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-semibold text-[var(--color-text-secondary)] text-center max-w-xl px-4">
           {t.brands.trustLine}
         </p>
       </div>
@@ -82,8 +80,8 @@ export function BrandsMarquee() {
       <div className="relative flex w-full">
 
         {/* Dissipação Simples (Leve no HTML) para os lados */}
-        <div className="absolute inset-y-0 left-0 w-24 md:w-56 z-20 pointer-events-none bg-gradient-to-r from-[var(--color-surface-base)] to-transparent" />
-        <div className="absolute inset-y-0 right-0 w-24 md:w-56 z-20 pointer-events-none bg-gradient-to-l from-[var(--color-surface-base)] to-transparent" />
+        <div className="absolute inset-y-0 left-0 w-24 md:w-56 z-20 pointer-events-none bg-gradient-to-r from-white to-transparent" />
+        <div className="absolute inset-y-0 right-0 w-24 md:w-56 z-20 pointer-events-none bg-gradient-to-l from-white to-transparent" />
 
         {/* Trilho CSS Puro (Para com Hover) */}
         <div className="flex animate-marquee hover:[animation-play-state:paused] w-max cursor-default">

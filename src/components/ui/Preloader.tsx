@@ -1,7 +1,7 @@
 'use client';
 import * as React from "react";
 import gsap from "gsap";
-import { prefersReducedMotion, DURATION } from "@/lib/animations/defaults";
+import { prefersReducedMotion } from "@/lib/animations/defaults";
 
 export function Preloader() {
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -32,17 +32,17 @@ export function Preloader() {
       // Total blackness
       gsap.set(".preloader-bg", { opacity: 1 });
 
-      // 2. Cinematic Logo Entrance — DURATION.cinematic (1.4s) ≈ 1.8s original; arredondado para token.
+      // 2. Cinematic Logo Entrance — enxuto p/ intro mais ágil (1.1s).
       tl.to(".preloader-logo", {
         scale: 1,
         opacity: 1,
         filter: "blur(0px)",
-        duration: DURATION.cinematic,
+        duration: 1.1,
         ease: "power3.inOut"
       });
 
-      // 3. Pausa Dramática de Branding Escoltado (Efeito Silêncio) — DURATION.normal (0.4s) exato.
-      tl.to({}, { duration: DURATION.normal });
+      // 3. Pausa Dramática de Branding Escoltado (Efeito Silêncio) — curta (0.15s).
+      tl.to({}, { duration: 0.15 });
 
       // 4. O Grande Dissolve - Expansão Explosiva e Distorção de Blur
       // O logo avança como no hiperespaço contra a "câmera", borrando totalmente!
@@ -50,7 +50,7 @@ export function Preloader() {
         scale: 4,
         filter: "blur(40px)",
         opacity: 0,
-        duration: 1.2,
+        duration: 0.85,
         ease: "power2.in" // Acelera enquanto se aproxima
       });
 
@@ -58,7 +58,7 @@ export function Preloader() {
       // diretamente aos 'blurs' que vão surgir nos assets do site (Hero e HUD)
       tl.to(".preloader-bg", {
         opacity: 0,
-        duration: 1.2,
+        duration: 0.85,
         ease: "power2.inOut"
       }, "<0.2"); // A câmara escurece o fader em sincronia perfeita com a explosão da logo
 

@@ -2,7 +2,7 @@
 import * as React from "react";
 import Link from "next/link";
 import gsap from "gsap";
-import { prefersReducedMotion } from "@/lib/animations/defaults";
+import { prefersReducedMotion, DURATION, EASE, HERO_HANDOFF } from "@/lib/animations/defaults";
 import { useT } from "@/i18n/LanguageProvider";
 
 export function Header() {
@@ -15,10 +15,12 @@ export function Header() {
     if (prefersReducedMotion()) {
       gsap.set(headerRef.current, { y: 0, opacity: 1, filter: "blur(0px)" });
     } else {
+      // Entra JUNTO com o conteúdo da hero (mesmo HERO_HANDOFF) e rápido —
+      // não arrasta atrás do resto.
       gsap.fromTo(
         headerRef.current,
         { y: -30, opacity: 0, filter: "blur(8px)" },
-        { y: 0, opacity: 1, filter: "blur(0px)", duration: 2.2, delay: 2.7 }
+        { y: 0, opacity: 1, filter: "blur(0px)", duration: DURATION.slow, delay: HERO_HANDOFF, ease: EASE.standard }
       );
     }
 

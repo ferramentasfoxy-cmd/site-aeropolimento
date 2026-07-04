@@ -109,21 +109,44 @@ export const pt = {
       "Foram anos de P&D em laboratórios dedicados à engenharia aeroespacial para criarmos formulações que não apenas limpam, mas preservam e extendem a vida útil da estrutura da aeronave contra intempéries e atmosferas extremas.",
     badgeApproved: "Aprovado ANAC",
     knowMore: "Saiba Mais",
+    datasheet: "Ver ficha técnica",
+    catalogLabel: "Linha · 3 produtos homologados",
     items: [
       {
+        code: "AP-001",
         title: "APC — All Purpose Cleaner",
+        lead: "Limpador multiuso de alta performance.",
         description:
           "Limpador multiuso de alta performance. Remove contaminações de fuselagem, trem de pouso e interiores sem comprometer pinturas ou revestimentos.",
+        specs: [
+          { label: "Tipo", value: "Limpador multiuso" },
+          { label: "Aplicação", value: "Fuselagem · Trem de pouso · Interiores" },
+          { label: "Conformidade", value: "ANAC" },
+        ],
       },
       {
+        code: "AP-0010",
         title: "Cera Líquida",
+        lead: "Proteção e brilho duradouros para a fuselagem.",
         description:
           "Camada protetora contra raios UV e contaminantes ambientais. Restaura e mantém o brilho da fuselagem por semanas após a aplicação.",
+        specs: [
+          { label: "Tipo", value: "Cera protetora" },
+          { label: "Proteção", value: "Raios UV · Contaminantes" },
+          { label: "Conformidade", value: "ANAC" },
+        ],
       },
       {
+        code: "AP-0020",
         title: "Massa de Polir",
+        lead: "Correção precisa, sem agredir a superfície.",
         description:
           "Composto de correção para superfícies com pintura poliéster e poliuretano. Elimina micro-riscos e marcas sem agressividade, restaurando o acabamento.",
+        specs: [
+          { label: "Tipo", value: "Composto de correção" },
+          { label: "Superfícies", value: "Poliéster · Poliuretano" },
+          { label: "Conformidade", value: "ANAC" },
+        ],
       },
     ],
   },

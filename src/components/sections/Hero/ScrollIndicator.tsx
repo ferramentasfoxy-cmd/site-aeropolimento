@@ -3,7 +3,7 @@
 import { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { prefersReducedMotion, DURATION, EASE } from '@/lib/animations/defaults';
+import { prefersReducedMotion, DURATION, EASE, HERO_HANDOFF } from '@/lib/animations/defaults';
 import { cn } from '@/lib/utils';
 import { useT } from '@/i18n/LanguageProvider';
 
@@ -20,23 +20,24 @@ export function ScrollIndicator() {
         return;
       }
 
-      // Stage 9: fade-in (delay 2.8 + 1.7 absolute)
+      // Entra JUNTO com o resto da hero (mesmo HERO_HANDOFF) — antes ficava
+      // ~2.8s atrás do conjunto e parecia dessincronizado.
       gsap.from(container.current, {
         opacity: 0,
         y: -10,
         duration: DURATION.normal,
         ease: EASE.standard,
-        delay: 2.8 + 1.7,
+        delay: HERO_HANDOFF,
       });
 
-      // Pulse loop no chevron (gated por reducedMotion acima)
+      // Pulse loop no chevron — começa logo após o indicador assentar.
       gsap.to('.scroll-indicator-chevron', {
         y: 6,
         duration: 1.2,
         ease: 'power2.inOut',
         repeat: -1,
         yoyo: true,
-        delay: 2.8 + 2.2,
+        delay: HERO_HANDOFF + 0.6,
       });
     },
     { scope: container }

@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { prefersReducedMotion, DURATION, EASE } from '@/lib/animations/defaults';
+import { prefersReducedMotion, DURATION, EASE, HERO_HANDOFF } from '@/lib/animations/defaults';
 import { cn } from '@/lib/utils';
 import { useT } from '@/i18n/LanguageProvider';
 
@@ -24,76 +24,30 @@ export function HeroContent() {
         return;
       }
 
-      const tl = gsap.timeline({ delay: 2.8 }); // Preloader handoff (UI-SPEC §3.4)
+      // Entrada única: todos os elementos da hero revelam JUNTOS logo após o
+      // preloader (sem cascata). Handoff centralizado em HERO_HANDOFF.
+      const tl = gsap.timeline({ delay: HERO_HANDOFF });
 
-      // Stage 4: eyebrow + bar (delay 0.7s relative)
+      // Grupo de texto (eyebrow, headline, subhead, CTAs) sobe como um bloco só.
       tl.from(
-        '.hero-eyebrow-bar',
+        ['.hero-eyebrow', '.hero-h1-line-1', '.hero-h1-line-2', '.hero-subhead', '.hero-cta'],
         {
-          width: 0,
-          duration: DURATION.normal,
+          opacity: 0,
+          y: 24,
+          duration: DURATION.slow,
           ease: EASE.standard,
         },
-        0.7
+        0
       )
+        // Barra vermelha do eyebrow cresce em sincronia (mesmo instante).
         .from(
-          '.hero-eyebrow',
+          '.hero-eyebrow-bar',
           {
-            opacity: 0,
-            y: 10,
-            duration: DURATION.normal,
-            ease: EASE.standard,
-          },
-          0.7
-        )
-
-        // Stage 5: headline line 1 (delay 0.85s)
-        .from(
-          '.hero-h1-line-1',
-          {
-            opacity: 0,
-            y: 40,
+            width: 0,
             duration: DURATION.slow,
             ease: EASE.standard,
           },
-          0.85
-        )
-
-        // Stage 6: headline line 2 (delay 1.0s)
-        .from(
-          '.hero-h1-line-2',
-          {
-            opacity: 0,
-            y: 40,
-            duration: DURATION.slow,
-            ease: EASE.standard,
-          },
-          1.0
-        )
-
-        // Stage 7: subhead (delay 1.25s)
-        .from(
-          '.hero-subhead',
-          {
-            opacity: 0,
-            y: 20,
-            duration: DURATION.normal,
-            ease: EASE.standard,
-          },
-          1.25
-        )
-
-        // Stage 8: CTAs stagger (delay 1.45s)
-        .from(
-          '.hero-cta',
-          {
-            opacity: 0,
-            y: 15,
-            duration: DURATION.fast,
-            stagger: 0.1,
-            ease: EASE.snappy,
-          },
-          1.45
+          0
         );
     },
     { scope: container }

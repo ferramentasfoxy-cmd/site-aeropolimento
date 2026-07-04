@@ -14,7 +14,7 @@ export function AboutStats() {
   React.useEffect(() => {
     // Valores-alvo dos counters (labels vêm do dicionário no JSX). Declarados
     // dentro do efeito: não são prop reativa, então não entram nas deps.
-    const stats = [{ value: 10 }, { value: 200 }];
+    const stats = [{ value: 10 }, { value: 300 }];
 
     const ctx = gsap.context(() => {
       if (prefersReducedMotion()) {

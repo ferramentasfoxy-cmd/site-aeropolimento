@@ -38,6 +38,15 @@ export const EASE = {
 } as const;
 
 /**
+ * Instante do "handoff" do Preloader → Hero (segundos).
+ * TODOS os elementos da hero (header, fundo, texto e o indicador "Scroll")
+ * entram neste mesmo instante — revelação única e sincronizada, colada à
+ * subida do véu do preloader (~1.25–2.1s). Ajuste SÓ aqui para mover o
+ * conjunto inteiro sem risco de um elemento ficar pra trás.
+ */
+export const HERO_HANDOFF = 1.7;
+
+/**
  * Detecta se o usuário prefere motion reduzido.
  * SSR-safe: retorna false no server.
  */

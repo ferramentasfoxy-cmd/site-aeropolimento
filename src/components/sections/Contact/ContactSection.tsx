@@ -107,13 +107,6 @@ export function ContactSection() {
   return (
     <section ref={containerRef} id="contato" className="relative w-full py-24 md:py-32 bg-[var(--color-surface-base)] flex justify-center overflow-hidden z-20">
       <TechBackground />
-      {/* --- CORTES TÁTICOS HUD --- */}
-      <span className="corner corner--tl">
-        <span><span className="dot"></span>{t.contact.cornerCode}</span>
-      </span>
-      <span className="corner corner--tr">
-        <span>{t.contact.cornerCoords}</span>
-      </span>
 
       <div className="w-full max-w-[1400px] px-6 md:px-12 mx-auto relative z-10">
         
@@ -136,7 +129,6 @@ export function ContactSection() {
           
           {/* Aba Lateral Escura - Info */}
           <div className="bg-[var(--color-text-primary)] relative text-white p-10 md:p-14 flex flex-col justify-between overflow-hidden">
-             <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:20px_20px] opacity-10 pointer-events-none" />
              <div className="absolute top-0 right-0 w-64 h-64 bg-aero-red/20 blur-3xl rounded-full -translate-y-1/2 translate-x-1/2" />
 
              <div className="relative z-10 mb-16">
@@ -158,7 +150,7 @@ export function ContactSection() {
                    </div>
                    <div>
                      <span className="font-mono text-[9px] uppercase tracking-widest text-gray-400 block mb-1">{t.contact.emailLabel}</span>
-                     <a href="mailto:contato@aeropolimento.com.br" className="text-lg font-medium hover:text-aero-red transition-colors">contato@aeropolimento.com.br</a>
+                     <a href="mailto:aeropolimentoprodutos@gmail.com" className="text-lg font-medium hover:text-aero-red transition-colors">aeropolimentoprodutos@gmail.com</a>
                    </div>
                  </li>
                  

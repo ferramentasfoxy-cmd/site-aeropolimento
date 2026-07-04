@@ -67,11 +67,11 @@ function ProductFallback() {
           alt="Produto Aeropolimento AP001"
           width={400}
           height={560}
-          className="object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.18)]"
+          className="object-contain drop-shadow-[0_40px_60px_rgba(0,0,0,0.12)]"
           priority
         />
       </div>
-      <div className="absolute bottom-[8%] left-1/2 -translate-x-1/2 w-[55%] h-[20px] bg-black/10 blur-[16px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-[8%] left-1/2 -translate-x-1/2 w-[55%] h-[20px] bg-black/[0.07] blur-[18px] rounded-full pointer-events-none" />
       <style>{`
         @keyframes fallbackFloat {
           0%, 100% { transform: translateY(0px); }
@@ -221,13 +221,13 @@ function Scene() {
           Offset p/ baixo-direita (key vem do alto-esquerda) + escala não-uniforme
           = sombra alongada, não um disco. Re-renderiza por frame → acompanha o
           giro do produto. Nada de plano manual (que quebrou): só ContactShadows. */}
-      {/* Núcleo de contato — FECHADO sob a base: denso, escuro e curto = peso.
-          (brief: "sombra mais fechada na base pra dar peso e tridimensionalidade") */}
+      {/* Núcleo de contato — sob a base: aterra o produto, mas SUAVE
+          (fundos limpos sem grade → sombra mais clara e difusa que antes). */}
       <ContactShadows
         position={[0.15, -1.4, 0.1]}
-        opacity={0.52}
+        opacity={0.34}
         scale={[4, 5]}
-        blur={2.5}
+        blur={3.4}
         far={2}
         resolution={1024}
         color="#0a0a0a"
@@ -235,9 +235,9 @@ function Scene() {
       {/* Halo de profundidade — largo, alongado e muito difuso (falloff gradual) */}
       <ContactShadows
         position={[0.4, -1.42, 0.25]}
-        opacity={0.15}
+        opacity={0.1}
         scale={[11, 16]}
-        blur={11}
+        blur={14}
         far={5}
         resolution={512}
         color="#171717"
