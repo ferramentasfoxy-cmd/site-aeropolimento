@@ -71,9 +71,12 @@ export function BrandsMarquee() {
       ref={containerRef}
       className="w-full pt-24 pb-24 bg-white border-b border-gray-100 overflow-hidden relative opacity-0 transform-gpu shadow-[0_8px_30px_-18px_rgba(0,0,0,0.10)]"
     >
-      <div className="w-full mb-16 flex flex-col items-center justify-center pointer-events-none">
-        <p className="text-[10px] md:text-[11px] uppercase tracking-[0.4em] font-semibold text-[var(--color-text-secondary)] text-center max-w-xl px-4">
-          {t.brands.trustLine}
+      <div className="w-full mb-16 flex flex-col items-center justify-center gap-1.5 pointer-events-none px-4 text-center">
+        <p className="text-[11px] md:text-[13px] uppercase tracking-[0.42em] font-medium text-[var(--color-text-secondary)]">
+          {t.brands.trustLineTop}
+        </p>
+        <p className="text-[17px] md:text-[22px] uppercase tracking-[0.24em] font-semibold text-[#171717]">
+          {t.brands.trustLineBottom}
         </p>
       </div>
 

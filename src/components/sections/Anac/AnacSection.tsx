@@ -109,7 +109,7 @@ export function AnacSection() {
   }, []);
 
   return (
-    <section ref={containerRef} id="homologacao" className="relative w-full min-h-screen bg-[var(--color-text-primary)] text-white flex items-center justify-center py-24 md:py-32 overflow-hidden z-20">
+    <section ref={containerRef} id="homologacao" className="relative w-full min-h-svh bg-[var(--color-text-primary)] text-white flex items-center justify-center py-24 md:py-32 overflow-hidden z-20">
       
       {/* Atmosfera técnica unificada — variante dark (mesmo grid 32px da Hero e
           das seções claras, só invertido). Costura a Anac ao sistema em vez do
@@ -122,7 +122,7 @@ export function AnacSection() {
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-16 lg:gap-24 items-start relative z-10">
         
         {/* LADO ESQUERDO - Selo e Textos Sticky */}
-        <div className="lg:sticky top-32 flex flex-col items-start justify-start">
+        <div className="lg:sticky top-32 flex flex-col items-center text-center lg:items-start lg:text-left justify-start">
           <div className="flex items-center gap-3 mb-6 bg-white/5 border border-white/10 px-4 py-2 rounded-full w-fit">
            <div className="w-1.5 h-1.5 bg-aero-red rounded-full animate-pulse shadow-[0_0_8px_#bd1622]" />
            <span className="font-mono text-[10px] tracking-[0.2em] font-bold uppercase text-gray-300">{t.anac.badge}</span>
@@ -138,21 +138,27 @@ export function AnacSection() {
           </p>
 
           {/* Selo ANAC Gráfico CSS/SVG */}
-          <div ref={sealRef} className="relative w-48 h-48 md:w-56 md:h-56 mb-12 group">
-            <div className="selo-brilho absolute inset-0 rounded-full bg-gradient-to-tr from-[#bd1622] via-transparent to-white opacity-20 blur-xl" />
-            
-            <div className="absolute inset-0 rounded-full border border-gray-600 flex items-center justify-center bg-[var(--color-text-primary)]/80 backdrop-blur-md">
-               <div className="w-[85%] h-[85%] rounded-full border-[1.5px] border-dashed border-gray-400/50 flex flex-col items-center justify-center p-4 text-center group-hover:scale-105 transition-transform duration-700 ease-out">
+          <div ref={sealRef} className="relative w-52 h-52 md:w-60 md:h-60 mb-14 group">
+            {/* Halo externo — profundidade + foco, intensifica no hover */}
+            <div className="absolute -inset-4 rounded-full bg-[radial-gradient(circle,rgba(189,22,34,0.30),transparent_68%)] blur-2xl opacity-70 group-hover:opacity-100 transition-opacity duration-700 ease-out" aria-hidden="true" />
+
+            {/* Brilho rotativo (animado via GSAP) */}
+            <div className="selo-brilho absolute inset-0 rounded-full bg-gradient-to-tr from-[#bd1622] via-transparent to-white opacity-25 blur-xl" />
+
+            {/* Disco medalha — sombra externa + realce interno de vidro */}
+            <div className="absolute inset-0 rounded-full border border-white/15 flex items-center justify-center bg-[var(--color-text-primary)]/80 backdrop-blur-md shadow-[0_10px_45px_-10px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.10)]">
+               <div className="w-[85%] h-[85%] rounded-full border-[1.5px] border-dashed border-gray-400/40 flex flex-col items-center justify-center p-4 text-center transition-transform duration-700 ease-out group-hover:scale-[1.06]">
                   {/* Ícone Escudo */}
-                  <svg className="w-10 h-10 text-white mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-11 h-11 text-white mb-2.5 drop-shadow-[0_0_10px_rgba(189,22,34,0.55)]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
-                  <span className="font-display text-base font-black uppercase tracking-widest text-aero-red-accent">{t.anac.sealApproved}</span>
-                  <span className="font-mono text-[9px] text-gray-300 tracking-widest mt-1 uppercase">{t.anac.sealAms}</span>
+                  <span className="font-display text-lg font-black uppercase tracking-[0.18em] text-aero-red-accent">{t.anac.sealApproved}</span>
+                  <span className="font-mono text-[9px] text-gray-400 tracking-[0.22em] mt-1.5 uppercase">{t.anac.sealAms}</span>
                </div>
             </div>
-            
-            <div className="absolute -bottom-2 -right-4 bg-white px-3 py-1.5 rounded-sm shadow-xl border border-gray-200">
+
+            {/* Tag de registro — flutua levemente no hover */}
+            <div className="absolute -bottom-2 -right-3 bg-white px-3 py-1.5 rounded shadow-[0_6px_22px_-4px_rgba(0,0,0,0.5)] border border-gray-200 group-hover:-translate-y-0.5 transition-transform duration-500">
                <span className="font-mono text-[10px] font-black text-[var(--color-text-primary)] tracking-widest uppercase">ANAC-1002</span>
             </div>
           </div>

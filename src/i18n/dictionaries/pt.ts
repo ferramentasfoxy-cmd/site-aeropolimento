@@ -19,6 +19,24 @@ export const pt = {
     ariaMenu: "Abrir menu de navegação",
   },
 
+  footer: {
+    kicker: "Química Aeronáutica",
+    tagline: "Química de alta performance para aviação. Produtos homologados pela ANAC, formulados para asa fixa e rotativa.",
+    seal: "Homologado ANAC",
+    navTitle: "Navegação",
+    lineTitle: "Linha Aerocare",
+    contactTitle: "Contato",
+    whatsapp: "WhatsApp Comercial",
+    email: "E-mail",
+    rights: "Todos os direitos reservados.",
+    privacy: "Política de Privacidade",
+    terms: "Termos de Uso",
+    madeIn: "Química aeronáutica · Brasil",
+    prodApc: "APC — All Purpose Cleaner",
+    prodCera: "Cera Líquida",
+    prodMassa: "Massa de Polir",
+  },
+
   hero: {
     eyebrow: "QUÍMICA AERONÁUTICA",
     titleLine1: "Estética.",
@@ -36,7 +54,8 @@ export const pt = {
   },
 
   brands: {
-    trustLine: "Empresas que confiam na referência brasileira",
+    trustLineTop: "Empresas que confiam na",
+    trustLineBottom: "referência brasileira",
   },
 
   about: {

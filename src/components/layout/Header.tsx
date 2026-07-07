@@ -120,25 +120,27 @@ export function Header() {
           aria-label={t.nav.ariaMenu}
           aria-expanded={isOpen}
           onClick={() => setIsOpen(!isOpen)}
-          className={`lg:hidden relative z-[60] w-[30px] h-[20px] flex flex-col justify-between transition-transform duration-300 ${isOpen ? "rotate-[-90deg]" : ""}`}
+          className={`lg:hidden relative z-[60] -mr-2 flex h-11 w-11 items-center justify-center transition-transform duration-300 ${isOpen ? "rotate-[-90deg]" : ""}`}
         >
-          <span className="block h-[3px] w-full bg-gray-500 rounded-full" />
-          <span className="block h-[3px] w-full bg-gray-500 rounded-full" />
-          <span className="block h-[3px] w-full bg-gray-500 rounded-full" />
+          <span className="flex h-[20px] w-[30px] flex-col justify-between">
+            <span className="block h-[3px] w-full bg-gray-500 rounded-full" />
+            <span className="block h-[3px] w-full bg-gray-500 rounded-full" />
+            <span className="block h-[3px] w-full bg-gray-500 rounded-full" />
+          </span>
         </button>
       </div>
 
       {/* Mobile Navigation Menu */}
       <div
-        className={`lg:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-200 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-[420px] py-8 shadow-lg" : "max-h-0 py-0 border-transparent"}`}
+        className={`lg:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-md border-b border-gray-200 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-[600px] py-6 shadow-lg" : "max-h-0 py-0 border-transparent"}`}
       >
-        <nav className="flex flex-col items-center gap-6 px-8">
+        <nav className="flex flex-col items-center gap-1 px-6">
           {navLinks.map((l) => (
             <a
               key={l.href}
               href={l.href}
               onClick={() => setIsOpen(false)}
-              className="text-[13px] uppercase tracking-widest font-semibold text-gray-500 hover:text-[var(--color-text-primary)] transition-colors"
+              className="w-full py-3 text-center text-[15px] uppercase tracking-widest font-semibold text-gray-600 hover:text-[var(--color-text-primary)] transition-colors"
             >
               {l.label}
             </a>
@@ -152,7 +154,7 @@ export function Header() {
           </Link>
 
           <div
-            className="flex items-center gap-2 font-mono text-[12px] tracking-widest mt-4"
+            className="flex items-center gap-1 font-mono text-[14px] tracking-widest mt-3"
             role="group"
             aria-label={t.nav.ariaLanguage}
           >
@@ -160,7 +162,7 @@ export function Header() {
               type="button"
               onClick={() => setLocale("pt")}
               aria-pressed={locale === "pt"}
-              className={`uppercase transition-colors ${locale === "pt" ? "text-[var(--color-text-primary)] font-bold" : "text-gray-400"}`}
+              className={`px-4 py-2 uppercase transition-colors ${locale === "pt" ? "text-[var(--color-text-primary)] font-bold" : "text-gray-400"}`}
             >
               PT
             </button>
@@ -169,7 +171,7 @@ export function Header() {
               type="button"
               onClick={() => setLocale("en")}
               aria-pressed={locale === "en"}
-              className={`uppercase transition-colors ${locale === "en" ? "text-[var(--color-text-primary)] font-bold" : "text-gray-400"}`}
+              className={`px-4 py-2 uppercase transition-colors ${locale === "en" ? "text-[var(--color-text-primary)] font-bold" : "text-gray-400"}`}
             >
               EN
             </button>

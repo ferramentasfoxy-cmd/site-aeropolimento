@@ -22,7 +22,7 @@ export function ProductsSection() {
   const productModels = [
     "/models/apc.glb",
     "/models/cera.glb",
-    "/models/massa-v3.glb",
+    "/models/massa-v5.glb",
   ];
   const products = t.products.items.map((item, i) => ({
     code: item.code,
@@ -161,7 +161,7 @@ export function ProductsSection() {
         }
 
         .produto-fullscreen {
-          min-height: 100vh;
+          min-height: 100svh; /* svh: evita corte/pulo pela barra do navegador no mobile */
           width: 100%;
           position: relative; /* Fluxo Orgânico Nativo - Sem Stacking Bugs */
           overflow: hidden;

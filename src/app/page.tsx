@@ -5,6 +5,7 @@ import { AnacSection } from "@/components/sections/Anac/AnacSection";
 import { ProductsSection } from "@/components/sections/Products/ProductsSection";
 import { BlogSection } from "@/components/sections/Blog/BlogSection";
 import { ContactSection } from "@/components/sections/Contact/ContactSection";
+import { Footer } from "@/components/layout/Footer";
 
 export default function Home() {
   return (
@@ -31,6 +32,9 @@ export default function Home() {
 
       {/* Bloco 08 - Contato Comercial e B2B */}
       <ContactSection />
+
+      {/* Bloco 09 - Rodapé institucional */}
+      <Footer />
     </main>
   );
 }

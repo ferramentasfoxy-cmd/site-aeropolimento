@@ -85,10 +85,25 @@ function ProductFallback() {
 // ─────────────────────────────────────────────────────────────
 // MODELO 3D + ANIMAÇÃO DE FLOAT ELEGANTE VIA useFrame
 // ─────────────────────────────────────────────────────────────
-function ProductModel() {
+function ProductModel({ targetScale = 2.0, autoFit = false }: { targetScale?: number; autoFit?: boolean }) {
   const { scene } = useGLTF("/models/ap001.glb");
   const outerGroupRef = React.useRef<THREE.Group>(null);
   const innerGroupRef = React.useRef<THREE.Group>(null);
+
+  // AUTO-FIT (mobile): o modelo ap001 não tem origem no centro, então mirar a
+  // câmera em qualquer y fixo nunca centraliza. Aqui medimos o bounding box,
+  // centramos na origem e normalizamos p/ maxDim=1 — a câmera passa a enquadrar
+  // por matemática (mira [0,0,0]), sem chute. targetScale vira o tamanho final.
+  const fit = React.useMemo(() => {
+    if (!autoFit) return null;
+    const box = new THREE.Box3().setFromObject(scene);
+    const c = box.getCenter(new THREE.Vector3());
+    const s = box.getSize(new THREE.Vector3());
+    const maxDim = Math.max(s.x, s.y, s.z) || 1;
+    const norm = 1 / maxDim;
+    return { position: [-c.x * norm, -c.y * norm, -c.z * norm] as [number, number, number], scale: norm };
+  }, [scene, autoFit]);
+  const restY = autoFit ? 0 : -0.15;
 
   React.useEffect(() => {
     scene.traverse((child) => {
@@ -112,31 +127,43 @@ function ProductModel() {
   React.useEffect(() => {
     // Animação espetacular de Entrada (Scale + Rotação 3D)
     if (!outerGroupRef.current) return;
-    if (prefersReducedMotion()) {
-      gsap.set(outerGroupRef.current.scale, { x: 2.0, y: 2.0, z: 2.0 });
-      gsap.set(outerGroupRef.current.rotation, { y: -Math.PI / 7 });
-      gsap.set(outerGroupRef.current.position, { y: -0.15 });
+    const o = outerGroupRef.current;
+
+    // MOBILE (autoFit): estado final IMEDIATO (escala/posição fixas) — sem pop de
+    // escala/posição que possa ficar preso num meio-termo se a timeline for
+    // interrompida (remount/resize/preloader). Só o giro de entrada + turntable.
+    if (autoFit) {
+      gsap.set(o.scale, { x: targetScale, y: targetScale, z: targetScale });
+      gsap.set(o.position, { y: 0 });
+      if (prefersReducedMotion()) {
+        gsap.set(o.rotation, { y: -Math.PI / 7 });
+      } else {
+        gsap.fromTo(o.rotation, { y: -Math.PI / 7 + Math.PI * 2 }, { y: -Math.PI / 7, duration: 2.4, ease: "expo.out", delay: 0.4 });
+      }
       return;
     }
-    // Entrada cinematográfica V3: zoom-in girando (scale 0→1.85 + rotação 2.5 voltas) + flutuação suave.
-    // Durations custom mantidas — timing especial de entrada do produto 3D, alinhado com fade+blur do container.
-    gsap.fromTo(
-      outerGroupRef.current.scale,
-      { x: 0, y: 0, z: 0 },
-      { x: 2.0, y: 2.0, z: 2.0, duration: 3.2, ease: "expo.out", delay: 0.6 }
-    );
 
-    // Rotação Y: 2.5 voltas completas durante a entrada (5π = 900° de spin) terminando na pose -π/7.
+    if (prefersReducedMotion()) {
+      gsap.set(o.scale, { x: targetScale, y: targetScale, z: targetScale });
+      gsap.set(o.rotation, { y: -Math.PI / 7 });
+      gsap.set(o.position, { y: restY });
+      return;
+    }
+    // Entrada cinematográfica V3 (desktop): zoom-in girando + flutuação suave.
     gsap.fromTo(
-      outerGroupRef.current.rotation,
+      o.scale,
+      { x: 0, y: 0, z: 0 },
+      { x: targetScale, y: targetScale, z: targetScale, duration: 3.2, ease: "expo.out", delay: 0.6 }
+    );
+    gsap.fromTo(
+      o.rotation,
       { y: -Math.PI / 7 + Math.PI * 2.5 },
       { y: -Math.PI / 7, duration: 3.6, ease: "expo.out", delay: 0.6 }
     );
-
     gsap.fromTo(
-      outerGroupRef.current.position,
+      o.position,
       { y: -2 },
-      { y: -0.15, duration: 2.8, ease: EASE.snappy, delay: 0.6 }
+      { y: restY, duration: 2.8, ease: EASE.snappy, delay: 0.6 }
     );
   }, []);
 
@@ -157,9 +184,15 @@ function ProductModel() {
   });
 
   return (
-    <group ref={outerGroupRef} position={[0, -0.15, 0]} rotation={[0, -Math.PI / 7, 0]} scale={0}>
+    <group ref={outerGroupRef} position={[0, restY, 0]} rotation={[0, -Math.PI / 7, 0]} scale={0}>
       <group ref={innerGroupRef}>
-        <primitive object={scene} />
+        {fit ? (
+          <group position={fit.position} scale={fit.scale}>
+            <primitive object={scene} />
+          </group>
+        ) : (
+          <primitive object={scene} />
+        )}
       </group>
     </group>
   );
@@ -168,7 +201,7 @@ function ProductModel() {
 // ─────────────────────────────────────────────────────────────
 // CENA 3D COMPLETA E ATUALIZADOR DO HUD
 // ─────────────────────────────────────────────────────────────
-function Scene() {
+function Scene({ isMobile = false }: { isMobile?: boolean }) {
   const controlsRef = React.useRef<OrbitControlsImpl>(null);
   
   // Atualiza o HUD injetando direto no DOM para não engasgar o React a 60fps
@@ -207,14 +240,14 @@ function Scene() {
         enableRotate={true}
         enableDamping
         dampingFactor={0.04}
-        target={[0, -0.2, 0]} // olha de leve p/ baixo → a sombra de contato aparece
+        target={[0, isMobile ? 0 : -0.2, 0]} // mobile: modelo já centrado (auto-fit) → mira na origem
         minPolarAngle={Math.PI / 2 - 0.3} // Limita a visão aérea
         maxPolarAngle={Math.PI / 2 + 0.15} // Limita a visão inferior
         makeDefault
       />
 
       <React.Suspense fallback={null}>
-        <ProductModel />
+        <ProductModel targetScale={isMobile ? 2.6 : 2.0} autoFit={isMobile} />
       </React.Suspense>
 
       {/* ── Sombra de contato suave + alongada, falloff gradual (brief) ──
@@ -255,9 +288,27 @@ export function HeroProduct() {
   // Assume WebGL is available during SSR and initial hydration to avoid Hydration Mismatch.
   // We check actual availability in the client-side useEffect.
   const [webglAvailable, setWebglAvailable] = React.useState<boolean>(true);
+  // Frasco enquadrado maior/mais perto no mobile (câmera fixa era tuning só de desktop).
+  const [isMobile, setIsMobile] = React.useState<boolean>(() =>
+    typeof window !== "undefined" ? window.matchMedia("(max-width: 767px)").matches : false
+  );
 
   React.useEffect(() => {
     setWebglAvailable(detectWebGL());
+    const mq = window.matchMedia("(max-width: 767px)");
+    const onChange = () => setIsMobile(mq.matches);
+    onChange();
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  // O <Canvas> monta durante o preloader, quando o container ainda pode estar
+  // colapsado — o ResizeObserver do R3F crava um tamanho errado (300×150) e não
+  // remede sozinho. Empurramos re-medições após o layout assentar (e pós-preloader).
+  React.useEffect(() => {
+    const nudge = () => window.dispatchEvent(new Event("resize"));
+    const ids = [120, 900, 3600].map((ms) => window.setTimeout(nudge, ms));
+    return () => ids.forEach((id) => window.clearTimeout(id));
   }, []);
 
   React.useEffect(() => {
@@ -286,7 +337,7 @@ export function HeroProduct() {
   return (
     <div
       ref={containerRef}
-      className="hero-product-container relative w-full h-full invisible transform-gpu"
+      className="hero-product-container absolute inset-0 w-full h-full invisible transform-gpu"
       style={{ cursor: webglAvailable ? "grab" : "default" }}
       onMouseDown={(e) => { if (webglAvailable) e.currentTarget.style.cursor = "grabbing"; }}
       onMouseUp={(e) => { if (webglAvailable) e.currentTarget.style.cursor = "grab"; }}
@@ -294,9 +345,10 @@ export function HeroProduct() {
       {webglAvailable ? (
         <WebGLErrorBoundary>
           <Canvas
+            key={isMobile ? "cam-mobile" : "cam-desktop"}
             shadows
             dpr={[1, 1.5]}
-            camera={{ position: [0, 0.9, 8.8], fov: 33 }}
+            camera={isMobile ? { position: [0, 0.3, 6.6], fov: 32 } : { position: [0, 0.9, 8.8], fov: 33 }}
             gl={{
               alpha: true,
               powerPreference: "default",
@@ -306,7 +358,7 @@ export function HeroProduct() {
               toneMappingExposure: 1.1, // contraste elevado mas elegante (brief)
             }}
           >
-            <Scene />
+            <Scene isMobile={isMobile} />
           </Canvas>
         </WebGLErrorBoundary>
       ) : (

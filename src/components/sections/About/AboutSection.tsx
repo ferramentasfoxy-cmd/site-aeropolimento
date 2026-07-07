@@ -69,9 +69,9 @@ export function AboutSection() {
           </div>
 
           {/* Headline Principal */}
-          <h2 className="about-text-reveal font-display text-[1.75rem] md:text-4xl lg:text-[2.65rem] xl:text-[2.85rem] leading-[1.15] uppercase font-semibold text-[var(--color-text-primary)] tracking-tight mb-8">
-            <span className="block">{t.about.headlineLine1}</span>
-            <span className="block">{t.about.headlineLine2}</span>
+          <h2 className="about-text-reveal font-display text-[clamp(1.4rem,6vw,1.75rem)] md:text-4xl lg:text-[2.65rem] xl:text-[2.85rem] leading-[1.15] uppercase font-semibold text-[var(--color-text-primary)] tracking-tight mb-8 text-balance">
+            <span className="block text-balance">{t.about.headlineLine1}</span>
+            <span className="block text-balance">{t.about.headlineLine2}</span>
           </h2>
 
           {/* Descrição Autoridade */}

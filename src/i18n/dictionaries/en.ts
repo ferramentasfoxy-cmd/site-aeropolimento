@@ -17,6 +17,24 @@ export const en: Dictionary = {
     ariaMenu: "Open navigation menu",
   },
 
+  footer: {
+    kicker: "Aviation Chemistry",
+    tagline: "High-performance chemistry for aviation. ANAC-approved products, formulated for fixed and rotary wing.",
+    seal: "ANAC Approved",
+    navTitle: "Navigation",
+    lineTitle: "Aerocare Line",
+    contactTitle: "Contact",
+    whatsapp: "Commercial WhatsApp",
+    email: "Email",
+    rights: "All rights reserved.",
+    privacy: "Privacy Policy",
+    terms: "Terms of Use",
+    madeIn: "Aviation chemistry · Brazil",
+    prodApc: "APC — All Purpose Cleaner",
+    prodCera: "Liquid Wax",
+    prodMassa: "Polishing Compound",
+  },
+
   hero: {
     eyebrow: "AVIATION CHEMISTRY",
     titleLine1: "Aesthetics.",
@@ -34,7 +52,8 @@ export const en: Dictionary = {
   },
 
   brands: {
-    trustLine: "Companies that trust the Brazilian benchmark",
+    trustLineTop: "Companies that trust the",
+    trustLineBottom: "Brazilian benchmark",
   },
 
   about: {
