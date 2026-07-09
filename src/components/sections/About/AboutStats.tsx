@@ -75,8 +75,8 @@ export function AboutStats() {
     <div ref={containerRef} className="grid grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-6 w-full pt-10 border-t border-gray-200/60 mt-10">
       
       {/* 1. Anos de Mercado */}
-      <div className="stat-item flex flex-col opacity-0 group relative transition-colors duration-500">
-        <div className="flex items-baseline gap-1 text-[var(--color-text-primary)] font-mono transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:text-aero-red">
+      <div className="stat-item flex flex-col items-center text-center opacity-0 group relative transition-colors duration-500">
+        <div className="flex items-baseline justify-center gap-1 text-[var(--color-text-primary)] font-mono transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:text-aero-red">
           <span ref={(el) => { valRefs.current[0] = el; }} className="text-4xl md:text-[3.25rem] leading-none tracking-tighter font-semibold">0</span>
         </div>
         <span className="text-[0.65rem] md:text-xs uppercase tracking-[0.2em] text-gray-500 font-bold mt-4 max-w-[120px] leading-relaxed group-hover:text-gray-800 transition-colors duration-500">
@@ -85,8 +85,8 @@ export function AboutStats() {
       </div>
 
       {/* 2. Aeronaves Tratadas */}
-      <div className="stat-item flex flex-col opacity-0 group relative transition-colors duration-500">
-        <div className="flex items-baseline gap-1 text-[var(--color-text-primary)] font-mono transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:text-aero-red">
+      <div className="stat-item flex flex-col items-center text-center opacity-0 group relative transition-colors duration-500">
+        <div className="flex items-baseline justify-center gap-1 text-[var(--color-text-primary)] font-mono transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:text-aero-red">
           <span ref={(el) => { valRefs.current[1] = el; }} className="text-4xl md:text-[3.25rem] leading-none tracking-tighter font-semibold">0</span>
           <span className="text-2xl md:text-3xl leading-none text-aero-red font-semibold">+</span>
         </div>
@@ -96,8 +96,8 @@ export function AboutStats() {
       </div>
 
       {/* 3. Certificação ANAC (Visual Graphic Element) */}
-      <div className="stat-item flex flex-col opacity-0 group relative transition-colors duration-500">
-        <div className="flex items-baseline gap-1 text-[var(--color-text-primary)] font-mono transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:text-aero-red">
+      <div className="stat-item flex flex-col items-center text-center opacity-0 group relative transition-colors duration-500">
+        <div className="flex items-baseline justify-center gap-1 text-[var(--color-text-primary)] font-mono transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:text-aero-red">
           <span className="text-3xl md:text-[2.5rem] leading-none tracking-tighter font-bold uppercase">ANAC</span>
           <div className="w-1.5 h-1.5 bg-aero-red rounded-full ml-1 mb-1" />
         </div>
@@ -107,8 +107,8 @@ export function AboutStats() {
       </div>
 
       {/* 4. Certificação IDA (Visual Typography Element) */}
-      <div className="stat-item flex flex-col opacity-0 group relative transition-colors duration-500">
-        <div className="flex items-baseline gap-1 text-[var(--color-text-primary)] font-mono transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:text-aero-red">
+      <div className="stat-item flex flex-col items-center text-center opacity-0 group relative transition-colors duration-500">
+        <div className="flex items-baseline justify-center gap-1 text-[var(--color-text-primary)] font-mono transition-transform duration-500 ease-out group-hover:-translate-y-1 group-hover:text-aero-red">
           <span className="text-3xl md:text-[2.5rem] leading-none tracking-tighter font-bold uppercase">AMS</span>
           <div className="w-1.5 h-1.5 bg-aero-red rounded-full ml-1 mb-1" />
         </div>
