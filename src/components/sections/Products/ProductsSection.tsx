@@ -169,13 +169,7 @@ export function ProductsSection() {
           will-change: transform, opacity;
           display: flex;
           align-items: center;
-          /* Linha divisória minimalista para separar com classe */
-          border-bottom: 1px solid rgba(0,0,0,0.03); 
-        }
-
-        /* O primeiro não precisa de sombra superior */
-        .produto-fullscreen:first-child {
-          border-top: none;
+          /* Sem divisória entre seções — visual contínuo e limpo (branco único) */
         }
 
         .marca-dagua {
