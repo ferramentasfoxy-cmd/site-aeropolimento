@@ -191,7 +191,9 @@ function Scene({ modelSrc }: { modelSrc: string }) {
   return (
     <>
       <ambientLight intensity={0.42} />
-      <Environment preset="studio" environmentIntensity={0.7} resolution={256} />
+      {/* HDRI local (era preset via CDN raw.githack.com, que falhava em produção
+          e derrubava o Canvas pro PNG). Same-origin Cloudflare = confiável. */}
+      <Environment files="/hdri/studio_small_03_1k.hdr" environmentIntensity={0.7} resolution={256} />
       {/* Key quente — alto-esquerda define volume */}
       <directionalLight position={[-5, 8.5, 6]} intensity={1.45} color="#fff3e0" />
       {/* Rim frio — borda direita destaca o contorno */}

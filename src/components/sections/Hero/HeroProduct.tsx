@@ -225,7 +225,10 @@ function Scene({ isMobile = false }: { isMobile?: boolean }) {
       {/* Relight de estúdio: key quente + rim frio + fill. Ambient baixo p/
           fechar a base do frasco (peso + tridimensionalidade — brief). */}
       <ambientLight intensity={0.42} />
-      <Environment preset="studio" environmentIntensity={0.7} resolution={256} />
+      {/* HDRI hospedado no próprio site (era preset do drei via CDN raw.githack.com,
+          que bloqueava/rate-limitava em produção → Environment lançava e o
+          WebGLErrorBoundary derrubava o 3D pro PNG). Same-origin = sem CORS, confiável. */}
+      <Environment files="/hdri/studio_small_03_1k.hdr" environmentIntensity={0.7} resolution={256} />
       {/* Key quente — ALTO-ESQUERDA, define volume (brief §iluminação) */}
       <directionalLight position={[-5, 8.5, 6]} intensity={1.45} color="#fff3e0" castShadow shadow-mapSize={[2048, 2048]} />
       {/* Rim frio — borda DIREITA, destaca o contorno contra o fundo (brief) */}
