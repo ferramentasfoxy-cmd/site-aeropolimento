@@ -139,7 +139,7 @@ export function ContactSection() {
                    </div>
                    <div>
                      <span className="font-mono text-[9px] uppercase tracking-widest text-gray-400 block mb-1">{t.contact.whatsappLabel}</span>
-                     <a href="https://wa.me/5531989477030" className="text-lg font-medium hover:text-aero-red transition-colors">+55 (31) 98947-7030</a>
+                     <a href="https://wa.me/5531989477030" className="text-base md:text-lg font-medium hover:text-aero-red transition-colors">+55 (31) 98947-7030</a>
                    </div>
                  </li>
                  
@@ -152,7 +152,18 @@ export function ContactSection() {
                      <a href="mailto:aeropolimentoprodutos@gmail.com" className="text-base md:text-lg font-medium hover:text-aero-red transition-colors break-all">aeropolimentoprodutos@gmail.com</a>
                    </div>
                  </li>
-                 
+
+                 <li className="flex items-start gap-4">
+                   <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                     <Phone className="w-4 h-4 text-aero-red" />
+                   </div>
+                   <div>
+                     <span className="font-mono text-[9px] uppercase tracking-widest text-gray-400 block mb-1">{t.contact.julioLabel}</span>
+                     <a href="https://wa.me/5531973639785" className="text-base md:text-lg font-medium hover:text-aero-red transition-colors block">+55 (31) 97363-9785</a>
+                     <a href="mailto:aeropolimentooficial01@gmail.com" className="text-sm text-gray-400 hover:text-aero-red transition-colors break-all">aeropolimentooficial01@gmail.com</a>
+                   </div>
+                 </li>
+
                  <li className="flex items-start gap-4">
                    <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
                      <MapPin className="w-4 h-4 text-aero-red" />

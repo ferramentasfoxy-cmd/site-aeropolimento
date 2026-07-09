@@ -198,7 +198,8 @@ export const pt = {
     subtitle:
       "Suporte técnico e cotações em massa da linha AEROCARE. Fale direto com o nosso comercial.",
     infoTitle: "Base de Operações",
-    whatsappLabel: "WhatsApp Comercial",
+    whatsappLabel: "Leonardo · Comercial",
+    julioLabel: "Júlio · Comercial",
     emailLabel: "Cotações e Ofícios",
     hqLabel: "Sede Brasil",
     hqValue: "Hub Tecnológico — Minas Gerais, Brasil",

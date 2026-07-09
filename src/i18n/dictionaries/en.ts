@@ -196,7 +196,8 @@ export const en: Dictionary = {
     subtitle:
       "Technical support and bulk quotes for the AEROCARE line. Talk directly to our commercial team.",
     infoTitle: "Operations Base",
-    whatsappLabel: "Commercial WhatsApp",
+    whatsappLabel: "Leonardo · Commercial",
+    julioLabel: "Júlio · Commercial",
     emailLabel: "Quotes & Official Requests",
     hqLabel: "Brazil Headquarters",
     hqValue: "Technology Hub — Minas Gerais, Brazil",
