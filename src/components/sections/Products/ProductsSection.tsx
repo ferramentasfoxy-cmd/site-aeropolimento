@@ -263,26 +263,26 @@ export function ProductsSection() {
         <div className="background absolute inset-0 z-0 bg-[var(--color-surface-base)]" />
         <div className="marca-dagua">AEROCARE</div>
         <div className="conteudo-grid">
-          <div className="flex flex-col items-start justify-center h-full w-full mx-auto text-left z-10 md:pl-[6vw]">
+          <div className="flex flex-col items-center text-center md:items-start md:text-left justify-center h-full w-full min-w-0 mx-auto z-10 md:pl-[6vw]">
             <div className="titulo flex items-center gap-3 mb-8 bg-white border border-gray-100 px-5 py-2 rounded-full w-fit">
               <div className="w-1.5 h-1.5 bg-aero-red rounded-full" />
               <span className="font-mono text-[9px] md:text-[10px] tracking-[0.2em] text-gray-700 font-bold uppercase pt-0.5">{t.products.introBadge}</span>
             </div>
-            
-            <h2 className="titulo font-display text-[4rem] md:text-[5.5rem] lg:text-[7rem] uppercase font-black text-[var(--color-text-primary)] tracking-tighter leading-[0.85] mb-8">
+
+            <h2 className="titulo font-display text-[clamp(2.5rem,11vw,7rem)] uppercase font-black text-[var(--color-text-primary)] tracking-tighter leading-[0.9] md:leading-[0.85] text-balance mb-8">
               {t.products.introTitleLine1} <br/><span className="text-aero-red">{t.products.introTitleLine2}</span>
             </h2>
 
-            <div className="descricao flex flex-col gap-4 text-gray-500 font-medium text-base md:text-lg max-w-[460px] leading-[1.8]">
-              <p className="text-[var(--color-text-primary)] font-display font-semibold text-2xl lg:text-3xl tracking-tight leading-[1.2]">{t.products.introLead}</p>
-              <p>{t.products.introParagraph}</p>
+            <div className="descricao flex flex-col gap-4 items-center text-center md:items-start md:text-left text-gray-500 font-medium text-base md:text-lg max-w-[460px] mx-auto md:mx-0 leading-[1.8]">
+              <p className="text-[var(--color-text-primary)] font-display font-semibold text-2xl lg:text-3xl tracking-tight leading-[1.2] text-balance">{t.products.introLead}</p>
+              <p className="text-pretty">{t.products.introParagraph}</p>
             </div>
           </div>
           
           <div className="imagem-produto w-full h-full flex items-center justify-center relative z-10">
             <div className="w-full max-w-[440px] md:pl-[4vw]">
               {/* Índice do catálogo — conecta o intro às fichas técnicas */}
-              <div className="flex items-center gap-3 mb-2 font-mono text-[10px] tracking-[0.22em] uppercase text-gray-400">
+              <div className="flex items-center justify-center md:justify-start gap-3 mb-2 font-mono text-[10px] tracking-[0.22em] uppercase text-gray-400">
                 <span className="w-6 h-px bg-gray-300" aria-hidden="true" />
                 <span>{t.products.catalogLabel}</span>
               </div>
