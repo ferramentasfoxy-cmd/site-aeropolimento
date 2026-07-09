@@ -194,7 +194,7 @@ export const en: Dictionary = {
     kicker: "B2B Connection",
     title: "Start your operations.",
     subtitle:
-      "Technical support, bulk quotes, or applying to become a certified distributor of our line.",
+      "Technical support and bulk quotes for the AEROCARE line. Talk directly to our commercial team.",
     infoTitle: "Operations Base",
     whatsappLabel: "Commercial WhatsApp",
     emailLabel: "Quotes & Official Requests",

@@ -196,7 +196,7 @@ export const pt = {
     kicker: "Conexão B2B",
     title: "Inicie suas operações.",
     subtitle:
-      "Suporte técnico, cotações em massa ou aplicação para se tornar um distribuidor homologado da nossa linha.",
+      "Suporte técnico e cotações em massa da linha AEROCARE. Fale direto com o nosso comercial.",
     infoTitle: "Base de Operações",
     whatsappLabel: "WhatsApp Comercial",
     emailLabel: "Cotações e Ofícios",
