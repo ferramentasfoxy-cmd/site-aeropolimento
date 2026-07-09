@@ -10,10 +10,10 @@ import { TechBackground } from "@/components/ui/TechBackground";
 type TabState = "contato" | "revendedor";
 
 // Endpoint do Worker de contato (static export não tem backend próprio).
-// Configurável por env no build; fallback aponta para o Worker padrão.
+// Configurável por env no build; fallback aponta para o Worker deployado.
 const CONTACT_ENDPOINT =
   process.env.NEXT_PUBLIC_CONTACT_ENDPOINT ??
-  "https://aeropolimento-contact.workers.dev/api/contact";
+  "https://aeropolimento-contact.ferramentasfoxy.workers.dev/api/contact";
 
 export function ContactSection() {
   const { t } = useT();

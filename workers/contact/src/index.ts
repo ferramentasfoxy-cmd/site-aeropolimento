@@ -10,34 +10,55 @@
  *   2. Honeypot — campo oculto preenchido = bot -> 200 fake (engana sem enviar)
  *   3. Rate-limit por IP via KV (opcional: só roda se o binding existir)
  *   4. Validação Zod (discriminated union contato | revendedor)
- *   5. Envio via Resend API -> e-mail institucional, reply_to do remetente
+ *   5. Envio via Cloudflare Email Sending (binding `EMAIL`) -> e-mail institucional,
+ *      reply_to do remetente. Sem API key: a autorização vem do domínio onboardado
+ *      (`wrangler email sending enable aeropolimentoprodutos.com.br` / dashboard).
  *
- * Secrets/vars (wrangler):
- *   RESEND_API_KEY     (secret)  -> wrangler secret put RESEND_API_KEY
- *   CONTACT_TO_EMAIL   (var)     -> destino dos dois forms (ou só contato)
- *   RESELLER_TO_EMAIL  (var, opc)-> destino separado de revenda (default: CONTACT_TO_EMAIL)
- *   RESEND_FROM        (var)     -> remetente verificado, ex: "Aeropolimento <site@aeropolimento.com.br>"
- *   CONTACT_RATELIMIT  (KV, opc) -> rate-limit por IP
+ * Vars/bindings (wrangler.toml):
+ *   EMAIL             (send_email binding) -> envio nativo Cloudflare
+ *   CONTACT_TO_EMAIL  (var)     -> destino dos dois forms (ou só contato)
+ *   RESELLER_TO_EMAIL (var, opc)-> destino separado de revenda (default: CONTACT_TO_EMAIL)
+ *   EMAIL_FROM        (var)     -> remetente no domínio onboardado, ex: formulario@aeropolimentoprodutos.com.br
+ *   EMAIL_FROM_NAME   (var, opc)-> nome amigável do remetente
+ *   CONTACT_RATELIMIT (KV, opc) -> rate-limit por IP
  */
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { z } from 'zod'
 
+// Binding de envio nativo da Cloudflare (Email Sending, API por objeto).
+interface EmailSendBinding {
+  send(message: {
+    to: string | string[]
+    from: { email: string; name?: string }
+    replyTo?: string
+    subject: string
+    html: string
+    text: string
+  }): Promise<{ messageId: string }>
+}
+
 type Bindings = {
-  RESEND_API_KEY: string
+  EMAIL: EmailSendBinding
   CONTACT_TO_EMAIL: string
   RESELLER_TO_EMAIL?: string
-  RESEND_FROM: string
+  EMAIL_FROM: string
+  EMAIL_FROM_NAME?: string
   CONTACT_RATELIMIT?: KVNamespace
 }
 
-// Origens autorizadas a chamar o worker (site institucional + dev local).
-const ALLOWED_ORIGINS = [
-  'https://aeropolimento.com.br',
-  'https://www.aeropolimento.com.br',
-  'https://aeropolimento.pages.dev',
+// Origens autorizadas: domínio institucional real + qualquer deploy do projeto
+// Pages (produção e previews *.aeropolimento.pages.dev) + dev local.
+const ALLOWED_EXACT = new Set([
+  'https://aeropolimentoprodutos.com.br',
+  'https://www.aeropolimentoprodutos.com.br',
   'http://localhost:3000',
-]
+])
+function isAllowedOrigin(origin: string): boolean {
+  if (ALLOWED_EXACT.has(origin)) return true
+  // produção alias + previews do Cloudflare Pages deste projeto
+  return /^https:\/\/([a-z0-9-]+\.)?aeropolimento\.pages\.dev$/.test(origin)
+}
 
 // Rate-limit: máx N envios por IP dentro da janela (segundos).
 const RATE_LIMIT_MAX = 5
@@ -49,7 +70,7 @@ const app = new Hono<{ Bindings: Bindings }>()
 app.use(
   '/api/*',
   cors({
-    origin: (origin) => (ALLOWED_ORIGINS.includes(origin) ? origin : ''),
+    origin: (origin) => (origin && isAllowedOrigin(origin) ? origin : ''),
     allowMethods: ['POST', 'OPTIONS'],
     allowHeaders: ['Content-Type'],
     maxAge: 86400,
@@ -102,30 +123,32 @@ function renderRow(label: string, value: string): string {
   </tr>`
 }
 
-function buildEmail(p: Payload): { subject: string; html: string; replyTo: string } {
+function buildEmail(p: Payload): { subject: string; html: string; text: string; replyTo: string } {
   if (p.formType === 'contato') {
+    const fields: [string, string][] = [
+      ['Nome', p.nome],
+      ['E-mail', p.email],
+      ['Telefone', p.telefone],
+      ['Mensagem', p.mensagem],
+    ]
     return {
       subject: `[Site] Novo contato — ${p.nome}`,
       replyTo: p.email,
-      html: emailShell(
-        'Novo contato comercial',
-        renderRow('Nome', p.nome) +
-          renderRow('E-mail', p.email) +
-          renderRow('Telefone', p.telefone) +
-          renderRow('Mensagem', p.mensagem)
-      ),
+      html: emailShell('Novo contato comercial', fields.map(([l, v]) => renderRow(l, v)).join('')),
+      text: `Novo contato comercial\n\n${fields.map(([l, v]) => `${l}: ${v}`).join('\n')}`,
     }
   }
+  const fields: [string, string][] = [
+    ['Empresa', p.empresa],
+    ['CNPJ', p.cnpj],
+    ['Região', p.regiao],
+    ['E-mail responsável', p.emailResponsavel],
+  ]
   return {
     subject: `[Site] Solicitação de revenda — ${p.empresa}`,
     replyTo: p.emailResponsavel,
-    html: emailShell(
-      'Solicitação para revenda B2B',
-      renderRow('Empresa', p.empresa) +
-        renderRow('CNPJ', p.cnpj) +
-        renderRow('Região', p.regiao) +
-        renderRow('E-mail responsável', p.emailResponsavel)
-    ),
+    html: emailShell('Solicitação para revenda B2B', fields.map(([l, v]) => renderRow(l, v)).join('')),
+    text: `Solicitação para revenda B2B\n\n${fields.map(([l, v]) => `${l}: ${v}`).join('\n')}`,
   }
 }
 
@@ -138,7 +161,7 @@ function emailShell(title: string, rows: string): string {
       </td></tr>
       <tr><td style="padding:8px 12px"><table style="width:100%;border-collapse:collapse">${rows}</table></td></tr>
       <tr><td style="padding:14px 24px;border-top:1px solid #eee;font:400 11px/1.4 monospace;color:#a3a3a3">
-        Enviado pelo formulário de aeropolimento.com.br
+        Enviado pelo formulário de aeropolimentoprodutos.com.br
       </td></tr>
     </table></body></html>`
 }
@@ -183,8 +206,8 @@ app.post('/api/contact', async (c) => {
   const payload = parsed.data
 
   // 5. Config presente?
-  if (!c.env.RESEND_API_KEY || !c.env.RESEND_FROM || !c.env.CONTACT_TO_EMAIL) {
-    console.error('[contact] Variáveis ausentes (RESEND_API_KEY/RESEND_FROM/CONTACT_TO_EMAIL)')
+  if (!c.env.EMAIL || !c.env.EMAIL_FROM || !c.env.CONTACT_TO_EMAIL) {
+    console.error('[contact] Config ausente (EMAIL binding / EMAIL_FROM / CONTACT_TO_EMAIL)')
     return c.json({ ok: false, error: 'Serviço de e-mail não configurado' }, 500)
   }
 
@@ -193,32 +216,21 @@ app.post('/api/contact', async (c) => {
       ? c.env.RESELLER_TO_EMAIL
       : c.env.CONTACT_TO_EMAIL
 
-  const { subject, html, replyTo } = buildEmail(payload)
+  const { subject, html, text, replyTo } = buildEmail(payload)
 
-  // 6. Envio via Resend
+  // 6. Envio via Cloudflare Email Sending
   try {
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${c.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: c.env.RESEND_FROM,
-        to: [to],
-        reply_to: replyTo,
-        subject,
-        html,
-      }),
+    await c.env.EMAIL.send({
+      to,
+      from: { email: c.env.EMAIL_FROM, name: c.env.EMAIL_FROM_NAME || 'Site Aeropolimento' },
+      replyTo,
+      subject,
+      html,
+      text,
     })
-
-    if (!res.ok) {
-      const detail = await res.text()
-      console.error('[contact] Resend falhou', res.status, detail)
-      return c.json({ ok: false, error: 'Não foi possível enviar agora' }, 502)
-    }
   } catch (err) {
-    console.error('[contact] Erro de rede ao chamar Resend', err)
+    const code = (err as { code?: string; message?: string })?.code
+    console.error('[contact] Falha no envio (Email Sending)', code, (err as { message?: string })?.message)
     return c.json({ ok: false, error: 'Não foi possível enviar agora' }, 502)
   }
 
