@@ -177,6 +177,73 @@ const PT: Article[] = [
       { type: "p", text: "Preservação estética séria não é sobre brilho imediato, e sim sobre manter, ao longo do tempo, uma superfície íntegra, conforme e valorizada." },
     ],
   },
+  {
+    slug: "corrosao-aeronautica-superficie-primeira-defesa",
+    tag: "Química Aeronáutica",
+    date: "28 OUT 2025",
+    readingTime: "5 min",
+    image: IMG.pu,
+    title: "Corrosão aeronáutica: por que a superfície é a primeira defesa",
+    excerpt:
+      "A corrosão não começa por dentro. Ela começa onde a superfície deixa de ser cuidada — e é ali que a defesa também começa.",
+    body: [
+      { type: "p", text: "A corrosão é um dos inimigos mais silenciosos de uma aeronave. Age lentamente, muitas vezes invisível, comprometendo estruturas metálicas antes de dar sinais evidentes." },
+      { type: "h2", text: "Por que a aviação é especialmente vulnerável" },
+      { type: "p", text: "Aeronaves operam em condições que aceleram a corrosão: umidade, variação térmica, altitude, poluentes atmosféricos e, em muitos casos, ambientes salinos. Cada ciclo de voo expõe a superfície a agentes agressivos." },
+      { type: "p", text: "A estrutura metálica é protegida por camadas — o revestimento e a pintura são a primeira barreira entre o metal e o ambiente. Quando essa barreira é comprometida, o processo corrosivo encontra caminho." },
+      { type: "h2", text: "A superfície como linha de defesa" },
+      { type: "p", text: "Preservar a integridade da superfície não é uma questão estética apenas. Uma pintura íntegra e bem cuidada mantém a barreira de proteção funcionando; contaminações e produtos inadequados podem abrir brechas nessa defesa." },
+      { type: "ul", items: [
+        "Manter o revestimento íntegro e limpo",
+        "Usar apenas produtos que não agridem a pintura",
+        "Remover contaminantes com química compatível com aviação",
+      ] },
+      { type: "p", text: "Por isso o cuidado com a superfície — com insumos formulados e homologados para o contexto aeronáutico — é, na prática, uma medida de prevenção de corrosão, e não só de aparência." },
+      { type: "quote", text: "Cuidar da superfície de uma aeronave é cuidar da sua primeira linha de defesa contra a corrosão." },
+    ],
+  },
+  {
+    slug: "homologacao-certificacao-conformidade-diferenca",
+    tag: "Regulação",
+    date: "14 OUT 2025",
+    readingTime: "6 min",
+    image: IMG.docs,
+    title: "Homologação, certificação e conformidade: qual a diferença",
+    excerpt:
+      "Três palavras que parecem sinônimos, mas dizem coisas diferentes. Entender cada uma é entender o que realmente respalda um produto aeronáutico.",
+    body: [
+      { type: "p", text: "No universo da química aeronáutica, três termos aparecem o tempo todo — homologação, certificação e conformidade. Usados como sinônimos no dia a dia, eles têm significados distintos e complementares." },
+      { type: "h2", text: "Homologação" },
+      { type: "p", text: "Homologar é o ato de uma autoridade reconhecer formalmente que um produto atende aos requisitos para uso em determinado contexto. No Brasil, a homologação de produtos aeronáuticos passa pela ANAC — é o reconhecimento oficial de aptidão." },
+      { type: "h2", text: "Certificação" },
+      { type: "p", text: "Certificar é atestar, por meio de ensaios e avaliação, que algo cumpre um padrão. Um produto pode ser certificado por ter passado em testes específicos, comprovando propriedades e comportamento." },
+      { type: "h2", text: "Conformidade" },
+      { type: "p", text: "Conformidade é a adequação a uma norma ou especificação. Estar em conformidade AMS, por exemplo, significa que o produto foi desenvolvido segundo as especificações aeroespaciais de referência." },
+      { type: "p", text: "Na prática, os três se somam: um produto sério é desenvolvido em conformidade com padrões técnicos, tem propriedades comprovadas por ensaios e é homologado pela autoridade competente. Faltando qualquer um, resta uma lacuna." },
+      { type: "quote", text: "Homologação, certificação e conformidade não competem entre si — juntas, formam a garantia de que um produto aeronáutico é o que diz ser." },
+    ],
+  },
+  {
+    slug: "aluminio-compositos-superficies-aeronauticas",
+    tag: "Química Aeronáutica",
+    date: "30 SET 2025",
+    readingTime: "5 min",
+    image: IMG.ams,
+    title: "Alumínio e compósitos: os materiais das superfícies aeronáuticas",
+    excerpt:
+      "Cada superfície de uma aeronave tem uma composição — e cada composição pede um cuidado próprio. Conheça os materiais que você está tratando.",
+    body: [
+      { type: "p", text: "Antes de tratar qualquer superfície aeronáutica, é preciso entender do que ela é feita. A aviação combina materiais distintos, cada um com propriedades e sensibilidades próprias." },
+      { type: "h2", text: "Ligas de alumínio" },
+      { type: "p", text: "O alumínio, em suas ligas aeronáuticas, é o material clássico das fuselagens. Leve e resistente, é também suscetível à corrosão quando exposto — por isso recebe revestimentos protetores e pintura." },
+      { type: "h2", text: "Materiais compósitos" },
+      { type: "p", text: "Aeronaves modernas incorporam cada vez mais compósitos — como fibra de carbono — em áreas estruturais e de acabamento. São materiais leves e rígidos, mas que respondem de forma diferente do metal a produtos químicos e abrasão." },
+      { type: "h2", text: "Vidros, acrílicos e coatings do fabricante" },
+      { type: "p", text: "Para-brisas, vigias e certas superfícies recebem coatings específicos do fabricante. Aplicar produtos inadequados sobre eles pode comprometer proteções que não devem ser tocadas — daí a importância de sempre consultar o manual da aeronave." },
+      { type: "p", text: "Conhecer o material é o que separa o cuidado técnico do improviso. Cada superfície tem uma química, e a linha AEROCARE é desenvolvida considerando esse contexto — sempre com a recomendação de consultar o manual do fabricante antes de qualquer aplicação." },
+      { type: "quote", text: "Não existe “produto para tudo” em aviação: existe o produto certo para cada material — e o manual do fabricante como palavra final." },
+    ],
+  },
 ];
 
 // EN: strings de card traduzidas; corpo cai no PT via getArticle (PT-first).
@@ -210,6 +277,21 @@ const EN_CARDS: Record<string, { tag: string; title: string; excerpt: string }> 
     tag: "Institutional",
     title: "Aeronautical aesthetic preservation: core principles",
     excerpt: "Aeronautical aesthetics isn't vanity — it's value, conformity and surface integrity. The principles behind that care.",
+  },
+  "corrosao-aeronautica-superficie-primeira-defesa": {
+    tag: "Aeronautical Chemistry",
+    title: "Aeronautical corrosion: why the surface is the first line of defense",
+    excerpt: "Corrosion doesn't start on the inside. It starts where the surface stops being cared for — and that's where the defense starts too.",
+  },
+  "homologacao-certificacao-conformidade-diferenca": {
+    tag: "Regulation",
+    title: "Homologation, certification and conformity: what's the difference",
+    excerpt: "Three words that sound like synonyms but mean different things. Understanding each is understanding what really backs an aeronautical product.",
+  },
+  "aluminio-compositos-superficies-aeronauticas": {
+    tag: "Aeronautical Chemistry",
+    title: "Aluminum and composites: the materials of aircraft surfaces",
+    excerpt: "Every aircraft surface has a composition — and each one calls for its own care. Know the materials you're treating.",
   },
 };
 
