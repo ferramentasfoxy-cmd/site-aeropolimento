@@ -295,9 +295,125 @@ const EN_CARDS: Record<string, { tag: string; title: string; excerpt: string }> 
   },
 };
 
+// Corpos traduzidos (mesma estrutura de blocos do PT). Slug sem entrada aqui
+// cai no corpo PT via fallback no gerador de EN abaixo.
+const EN_BODIES: Record<string, ArticleBlock[]> = {
+  "produto-homologado-anac": [
+    { type: "p", text: "The homologation of an aeronautical chemical product is the formal recognition that it has been assessed and deemed fit for use on aircraft, within the criteria of the civil aviation authority. In Brazil, that authority is ANAC — the National Civil Aviation Agency." },
+    { type: "h2", text: "Why a product needs to be homologated" },
+    { type: "p", text: "An aircraft operates under extreme variations in temperature, pressure and stress. Any material applied to its surface — from a paint to a polishing compound — can interact with the coating, the structure or sensitive systems. Products without technical assessment introduce an unknown variable into that environment." },
+    { type: "p", text: "Homologation exists to remove that uncertainty: it verifies that the product has a controlled composition and predictable behavior, and that it does not compromise the integrity of aeronautical surfaces." },
+    { type: "h2", text: "What homologation protects" },
+    { type: "ul", items: [
+      "The integrity of the aircraft's coating and structure",
+      "The documentary compliance required in audits and maintenance",
+      "The traceability of what is applied to each surface",
+    ] },
+    { type: "p", text: "For the operator, using a homologated product is a decision of compliance and risk management — not just of finish. It is the difference between a product fit to touch an aircraft and an uncontrolled variable." },
+    { type: "quote", text: "Homologation is documented predictability: the assurance that what is applied to the aircraft was assessed before it ever reached the hangar." },
+  ],
+  "conformidade-ams-quimicos-aeronauticos": [
+    { type: "p", text: "AMS stands for Aerospace Material Specifications — a set of technical specifications maintained by SAE International for materials and processes used in the aerospace industry." },
+    { type: "h2", text: "What an AMS specification defines" },
+    { type: "p", text: "Each AMS specification describes, in a standardized way, what a material must meet: composition, properties, test methods and acceptance criteria. This lets manufacturers, operators and authorities speak the same technical language, regardless of country." },
+    { type: "h2", text: "Why it matters for aeronautical aesthetics" },
+    { type: "p", text: "A chemical product that intends to touch aircraft surfaces must sit within that universe of conformity. Being AMS-compliant means the product was formulated and assessed with that standard as a reference — not an automotive or general-purpose norm." },
+    { type: "p", text: "For the technical buyer, AMS conformity works as a shortcut to trust: it signals that the product was designed for aerospace rigor from formulation onward." },
+    { type: "quote", text: "AMS is the technical grammar of the aerospace industry — and serious aeronautical products are written in that grammar." },
+  ],
+  "tintas-poliuretano-pu-aviacao": [
+    { type: "p", text: "Most modern aircraft receive a polyurethane (PU) paint finish — a high-resistance coating that combines gloss, durability and protection against the elements." },
+    { type: "h2", text: "Why PU dominates aviation" },
+    { type: "p", text: "Polyurethane forms a hard, chemically stable film capable of withstanding UV radiation, thermal variation and the friction of moving air. It is the balance between aesthetics and resistance that aviation demands." },
+    { type: "h2", text: "The care PU requires" },
+    { type: "p", text: "Precisely because it is a technical coating, PU responds in specific ways to the products applied over it. Materials formulated for other contexts can attack the film, mark it or compromise the gloss. The AEROCARE line — including the AP 00-20 Polishing Compound — is developed considering the nature of the PU coating." },
+    { type: "p", text: "Knowing the material before treating it is the basic principle of aeronautical aesthetics: every surface has a chemistry, and respecting it is what preserves the aircraft's value." },
+    { type: "quote", text: "You don't treat an aircraft's paint the way you treat a car's — aeronautical polyurethane is a different material, with different rules." },
+  ],
+  "quimicos-automotivos-vs-aeronauticos": [
+    { type: "p", text: "At first glance, an automotive polish and an aeronautical one may seem equivalent. The difference isn't in the product's appearance, but in everything behind it." },
+    { type: "h2", text: "Certification requirement" },
+    { type: "p", text: "Automotive products don't go through — and don't need to go through — aviation's conformity criteria. There is no assessment of how they interact with aeronautical coatings, nor traceability compatible with maintenance audits." },
+    { type: "h2", text: "A difference in risk" },
+    { type: "p", text: "On a car, a finishing error is cosmetic. On an aircraft, the surface is part of a system where integrity and documentation matter. Applying a non-homologated product introduces an uncontrolled variable into an environment that exists precisely to eliminate variables." },
+    { type: "ul", items: [
+      "Composition assessed for aeronautical surfaces",
+      "Documentary conformity (ANAC / AMS)",
+      "Predictable behavior over the coating",
+    ] },
+    { type: "p", text: "It isn't a question of better or worse quality, but of context: the right product is the one made and homologated for the environment in which it will be used." },
+  ],
+  "como-ler-tds-fispq": [
+    { type: "p", text: "Every serious chemical product comes with two documents: the Technical Data Sheet (TDS) and the Safety Data Sheet (SDS — known in Brazil as the FISPQ). They aren't bureaucracy: they are the product's technical identity." },
+    { type: "h2", text: "What the TDS tells you" },
+    { type: "p", text: "The TDS describes what the product is and how to use it: characteristics, recommended application, yield and precautions. It's the document that answers the question 'does this product do what I need?'." },
+    { type: "h2", text: "What the SDS tells you" },
+    { type: "p", text: "The SDS deals with safety: composition, hazards, handling, storage and first aid. It's the document that answers 'how do I use and store this safely?'." },
+    { type: "h2", text: "How to use both in a purchase decision" },
+    { type: "ul", items: [
+      "Confirm the recommended application in the TDS before buying",
+      "Check the conformities and certifications cited",
+      "Read the SDS for correct storage and handling",
+    ] },
+    { type: "p", text: "A manufacturer that provides clear TDS and SDS is, in practice, saying it has nothing to hide about what it sells." },
+  ],
+  "preservacao-estetica-aeronautica-principios": [
+    { type: "p", text: "An aircraft's aesthetics is usually read as appearance. In practice, it's the visible layer of something deeper: the integrity of the surface that protects the structure." },
+    { type: "h2", text: "Aesthetics as value" },
+    { type: "p", text: "A well-preserved aircraft signals operational care and sustains its own asset value. The surface is the first indicator of how the asset is treated over time." },
+    { type: "h2", text: "Aesthetics as conformity" },
+    { type: "p", text: "Preserving the coating correctly — with adequate, documented products — is also a matter of conformity. What is applied to the aircraft becomes part of its technical history." },
+    { type: "h2", text: "Principles that underpin the care" },
+    { type: "ul", items: [
+      "Know the surface material before treating it",
+      "Use only products formulated and homologated for aviation",
+      "Document what is applied",
+      "Prioritize predictability over improvisation",
+    ] },
+    { type: "p", text: "Serious aesthetic preservation isn't about immediate gloss, but about keeping, over time, a surface that is intact, compliant and valued." },
+  ],
+  "corrosao-aeronautica-superficie-primeira-defesa": [
+    { type: "p", text: "Corrosion is one of an aircraft's most silent enemies. It acts slowly, often invisibly, compromising metal structures before showing clear signs." },
+    { type: "h2", text: "Why aviation is especially vulnerable" },
+    { type: "p", text: "Aircraft operate in conditions that accelerate corrosion: humidity, thermal variation, altitude, atmospheric pollutants and, in many cases, saline environments. Every flight cycle exposes the surface to aggressive agents." },
+    { type: "p", text: "The metal structure is protected by layers — the coating and paint are the first barrier between the metal and the environment. When that barrier is compromised, the corrosive process finds its way in." },
+    { type: "h2", text: "The surface as a line of defense" },
+    { type: "p", text: "Preserving the integrity of the surface isn't just an aesthetic matter. An intact, well-cared-for paint keeps the protective barrier working; contaminants and inadequate products can open gaps in that defense." },
+    { type: "ul", items: [
+      "Keep the coating intact and clean",
+      "Use only products that don't attack the paint",
+      "Remove contaminants with aviation-compatible chemistry",
+    ] },
+    { type: "p", text: "That's why caring for the surface — with materials formulated and homologated for the aeronautical context — is, in practice, a corrosion-prevention measure, not just a matter of appearance." },
+    { type: "quote", text: "Caring for an aircraft's surface means caring for its first line of defense against corrosion." },
+  ],
+  "homologacao-certificacao-conformidade-diferenca": [
+    { type: "p", text: "In the world of aeronautical chemistry, three terms come up constantly — homologation, certification and conformity. Used as synonyms in everyday talk, they have distinct and complementary meanings." },
+    { type: "h2", text: "Homologation" },
+    { type: "p", text: "To homologate is the act of an authority formally recognizing that a product meets the requirements for use in a given context. In Brazil, the homologation of aeronautical products goes through ANAC — it's the official recognition of fitness." },
+    { type: "h2", text: "Certification" },
+    { type: "p", text: "To certify is to attest, through testing and assessment, that something meets a standard. A product can be certified for having passed specific tests, proving its properties and behavior." },
+    { type: "h2", text: "Conformity" },
+    { type: "p", text: "Conformity is adherence to a norm or specification. Being 'AMS-compliant', for example, means the product was developed according to the reference aerospace specifications." },
+    { type: "p", text: "In practice, the three add up: a serious product is developed in conformity with technical standards, has properties proven by testing, and is homologated by the competent authority. Missing any one of them leaves a gap." },
+    { type: "quote", text: "Homologation, certification and conformity don't compete with each other — together, they form the assurance that an aeronautical product is what it claims to be." },
+  ],
+  "aluminio-compositos-superficies-aeronauticas": [
+    { type: "p", text: "Before treating any aeronautical surface, you need to understand what it's made of. Aviation combines distinct materials, each with its own properties and sensitivities." },
+    { type: "h2", text: "Aluminum alloys" },
+    { type: "p", text: "Aluminum, in its aeronautical alloys, is the classic material of fuselages. Light and strong, it is also susceptible to corrosion when exposed — which is why it receives protective coatings and paint." },
+    { type: "h2", text: "Composite materials" },
+    { type: "p", text: "Modern aircraft increasingly incorporate composites — such as carbon fiber — in structural and finishing areas. They are light and rigid materials, but they respond differently from metal to chemicals and abrasion." },
+    { type: "h2", text: "Glass, acrylics and manufacturer coatings" },
+    { type: "p", text: "Windshields, windows and certain surfaces receive specific manufacturer coatings. Applying inadequate products over them can compromise protections that must not be touched — hence the importance of always consulting the aircraft manual." },
+    { type: "p", text: "Knowing the material is what separates technical care from improvisation. Every surface has a chemistry, and the AEROCARE line is developed considering this context — always with the recommendation to consult the manufacturer's manual before any application." },
+    { type: "quote", text: "There's no 'product for everything' in aviation: there's the right product for each material — and the manufacturer's manual as the final word." },
+  ],
+};
+
 const EN: Article[] = PT.map((a) => {
   const c = EN_CARDS[a.slug];
-  return { ...a, tag: c.tag, title: c.title, excerpt: c.excerpt };
+  return { ...a, tag: c.tag, title: c.title, excerpt: c.excerpt, body: EN_BODIES[a.slug] ?? a.body };
 });
 
 const BY_LOCALE: Record<Locale, Article[]> = { pt: PT, en: EN };
