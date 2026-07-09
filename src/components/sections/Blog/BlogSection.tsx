@@ -4,19 +4,15 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
 import Image from "next/image";
+import Link from "next/link";
 import { useT } from "@/i18n/LanguageProvider";
 import { TechBackground } from "@/components/ui/TechBackground";
-
-// Imagens dos posts — estáticas, parelhas por índice com t.blog.posts.
-const postImages = [
-  "https://images.unsplash.com/photo-1544015759-247ab1889072?q=80&w=2670&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1559091605-e99d8d69784e?q=80&w=2755&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1583416750470-965b2707b355?q=80&w=2670&auto=format&fit=crop",
-];
+import { getArticles } from "@/content/blog";
 
 export function BlogSection() {
-  const { t } = useT();
-  const posts = t.blog.posts.map((post, i) => ({ ...post, id: i + 1, image: postImages[i] }));
+  const { t, locale } = useT();
+  // Home destaca os 3 primeiros artigos; a página /blog lista todos.
+  const posts = getArticles(locale).slice(0, 3);
   const containerRef = useRef<HTMLDivElement>(null);
   const [email, setEmail] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -106,16 +102,16 @@ export function BlogSection() {
             </p>
           </div>
 
-          <a href="#" className="group inline-flex items-center gap-3 px-6 py-3 border border-gray-300 text-sm font-bold uppercase tracking-widest text-[var(--color-text-primary)] hover:bg-[var(--color-text-primary)] hover:text-white transition-all duration-300 rounded-sm">
+          <Link href="/blog/" className="group inline-flex items-center gap-3 px-6 py-3 border border-gray-300 text-sm font-bold uppercase tracking-widest text-[var(--color-text-primary)] hover:bg-[var(--color-text-primary)] hover:text-white transition-all duration-300 rounded-sm">
             {t.blog.viewAll}
             <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
+          </Link>
         </div>
 
         {/* Grid de Cards (Blog Posts) */}
         <div className="blog-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mb-20 md:mb-24">
           {posts.map((post) => (
-            <article key={post.id} className="blog-card group cursor-pointer bg-white border border-gray-100 flex flex-col h-full hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 rounded-sm overflow-hidden">
+            <Link key={post.slug} href={`/blog/${post.slug}/`} className="blog-card group cursor-pointer bg-white border border-gray-100 flex flex-col h-full hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 rounded-sm overflow-hidden">
               {/* Box da Imagem */}
               <div className="relative w-full h-[240px] overflow-hidden bg-gray-200">
                 <Image 
@@ -146,7 +142,7 @@ export function BlogSection() {
                 {/* Linha Fina em baixo - Branding effect */}
                 <div className="absolute bottom-0 left-0 w-full h-[3px] bg-aero-red scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 ease-out" />
               </div>
-            </article>
+            </Link>
           ))}
         </div>
 

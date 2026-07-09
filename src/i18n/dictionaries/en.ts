@@ -173,40 +173,19 @@ export const en: Dictionary = {
     label: "Strategic Intelligence",
     title: "Exclusive Content.",
     subtitle:
-      "Protocol manuals, supply-market analyses, chemical regulations and technical white papers. Straight from the laboratories to your hangar.",
+      "Technical articles on aeronautical chemistry, ANAC/AMS homologation and aircraft surface preservation.",
     viewAll: "View All",
     readArticle: "Read full article",
+    backLabel: "Back to Blog",
+    relatedLabel: "Keep reading",
     newsletterTitle: "Newsletter",
     newsletterPro: "PRO",
     newsletterDesc:
-      "Regulatory updates, new chemistries and monthly ANAC protocols delivered to authorized executives.",
+      "Regulatory updates, AEROCARE line news and technical content from the segment, straight to your inbox.",
     emailPlaceholder: "Enter your corporate email",
     subscribe: "Subscribe",
     subscribed: "Subscription Confirmed",
     emailError: "Please enter a valid corporate email address.",
-    posts: [
-      {
-        tag: "Technical Article",
-        date: "April 15, 2026",
-        title: "The evolution of ceramic sealants in executive aviation",
-        excerpt:
-          "Discover how SiO2 nanoparticles protect leading edges against extreme friction and degradation at transonic speeds.",
-      },
-      {
-        tag: "Standards",
-        date: "March 22, 2026",
-        title: "What does aeronautical certification really demand?",
-        excerpt:
-          "A deep dive into the fine print of structural degradation testing and why high-demand hangars require this technical rigor.",
-      },
-      {
-        tag: "Case Studies",
-        date: "February 5, 2026",
-        title: "Radomes: protective integrity of the equipment",
-        excerpt:
-          "An analytical study of abrasion and correction: ensuring absolute safety at the aircraft nose without interfering with weather-radar signals.",
-      },
-    ],
   },
 
   contact: {

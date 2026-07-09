@@ -175,40 +175,19 @@ export const pt = {
     label: "Inteligência Estratégica",
     title: "Conteúdo Exclusivo.",
     subtitle:
-      "Manuais de protocolo, análises de mercado de insumos, regulamentações químicas e white papers técnicos. Direto dos laboratórios para seu hangar.",
+      "Artigos técnicos sobre química aeronáutica, homologação ANAC/AMS e preservação de superfícies aeronáuticas.",
     viewAll: "Ver Todos",
     readArticle: "Ler artigo completo",
+    backLabel: "Voltar ao Blog",
+    relatedLabel: "Continue lendo",
     newsletterTitle: "Newsletter",
     newsletterPro: "PRO",
     newsletterDesc:
-      "Informações regulatórias, novas químicas e protocolos ANAC mensais enviados aos executivos autorizados.",
+      "Atualizações regulatórias, novidades da linha AEROCARE e conteúdo técnico do segmento, direto no seu e-mail.",
     emailPlaceholder: "Insira seu e-mail corporativo",
     subscribe: "Inscrever-se",
     subscribed: "Inscrição Validada",
     emailError: "Insira um endereço de e-mail corporativo válido.",
-    posts: [
-      {
-        tag: "Artigo Técnico",
-        date: "15 de Abril, 2026",
-        title: "A evolução dos selantes cerâmicos na aviação executiva",
-        excerpt:
-          "Descubra como as nanopartículas de SiO2 protegem bordos de ataque contra atrito extremo e degradação em velocidades transônicas.",
-      },
-      {
-        tag: "Normalização",
-        date: "22 de Março, 2026",
-        title: "O que exige a certificação aeronáutica na prática?",
-        excerpt:
-          "Um mergulho nas entrelinhas dos testes de degradação estrutural e por que hangares de alta exigência demandam esse rigor técnico.",
-      },
-      {
-        tag: "Estudos de Caso",
-        date: "05 de Fevereiro, 2026",
-        title: "Radomes: Integridade protetora dos equipamentos",
-        excerpt:
-          "Análise analítica de abrasão e correção: garantindo segurança absoluta no nariz da aeronave sem interferir em sinais de radar meteorológico.",
-      },
-    ],
   },
 
   contact: {
