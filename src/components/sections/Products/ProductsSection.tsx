@@ -206,9 +206,9 @@ export function ProductsSection() {
           .conteudo-grid {
             grid-template-columns: 1fr;
             text-align: center;
-            gap: 2rem;
-            padding-top: 5rem;
-            padding-bottom: 2rem;
+            gap: 1.5rem;
+            padding-top: 3rem;
+            padding-bottom: 2.5rem;
           }
         }
 
@@ -241,6 +241,11 @@ export function ProductsSection() {
         @media (max-width: 768px) {
            .indicador-container {
              display: none;
+           }
+           /* No mobile os produtos fluem em altura de conteúdo — não travados
+              em tela cheia (100svh) → rolagem mais compacta e contínua. */
+           .produto-fullscreen {
+             min-height: auto;
            }
         }
       `}</style>

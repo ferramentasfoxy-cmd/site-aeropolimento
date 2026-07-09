@@ -34,7 +34,7 @@ export function ProductCard({ code, title, lead, specs, imageSrc, modelSrc, reve
 
       {/* ── LADO A: Palco visual do produto ── */}
       <div className={cn(
-        "imagem-produto relative w-full h-full min-h-[42vh] md:min-h-full flex items-center justify-center p-8 overflow-visible will-change-transform z-10",
+        "imagem-produto relative w-full h-full min-h-[38vh] md:min-h-full flex items-center justify-center p-4 md:p-8 overflow-visible will-change-transform z-10",
         reverse ? "md:order-2" : "md:order-1"
       )}>
         {/* Único acento técnico: marca de registro (crosshair) no canto */}
