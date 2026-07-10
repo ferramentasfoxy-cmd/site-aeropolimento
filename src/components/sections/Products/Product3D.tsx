@@ -200,8 +200,13 @@ function Scene({ modelSrc, targetY = -0.15, targetSize }: { modelSrc: string; ta
     <>
       <ambientLight intensity={0.42} />
       {/* HDRI local (era preset via CDN raw.githack.com, que falhava em produção
-          e derrubava o Canvas pro PNG). Same-origin Cloudflare = confiável. */}
-      <Environment files="/hdri/studio_small_03_1k.hdr" environmentIntensity={0.7} resolution={256} />
+          e derrubava o Canvas pro PNG). Same-origin Cloudflare = confiável.
+          Suspense próprio: sem boundary, a suspensão do .hdr (1.68MB) bloqueava a cena
+          inteira → em mobile lento o frasco ficava em branco. Isolado, o modelo aparece
+          já com as luzes direcionais e o reflexo HDRI entra quando terminar de baixar. */}
+      <React.Suspense fallback={null}>
+        <Environment files="/hdri/studio_small_03_1k.hdr" environmentIntensity={0.7} resolution={256} />
+      </React.Suspense>
       {/* Key quente — alto-esquerda define volume */}
       <directionalLight position={[-5, 8.5, 6]} intensity={1.45} color="#fff3e0" />
       {/* Rim frio — borda direita destaca o contorno */}
