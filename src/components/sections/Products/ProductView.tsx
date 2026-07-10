@@ -38,19 +38,20 @@ export function ProductView({ slug }: { slug: string }) {
         {/* Hero split: 3D + ficha */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-20 md:mb-24">
           {/* Palco 3D */}
-          <div className="relative w-full min-h-[52vh] md:min-h-[70vh] flex items-center justify-center order-1">
+          <div className="relative w-full min-h-[38vh] md:min-h-[60vh] flex items-center justify-center order-1">
             <div className="absolute top-2 left-2 z-10 flex items-center gap-2 bg-white/80 backdrop-blur border border-gray-200 rounded-full px-3 py-1">
               <span className="font-mono text-[9px] font-bold tracking-widest uppercase text-gray-700">{t.products.model3dBadge}</span>
             </div>
-            {/* Enquadramento "hero" de produto: câmera mais próxima (objeto maior),
-                canvas mais alto e alvo mais centralizado que a home. */}
+            {/* Enquadramento "hero" de produto: câmera bem mais próxima (objeto
+                grande), canvas proporcional (mais baixo no mobile p/ matar o vazio)
+                e alvo baixado p/ centralizar o objeto no frame. */}
             <Product3D
               modelSrc={product.model}
               fallbackSrc={product.image}
               alt={product.name}
-              cameraZ={5.6}
-              targetY={-0.05}
-              heightClass="min-h-[52vh] md:min-h-[70vh]"
+              cameraZ={3.9}
+              targetY={0.12}
+              heightClass="min-h-[38vh] md:min-h-[60vh]"
             />
           </div>
 
