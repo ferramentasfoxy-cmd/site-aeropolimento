@@ -38,7 +38,11 @@ export function ProductView({ slug }: { slug: string }) {
         {/* Hero split: 3D + ficha */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-20 md:mb-24">
           {/* Palco 3D */}
-          <div className="relative w-full min-h-[56vh] md:min-h-[60vh] flex items-center justify-center order-1">
+          {/* h-[..] (altura DEFINIDA, não min-h): sem isso o height:100% do canvas
+              R3F resolve contra `auto` e o <canvas> colapsa p/ 150px (default
+              intrínseco) → frasco minúsculo boiando em espaço vazio. Altura
+              definida propaga p/ todo o chain h-full → canvas preenche de fato. */}
+          <div className="relative w-full h-[56vh] md:h-[60vh] flex items-center justify-center order-1">
             <div className="absolute top-2 left-2 z-10 flex items-center gap-2 bg-white/80 backdrop-blur border border-gray-200 rounded-full px-3 py-1">
               <span className="font-mono text-[9px] font-bold tracking-widest uppercase text-gray-700">{t.products.model3dBadge}</span>
             </div>
