@@ -83,7 +83,7 @@ export function Hero() {
               subheadline e o ícone de scroll (sem depender de container-query/flex,
               que colapsava/estourava em telas curtas). Centralizado; no desktop
               preenche a coluna (lg:). aspect 1:1 → camera.aspect=1 → sem distorção. */}
-          <div className="relative aspect-square w-[min(72vw,calc(100svh-540px))] max-w-[300px] mx-auto pointer-events-none md:pointer-events-auto lg:aspect-auto lg:w-full lg:h-full lg:max-w-none">
+          <div className="relative aspect-square w-[min(80vw,calc(100svh-532px))] max-w-[320px] mx-auto pointer-events-none md:pointer-events-auto lg:aspect-auto lg:w-full lg:h-full lg:max-w-none">
             <HeroProduct />
           </div>
         </div>
