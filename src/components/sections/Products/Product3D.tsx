@@ -147,28 +147,26 @@ function ProductModel({ modelSrc, targetSize = TARGET_SIZE }: { modelSrc: string
 
   // Entrada cinematográfica: zoom-in girando + assentamento vertical.
   React.useEffect(() => {
-    if (!outerGroupRef.current) return;
+    const o = outerGroupRef.current;
+    if (!o) return;
     if (prefersReducedMotion()) {
-      gsap.set(outerGroupRef.current.scale, { x: 1, y: 1, z: 1 });
-      gsap.set(outerGroupRef.current.rotation, { y: -Math.PI / 7 });
-      gsap.set(outerGroupRef.current.position, { y: -0.1 });
+      gsap.set(o.scale, { x: 1, y: 1, z: 1 });
+      gsap.set(o.rotation, { y: -Math.PI / 7 });
+      gsap.set(o.position, { y: -0.1 });
       return;
     }
-    gsap.fromTo(
-      outerGroupRef.current.scale,
-      { x: 0, y: 0, z: 0 },
-      { x: 1, y: 1, z: 1, duration: 2.6, ease: "expo.out" }
-    );
-    gsap.fromTo(
-      outerGroupRef.current.rotation,
-      { y: -Math.PI / 7 + Math.PI * 2 },
-      { y: -Math.PI / 7, duration: 3.0, ease: "expo.out" }
-    );
-    gsap.fromTo(
-      outerGroupRef.current.position,
-      { y: -1.6 },
-      { y: -0.1, duration: 2.4, ease: EASE.snappy }
-    );
+    gsap.fromTo(o.scale, { x: 0, y: 0, z: 0 }, { x: 1, y: 1, z: 1, duration: 2.6, ease: "expo.out" });
+    gsap.fromTo(o.rotation, { y: -Math.PI / 7 + Math.PI * 2 }, { y: -Math.PI / 7, duration: 3.0, ease: "expo.out" });
+    gsap.fromTo(o.position, { y: -1.6 }, { y: -0.1, duration: 2.4, ease: EASE.snappy });
+    // Rede de segurança: se o ticker do GSAP não rodar (mobile), o frasco fica em
+    // scale 0 (invisível). Após a entrada, crava o estado final direto no objeto
+    // three.js (sem depender do GSAP) — garante que NUNCA fica em branco.
+    const safety = window.setTimeout(() => {
+      o.scale.set(1, 1, 1);
+      o.position.y = -0.1;
+      o.rotation.y = -Math.PI / 7;
+    }, 3200);
+    return () => window.clearTimeout(safety);
   }, []);
 
   const clock = React.useRef({ floatT: 0 });

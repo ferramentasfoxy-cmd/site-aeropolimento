@@ -184,7 +184,7 @@ function ProductModel({ targetScale = 2.0, autoFit = false }: { targetScale?: nu
   });
 
   return (
-    <group ref={outerGroupRef} position={[0, restY, 0]} rotation={[0, -Math.PI / 7, 0]} scale={0}>
+    <group ref={outerGroupRef} position={[0, restY, 0]} rotation={[0, -Math.PI / 7, 0]} scale={autoFit ? targetScale : 0}>
       <group ref={innerGroupRef}>
         {fit ? (
           <group position={fit.position} scale={fit.scale}>
@@ -340,7 +340,18 @@ export function HeroProduct() {
         }
       );
     }, containerRef);
-    return () => ctx.revert();
+    // Rede de segurança: se a timeline de entrada NÃO completar (ticker do GSAP
+    // travado, preloader, aba em background no mobile), o container ficava
+    // `invisible` p/ sempre → frasco E fallback em branco. Força visível após 2.5s.
+    const safety = window.setTimeout(() => {
+      if (containerRef.current) {
+        gsap.set(containerRef.current, { autoAlpha: 1, y: 0, filter: "blur(0px)" });
+      }
+    }, 2500);
+    return () => {
+      window.clearTimeout(safety);
+      ctx.revert();
+    };
   }, []);
 
   return (
