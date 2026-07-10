@@ -303,34 +303,49 @@ function FrameTicker() {
 }
 
 function HeroDebug({ webglState, isMobile }: { webglState: boolean; isMobile: boolean }) {
-  const [line, setLine] = React.useState("diag...");
+  const [line, setLine] = React.useState("diag v3...");
+  const glbRef = React.useRef("?");
   React.useEffect(() => {
     let gl2 = false;
     let gpu = "?";
     let ctxErr = "-";
+    let raw = "?";
     try {
       const c = document.createElement("canvas");
+      c.width = 4;
+      c.height = 4;
       const g2 = c.getContext("webgl2");
       gl2 = !!g2;
       const g = (g2 || c.getContext("webgl")) as WebGLRenderingContext | null;
-      if (!g) ctxErr = "no-ctx";
-      else {
+      if (!g) {
+        ctxErr = "no-ctx";
+        raw = "no-ctx";
+      } else {
         const ext = g.getExtension("WEBGL_debug_renderer_info");
         gpu = ext ? String(g.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : "no-ext";
+        // teste de render bruto: limpa p/ vermelho e lê o pixel
+        g.clearColor(1, 0, 0, 1);
+        g.clear(g.COLOR_BUFFER_BIT);
+        const px = new Uint8Array(4);
+        g.readPixels(0, 0, 1, 1, g.RGBA, g.UNSIGNED_BYTE, px);
+        raw = px[0] > 200 && px[1] < 60 ? "OK" : `bad(${px[0]},${px[1]},${px[2]})`;
       }
     } catch (e) {
-      ctxErr = (e as Error).message.slice(0, 20);
+      ctxErr = (e as Error).message.slice(0, 16);
     }
+    fetch("/models/ap001.glb", { method: "HEAD" })
+      .then((r) => (glbRef.current = String(r.status)))
+      .catch((e) => (glbRef.current = "e:" + (e as Error).message.slice(0, 8)));
     const tick = () => {
       const stage = document.querySelector('#hero [class*="aspect-square"]') as HTMLElement | null;
       const cv = document.querySelector("#hero canvas") as HTMLCanvasElement | null;
       const sr = stage?.getBoundingClientRect();
       const cr = cv?.getBoundingClientRect();
       setLine(
-        `wgl:${webglState ? "Y" : "N"} gl2:${gl2 ? "Y" : "N"} mob:${isMobile ? "Y" : "N"} err:${ctxErr}\n` +
-          `stage:${sr ? Math.round(sr.width) + "x" + Math.round(sr.height) : "none"}  ` +
-          `cvs:${cr ? Math.round(cr.width) + "x" + Math.round(cr.height) : "NONE"} buf:${cv ? cv.width + "x" + cv.height : "-"}\n` +
-          `frames:${document.getElementById("dbg-frames")?.textContent || "0"}  gpu:${gpu.slice(0, 22)}`
+        `[v3] wgl:${webglState ? "Y" : "N"} gl2:${gl2 ? "Y" : "N"} mob:${isMobile ? "Y" : "N"}\n` +
+          `raw3d:${raw}  glb:${glbRef.current}  err:${ctxErr}\n` +
+          `stage:${sr ? Math.round(sr.width) + "x" + Math.round(sr.height) : "none"} cvs:${cr ? Math.round(cr.width) + "x" + Math.round(cr.height) : "NONE"} buf:${cv ? cv.width + "x" + cv.height : "-"}\n` +
+          `frames:${document.getElementById("dbg-frames")?.textContent || "0"}  gpu:${gpu.slice(0, 20)}`
       );
     };
     tick();
