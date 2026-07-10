@@ -291,6 +291,67 @@ function Scene({ isMobile = false }: { isMobile?: boolean }) {
   );
 }
 
+// ═══════════════════════════════════════════════════════════════
+// DIAGNÓSTICO TEMPORÁRIO — remover após identificar o bug do iPhone
+// ═══════════════════════════════════════════════════════════════
+function FrameTicker() {
+  useFrame(() => {
+    const el = document.getElementById("dbg-frames");
+    if (el) el.textContent = String((parseInt(el.textContent || "0", 10) || 0) + 1);
+  });
+  return null;
+}
+
+function HeroDebug({ webglState, isMobile }: { webglState: boolean; isMobile: boolean }) {
+  const [line, setLine] = React.useState("diag...");
+  React.useEffect(() => {
+    let gl2 = false;
+    let gpu = "?";
+    let ctxErr = "-";
+    try {
+      const c = document.createElement("canvas");
+      const g2 = c.getContext("webgl2");
+      gl2 = !!g2;
+      const g = (g2 || c.getContext("webgl")) as WebGLRenderingContext | null;
+      if (!g) ctxErr = "no-ctx";
+      else {
+        const ext = g.getExtension("WEBGL_debug_renderer_info");
+        gpu = ext ? String(g.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : "no-ext";
+      }
+    } catch (e) {
+      ctxErr = (e as Error).message.slice(0, 20);
+    }
+    const tick = () => {
+      const stage = document.querySelector('#hero [class*="aspect-square"]') as HTMLElement | null;
+      const cv = document.querySelector("#hero canvas") as HTMLCanvasElement | null;
+      const sr = stage?.getBoundingClientRect();
+      const cr = cv?.getBoundingClientRect();
+      setLine(
+        `wgl:${webglState ? "Y" : "N"} gl2:${gl2 ? "Y" : "N"} mob:${isMobile ? "Y" : "N"} err:${ctxErr}\n` +
+          `stage:${sr ? Math.round(sr.width) + "x" + Math.round(sr.height) : "none"}  ` +
+          `cvs:${cr ? Math.round(cr.width) + "x" + Math.round(cr.height) : "NONE"} buf:${cv ? cv.width + "x" + cv.height : "-"}\n` +
+          `frames:${document.getElementById("dbg-frames")?.textContent || "0"}  gpu:${gpu.slice(0, 22)}`
+      );
+    };
+    tick();
+    const t = window.setInterval(tick, 700);
+    return () => window.clearInterval(t);
+  }, [webglState, isMobile]);
+  return (
+    <div
+      style={{
+        position: "fixed", top: 0, left: 0, zIndex: 2147483647,
+        background: "rgba(0,0,0,0.9)", color: "#4ade80",
+        font: "11px/1.45 ui-monospace,monospace", padding: "6px 8px",
+        whiteSpace: "pre", pointerEvents: "none", maxWidth: "100vw", overflow: "hidden",
+      }}
+    >
+      {line}
+      <span id="dbg-frames" style={{ display: "none" }}>0</span>
+    </div>
+  );
+}
+
 // ─────────────────────────────────────────────────────────────
 // COMPONENTE EXPORTADO — HeroProduct
 // ─────────────────────────────────────────────────────────────
@@ -358,6 +419,7 @@ export function HeroProduct() {
   }, []);
 
   return (
+    <>
     <div
       ref={containerRef}
       className="hero-product-container absolute inset-0 w-full h-full invisible transform-gpu"
@@ -382,6 +444,7 @@ export function HeroProduct() {
             }}
           >
             <Scene isMobile={isMobile} />
+            <FrameTicker />
           </Canvas>
         </WebGLErrorBoundary>
       ) : (
@@ -389,7 +452,9 @@ export function HeroProduct() {
       )}
 
       {/* Máscaras brancas removidas — comiam o frasco no layout novo (produto agora ocupa a coluna inteira). */}
-    </div>
+      </div>
+      <HeroDebug webglState={webglAvailable} isMobile={isMobile} />
+    </>
   );
 }
 
