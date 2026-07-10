@@ -1,11 +1,9 @@
 'use client';
 
 import { useRef } from 'react';
-import Link from 'next/link';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { prefersReducedMotion, DURATION, EASE, HERO_HANDOFF } from '@/lib/animations/defaults';
-import { cn } from '@/lib/utils';
 import { useT } from '@/i18n/LanguageProvider';
 
 gsap.registerPlugin(useGSAP);
@@ -18,7 +16,7 @@ export function HeroContent() {
     () => {
       if (prefersReducedMotion()) {
         gsap.set(
-          ['.hero-eyebrow', '.hero-eyebrow-bar', '.hero-h1-line-1', '.hero-h1-line-2', '.hero-subhead', '.hero-cta'],
+          ['.hero-eyebrow', '.hero-eyebrow-bar', '.hero-h1-line-1', '.hero-h1-line-2', '.hero-subhead'],
           { opacity: 1, y: 0, width: 'auto' }
         );
         return;
@@ -28,9 +26,9 @@ export function HeroContent() {
       // preloader (sem cascata). Handoff centralizado em HERO_HANDOFF.
       const tl = gsap.timeline({ delay: HERO_HANDOFF });
 
-      // Grupo de texto (eyebrow, headline, subhead, CTAs) sobe como um bloco só.
+      // Grupo de texto (eyebrow, headline, subhead) sobe como um bloco só.
       tl.from(
-        ['.hero-eyebrow', '.hero-h1-line-1', '.hero-h1-line-2', '.hero-subhead', '.hero-cta'],
+        ['.hero-eyebrow', '.hero-h1-line-1', '.hero-h1-line-2', '.hero-subhead'],
         {
           opacity: 0,
           y: 24,
@@ -67,47 +65,11 @@ export function HeroContent() {
         <span className="hero-h1-line-2 block">{t.hero.titleLine2}</span>
       </h1>
 
-      {/* Subhead */}
-      <p className="hero-subhead text-subhead max-w-xl mb-5 md:mb-9">{t.hero.subtitle}</p>
-
-      {/* CTAs no fluxo normal em toda tela. (Antes eram absolute top-full no
-          mobile p/ não empurrar o produto — mas isso os fazia SOBREPOR o frasco
-          3D. Com o hero em min-h-svh, o produto desce sem cortar.) */}
-      <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mt-2 md:mt-0">
-        <Link
-          href="#contato"
-          aria-label={t.hero.ctaPrimaryAria}
-          className={cn(
-            'hero-cta inline-flex items-center justify-center gap-2',
-            'h-[52px] px-8',
-            'bg-aero-red text-white',
-            'font-display font-semibold text-[var(--text-body-md)]',
-            'rounded-md',
-            'shadow-[0_4px_16px_rgba(189,22,34,0.25)]',
-            'transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
-            'hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(189,22,34,0.35)]',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aero-red focus-visible:ring-offset-2'
-          )}
-        >
-          {t.hero.ctaPrimary}
-        </Link>
-        <Link
-          href="#homologacao"
-          aria-label={t.hero.ctaSecondaryAria}
-          className={cn(
-            'hero-cta inline-flex items-center justify-center gap-2',
-            'h-[52px] px-8',
-            'bg-transparent border-[1.5px] border-[var(--color-border-default)] text-[var(--color-text-primary)]',
-            'font-display font-semibold text-[var(--text-body-md)]',
-            'rounded-md',
-            'transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]',
-            'hover:bg-[var(--color-text-primary)] hover:text-white hover:-translate-y-[2px]',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-aero-red focus-visible:ring-offset-2'
-          )}
-        >
-          {t.hero.ctaSecondary}
-        </Link>
-      </div>
+      {/* Subhead — último elemento de texto. Os CTAs foram removidos do hero
+          (renderizavam invisíveis por um resquício de animação): o hero agora é
+          product-first; o frasco 3D ocupa o espaço abaixo da subheadline. O
+          "Solicitar orçamento" segue no header (CONTATO) e na seção de contato. */}
+      <p className="hero-subhead text-subhead max-w-xl">{t.hero.subtitle}</p>
     </div>
   );
 }
