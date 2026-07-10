@@ -1,6 +1,7 @@
 'use client';
 import * as React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { useT } from "@/i18n/LanguageProvider";
 import { Product3D } from "./Product3D";
@@ -21,10 +22,12 @@ interface ProductCardProps {
   imageSrc: string;
   /** GLB do produto. Quando presente, o frasco é renderizado em 3D (fallback PNG via imageSrc). */
   modelSrc?: string;
+  /** Slug da página individual (/produtos/[slug]) — destino da ficha técnica. */
+  slug?: string;
   reverse?: boolean;
 }
 
-export function ProductCard({ code, title, lead, specs, imageSrc, modelSrc, reverse }: ProductCardProps) {
+export function ProductCard({ code, title, lead, specs, imageSrc, modelSrc, slug, reverse }: ProductCardProps) {
   const { t } = useT();
   const mainTitle = title.includes("—") ? title.split("—")[0].trim() : title;
   const subTitle = title.includes("—") ? title.split("—")[1].trim() : "";
@@ -129,9 +132,9 @@ export function ProductCard({ code, title, lead, specs, imageSrc, modelSrc, reve
             })}
           </dl>
 
-          {/* CTA */}
-          <button
-            type="button"
+          {/* CTA — abre a página individual do produto */}
+          <Link
+            href={slug ? `/produtos/${slug}/` : "/#produtos"}
             className="descricao relative group overflow-hidden inline-flex items-center gap-3 mt-10 border border-gray-300 bg-transparent py-3.5 px-7 transition-colors duration-300 hover:border-aero-red mx-auto md:mx-0"
           >
             <span className="font-bold text-[13px] tracking-[0.12em] text-[var(--color-text-primary)] group-hover:text-white uppercase z-10 transition-colors duration-300">
@@ -141,7 +144,7 @@ export function ProductCard({ code, title, lead, specs, imageSrc, modelSrc, reve
               →
             </span>
             <div className="absolute inset-0 bg-aero-red origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out z-0" />
-          </button>
+          </Link>
 
         </div>
       </div>

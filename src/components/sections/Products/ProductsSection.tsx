@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
 import { ProductCard } from "./ProductCard";
 import { useT } from "@/i18n/LanguageProvider";
+import { ALL_PRODUCT_SLUGS } from "@/content/products";
 
 export function ProductsSection() {
   const { t } = useT();
@@ -31,6 +32,7 @@ export function ProductsSection() {
     specs: item.specs,
     imageSrc: productImages[i],
     modelSrc: productModels[i],
+    slug: ALL_PRODUCT_SLUGS[i],
   }));
 
   React.useEffect(() => {
@@ -318,6 +320,7 @@ export function ProductsSection() {
             specs={product.specs}
             imageSrc={product.imageSrc}
             modelSrc={product.modelSrc}
+            slug={product.slug}
             reverse={idx % 2 !== 0} // Zig-zag
           />
         </section>

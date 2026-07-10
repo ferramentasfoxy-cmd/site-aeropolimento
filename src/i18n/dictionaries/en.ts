@@ -128,6 +128,15 @@ export const en: Dictionary = {
     knowMore: "Learn More",
     datasheet: "View datasheet",
     catalogLabel: "Line · 3 approved products",
+    highlightsTitle: "Highlights",
+    specsTitle: "Specifications",
+    sequenceTitle: "Application sequence",
+    recommendationsTitle: "Recommendations",
+    noticeTitle: "Technical notice",
+    model3dBadge: "3D · Real object",
+    ctaQuote: "Request a Quote",
+    relatedTitle: "AEROCARE line",
+    backToProducts: "Back to products",
     items: [
       {
         code: "AP-001",

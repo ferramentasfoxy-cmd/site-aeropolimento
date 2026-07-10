@@ -130,6 +130,15 @@ export const pt = {
     knowMore: "Saiba Mais",
     datasheet: "Ver ficha técnica",
     catalogLabel: "Linha · 3 produtos homologados",
+    highlightsTitle: "Destaques",
+    specsTitle: "Especificações",
+    sequenceTitle: "Sequência de aplicação",
+    recommendationsTitle: "Recomendações",
+    noticeTitle: "Aviso técnico",
+    model3dBadge: "3D · Objeto real",
+    ctaQuote: "Solicitar Cotação",
+    relatedTitle: "Linha AEROCARE",
+    backToProducts: "Voltar aos produtos",
     items: [
       {
         code: "AP-001",
