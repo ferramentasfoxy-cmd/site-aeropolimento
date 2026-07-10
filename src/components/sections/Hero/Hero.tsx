@@ -61,9 +61,9 @@ export function Hero() {
 
       {/* Content grid — container largo (max-1536) p/ menos margem lateral;
           texto ancorado no topo (não no centro); coluna do produto maior. */}
-      <div className="mx-auto w-full max-w-[1536px] px-[clamp(1.5rem,4vw,4rem)] relative h-full flex flex-col lg:grid lg:grid-cols-[1fr_1.05fr] gap-4 md:gap-10 lg:gap-16 lg:items-stretch pt-24 md:pt-28 pb-32">
+      <div className="mx-auto w-full max-w-[1536px] px-[clamp(1.5rem,4vw,4rem)] relative h-full flex flex-col md:grid md:grid-cols-[1fr_1.05fr] gap-4 md:gap-10 lg:gap-16 md:items-stretch pt-24 md:pt-28 pb-32">
         {/* Text column — natural first = esquerda desktop / topo mobile */}
-        <div className="flex flex-col justify-center lg:pt-6">
+        <div className="flex flex-col justify-center md:pt-6">
           <HeroContent />
         </div>
 
@@ -71,19 +71,19 @@ export function Hero() {
             Integração ao plano = sombra ambiente (ContactShadows 3D) + leve
             reflexo de piso fosco premium (sheen elíptico discreto na base).
             O grid já está mascarado aqui (respiro), então o sheen não o corta. */}
-        <div className="relative flex-1 min-h-0 flex items-center justify-center [container-type:size] lg:flex-none lg:min-h-0 lg:block lg:self-stretch">
+        <div className="relative flex-1 min-h-0 flex items-center justify-center [container-type:size] md:flex-none md:min-h-0 md:block md:self-stretch">
           {/* Reflexo/sheen de piso fosco — bem sutil, só sob a base */}
           <div
             className="absolute inset-0 pointer-events-none bg-[radial-gradient(22%_6%_at_50%_80%,rgba(255,255,255,0.5)_0%,rgba(255,255,255,0)_76%)]"
             aria-hidden="true"
           />
-          {/* Palco do frasco (mobile): quadrado dimensionado por VIEWPORT puro —
-              min(72vw, 100svh−500px, 300px). O termo 100svh−500px reserva o texto
-              + indicador de scroll, garantindo que o frasco SEMPRE caiba entre a
-              subheadline e o ícone de scroll (sem depender de container-query/flex,
-              que colapsava/estourava em telas curtas). Centralizado; no desktop
-              preenche a coluna (lg:). aspect 1:1 → camera.aspect=1 → sem distorção. */}
-          <div className="relative aspect-square w-[min(80vw,calc(100svh-532px))] max-w-[320px] mx-auto pointer-events-none md:pointer-events-auto lg:aspect-auto lg:w-full lg:h-full lg:max-w-none">
+          {/* Palco do frasco (só < md = celular retrato): quadrado por viewport com
+              clamp() — clamp(180px, min(80vw, 100svh−532px), 320px). O clamp GARANTE
+              piso de 180px: em telas baixas (celular deitado, janela de PC curta) o
+              termo 100svh−532px vira 0/negativo — sem o piso o <canvas> colapsava e o
+              3D SUMIA. A partir de md o layout vira 2 colunas e o frasco preenche a
+              coluna (md:w-full), sem depender desta fórmula. */}
+          <div className="relative aspect-square w-[clamp(180px,min(80vw,calc(100svh-532px)),320px)] mx-auto pointer-events-none md:pointer-events-auto md:aspect-auto md:w-full md:h-full md:max-w-none">
             <HeroProduct />
           </div>
         </div>
