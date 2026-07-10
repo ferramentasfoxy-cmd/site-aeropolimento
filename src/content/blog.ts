@@ -247,6 +247,13 @@ const PT: Article[] = [
 ];
 
 // EN: strings de card traduzidas; corpo cai no PT via getArticle (PT-first).
+// Capas on-brand hospedadas localmente (geradas em public/images/blog) — mesma
+// capa para PT e EN (arte language-neutral: índice + glifo + marca). Substitui
+// as Unsplash remotas (frágil/genérico) por asset same-origin.
+PT.forEach((a) => {
+  a.image = `/images/blog/${a.slug}.png`;
+});
+
 const EN_CARDS: Record<string, { tag: string; title: string; excerpt: string }> = {
   "produto-homologado-anac": {
     tag: "Regulation",
