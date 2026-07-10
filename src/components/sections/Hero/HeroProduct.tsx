@@ -375,27 +375,42 @@ export function HeroProduct() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  // O <Canvas> monta durante o preloader, quando o container ainda pode estar
-  // colapsado — o ResizeObserver do R3F crava um tamanho errado (300×150) e não
-  // remede sozinho. Empurramos re-medições após o layout assentar (e pós-preloader).
+  // GATE iOS (correção do "3D em branco no iPhone"): o R3F mede o container UMA vez
+  // na montagem; se o container ainda está 0 (o clamp/calc(100svh) da largura do
+  // stage não resolveu — comum no Safari iOS na 1ª pintura), o R3F trava com canvas
+  // 300×150 default e PAUSA o render loop (frames=0) → tudo em branco. Só montamos o
+  // <Canvas> quando o container tiver tamanho real; se nunca tiver, cai pro PNG.
+  const [ready, setReady] = React.useState(false);
   React.useEffect(() => {
-    const nudge = () => window.dispatchEvent(new Event("resize"));
-    const ids = [120, 900, 3600].map((ms) => window.setTimeout(nudge, ms));
-    return () => ids.forEach((id) => window.clearTimeout(id));
+    const el = containerRef.current;
+    if (!el) return;
+    const check = (w: number, h: number) => {
+      if (w > 10 && h > 10) setReady(true);
+    };
+    const r = el.getBoundingClientRect();
+    check(r.width, r.height);
+    const ro = new ResizeObserver((entries) => {
+      const cr = entries[0].contentRect;
+      check(cr.width, cr.height);
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
   }, []);
 
   React.useEffect(() => {
     const ctx = gsap.context(() => {
       if (prefersReducedMotion()) {
-        gsap.set(containerRef.current, { autoAlpha: 1, y: 0 });
+        gsap.set(containerRef.current, { opacity: 1, y: 0 });
         return;
       }
-      // Entrada cinematográfica V3: fade + blur + lift, sincronizada com o spin 3D (delay 0.4s vem antes do 3D 0.6s).
+      // Entrada V3: fade + blur + lift. opacity (NÃO autoAlpha): autoAlpha alterna
+      // visibility:hidden, que no iOS Safari impede o canvas WebGL de compor →
+      // frasco em branco. Com opacity o container fica sempre visível/medível.
       gsap.fromTo(
         containerRef.current,
-        { autoAlpha: 0, y: 30, filter: "blur(24px)" },
+        { opacity: 0, y: 30, filter: "blur(24px)" },
         {
-          autoAlpha: 1,
+          opacity: 1,
           y: 0,
           filter: "blur(0px)",
           duration: 1.6,
@@ -409,7 +424,7 @@ export function HeroProduct() {
     // `invisible` p/ sempre → frasco E fallback em branco. Força visível após 2.5s.
     const safety = window.setTimeout(() => {
       if (containerRef.current) {
-        gsap.set(containerRef.current, { autoAlpha: 1, y: 0, filter: "blur(0px)" });
+        gsap.set(containerRef.current, { opacity: 1, y: 0, filter: "blur(0px)" });
       }
     }, 2500);
     return () => {
@@ -422,12 +437,12 @@ export function HeroProduct() {
     <>
     <div
       ref={containerRef}
-      className="hero-product-container absolute inset-0 w-full h-full invisible transform-gpu"
+      className="hero-product-container absolute inset-0 w-full h-full transform-gpu"
       style={{ cursor: webglAvailable ? "grab" : "default" }}
       onMouseDown={(e) => { if (webglAvailable) e.currentTarget.style.cursor = "grabbing"; }}
       onMouseUp={(e) => { if (webglAvailable) e.currentTarget.style.cursor = "grab"; }}
     >
-      {webglAvailable ? (
+      {webglAvailable && ready ? (
         <WebGLErrorBoundary>
           <Canvas
             key={isMobile ? "cam-mobile" : "cam-desktop"}
