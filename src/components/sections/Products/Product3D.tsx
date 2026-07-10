@@ -193,18 +193,27 @@ function ProductModel({ modelSrc, targetSize = TARGET_SIZE }: { modelSrc: string
 // ── Cena: relight de estúdio + sombra de contato (espelha o Hero) ──
 function Scene({ modelSrc, targetY = -0.15, targetSize }: { modelSrc: string; targetY?: number; targetSize?: number }) {
   const controlsRef = React.useRef<OrbitControlsImpl>(null);
+  // iOS Safari trava a cena inteira com o HDRI do <Environment> (PMREM + float
+  // textures) → frasco em branco no iPhone. No mobile pulamos o HDRI e iluminamos
+  // só com luzes (mesmo tratamento do HeroProduct). Desktop mantém o IBL.
+  const [isMobile, setIsMobile] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const on = () => setIsMobile(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
 
   return (
     <>
-      <ambientLight intensity={0.42} />
-      {/* HDRI local (era preset via CDN raw.githack.com, que falhava em produção
-          e derrubava o Canvas pro PNG). Same-origin Cloudflare = confiável.
-          Suspense próprio: sem boundary, a suspensão do .hdr (1.68MB) bloqueava a cena
-          inteira → em mobile lento o frasco ficava em branco. Isolado, o modelo aparece
-          já com as luzes direcionais e o reflexo HDRI entra quando terminar de baixar. */}
-      <React.Suspense fallback={null}>
-        <Environment files="/hdri/studio_small_03_1k.hdr" environmentIntensity={0.7} resolution={256} />
-      </React.Suspense>
+      <ambientLight intensity={isMobile ? 0.6 : 0.42} />
+      {isMobile && <hemisphereLight args={["#ffffff", "#e6e6e6", 0.8]} />}
+      {!isMobile && (
+        <React.Suspense fallback={null}>
+          <Environment files="/hdri/studio_small_03_1k.hdr" environmentIntensity={0.7} resolution={256} />
+        </React.Suspense>
+      )}
       {/* Key quente — alto-esquerda define volume */}
       <directionalLight position={[-5, 8.5, 6]} intensity={1.45} color="#fff3e0" />
       {/* Rim frio — borda direita destaca o contorno */}

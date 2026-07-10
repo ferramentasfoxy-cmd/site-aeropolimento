@@ -224,17 +224,20 @@ function Scene({ isMobile = false }: { isMobile?: boolean }) {
 
       {/* Relight de estúdio: key quente + rim frio + fill. Ambient baixo p/
           fechar a base do frasco (peso + tridimensionalidade — brief). */}
-      <ambientLight intensity={0.42} />
-      {/* HDRI hospedado no próprio site (era preset do drei via CDN raw.githack.com,
-          que bloqueava/rate-limitava em produção → Environment lançava e o
-          WebGLErrorBoundary derrubava o 3D pro PNG). Same-origin = sem CORS, confiável.
-          Suspense PRÓPRIO (crítico p/ mobile): o Environment SUSPENDE enquanto baixa o
-          .hdr de 1.68MB; sem boundary local, a suspensão bloqueava a CENA INTEIRA →
-          em conexão móvel lenta o frasco ficava em branco ("3D não aparece"). Isolado,
-          o modelo renderiza na hora (luzes direcionais) e o reflexo HDRI entra depois. */}
-      <React.Suspense fallback={null}>
-        <Environment files="/hdri/studio_small_03_1k.hdr" environmentIntensity={0.7} resolution={256} />
-      </React.Suspense>
+      {/* iOS Safari TRAVA a cena inteira com o HDRI do <Environment> (PMREM +
+          float textures) → frasco em branco no iPhone mesmo com WebGL ok e sem erro
+          (por isso nem cai pro PNG). No MOBILE pulamos o HDRI e iluminamos só com
+          luzes (ambient forte + hemisphere + directionals) — o frasco branco
+          renderiza de forma confiável. DESKTOP mantém o IBL do HDRI (funciona lá).
+          O HDRI same-origin (era preset via CDN raw.githack.com, que falhava em prod)
+          continua sendo a fonte de reflexo no desktop. */}
+      <ambientLight intensity={isMobile ? 0.6 : 0.42} />
+      {isMobile && <hemisphereLight args={["#ffffff", "#e6e6e6", 0.8]} />}
+      {!isMobile && (
+        <React.Suspense fallback={null}>
+          <Environment files="/hdri/studio_small_03_1k.hdr" environmentIntensity={0.7} resolution={256} />
+        </React.Suspense>
+      )}
       {/* Key quente — ALTO-ESQUERDA, define volume (brief §iluminação) */}
       <directionalLight position={[-5, 8.5, 6]} intensity={1.45} color="#fff3e0" castShadow shadow-mapSize={[2048, 2048]} />
       {/* Rim frio — borda DIREITA, destaca o contorno contra o fundo (brief) */}
