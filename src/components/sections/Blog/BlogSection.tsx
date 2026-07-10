@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { prefersReducedMotion } from "@/lib/animations/defaults";
 import Image from "next/image";
@@ -14,16 +14,12 @@ export function BlogSection() {
   // Home destaca os 3 primeiros artigos; a página /blog lista todos.
   const posts = getArticles(locale).slice(0, 3);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [email, setEmail] = useState("");
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [emailError, setEmailError] = useState("");
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       if (prefersReducedMotion()) {
         gsap.set(".blog-header", { y: 0, opacity: 1 });
         gsap.set(".blog-card", { y: 0, opacity: 1 });
-        gsap.set(".newsletter-strip", { y: 0, opacity: 1 });
         return;
       }
       // 1. Reveal do Header — duration (1s) + ease power3.out custom; start "top 80%" custom.
@@ -52,34 +48,10 @@ export function BlogSection() {
           }
         }
       );
-
-      // 3. Reveal da Newsletter Strip — duration (1s) + power2.out custom.
-      gsap.from(".newsletter-strip", {
-        y: 30,
-        opacity: 0,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".newsletter-strip",
-        }
-      });
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
-
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.includes("@") || !email.includes(".")) {
-      setEmailError(t.blog.emailError);
-      return;
-    }
-    setEmailError("");
-    setIsSubscribed(true);
-    
-    // Feedback visual animado no form
-    gsap.fromTo('.subs-feedback', { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.5)" });
-  };
 
   return (
     <section ref={containerRef} id="blog" className="relative w-full bg-[var(--color-surface-subtle)] py-24 md:py-32 overflow-hidden z-20">
@@ -109,7 +81,7 @@ export function BlogSection() {
         </div>
 
         {/* Grid de Cards (Blog Posts) */}
-        <div className="blog-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mb-20 md:mb-24">
+        <div className="blog-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
           {posts.map((post) => (
             <Link key={post.slug} href={`/blog/${post.slug}/`} className="blog-card group cursor-pointer bg-white border border-gray-100 flex flex-col h-full hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 rounded-sm overflow-hidden">
               {/* Box da Imagem */}
@@ -144,45 +116,6 @@ export function BlogSection() {
               </div>
             </Link>
           ))}
-        </div>
-
-        {/* Newsletter Strip Modular */}
-        <div className="newsletter-strip relative bg-[var(--color-text-primary)] text-white py-14 px-8 md:px-16 rounded-lg overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-10">
-           {/* Grafismo de Fundo Premium */}
-           <div className="absolute right-0 top-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_center,rgba(189,22,34,0.15)_0%,transparent_70%)] pointer-events-none" />
-           
-           <div className="relative z-10 max-w-xl">
-             <h3 className="font-display text-3xl md:text-4xl font-medium tracking-tight mb-3">{t.blog.newsletterTitle} <span className="text-aero-red font-black">{t.blog.newsletterPro}</span></h3>
-             <p className="text-gray-400 text-sm md:text-base">{t.blog.newsletterDesc}</p>
-           </div>
-           
-           <div className="relative z-10 w-full lg:w-auto flex-grow max-w-lg">
-             {!isSubscribed ? (
-               <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-3">
-                 <div className="w-full relative">
-                   <input 
-                     type="text" 
-                     value={email}
-                     onChange={(e) => setEmail(e.target.value)}
-                     placeholder={t.blog.emailPlaceholder}
-                     className="w-full px-5 py-4 bg-white/5 border border-white/10 text-white placeholder-gray-500 font-mono text-xs md:text-sm focus:outline-none focus:border-aero-red transition-colors rounded-sm"
-                   />
-                   {emailError && <span className="absolute -bottom-6 left-1 text-[10px] text-red-500 font-mono">{emailError}</span>}
-                 </div>
-                 <button 
-                   type="submit" 
-                   className="whitespace-nowrap px-8 py-4 bg-aero-red text-white font-bold uppercase tracking-widest text-xs hover:bg-red-700 transition-colors duration-300 rounded-sm"
-                 >
-                   {t.blog.subscribe}
-                 </button>
-               </form>
-             ) : (
-               <div className="subs-feedback w-full flex items-center justify-center gap-3 px-5 py-4 bg-green-900/20 border border-green-500/30 rounded-sm">
-                 <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                 <span className="font-mono text-xs uppercase tracking-widest text-green-400 font-bold">{t.blog.subscribed}</span>
-               </div>
-             )}
-           </div>
         </div>
 
       </div>
