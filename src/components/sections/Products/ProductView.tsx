@@ -38,20 +38,23 @@ export function ProductView({ slug }: { slug: string }) {
         {/* Hero split: 3D + ficha */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-20 md:mb-24">
           {/* Palco 3D */}
-          <div className="relative w-full min-h-[38vh] md:min-h-[60vh] flex items-center justify-center order-1">
+          <div className="relative w-full min-h-[56vh] md:min-h-[60vh] flex items-center justify-center order-1">
             <div className="absolute top-2 left-2 z-10 flex items-center gap-2 bg-white/80 backdrop-blur border border-gray-200 rounded-full px-3 py-1">
               <span className="font-mono text-[9px] font-bold tracking-widest uppercase text-gray-700">{t.products.model3dBadge}</span>
             </div>
-            {/* Enquadramento "hero" de produto: câmera bem mais próxima (objeto
-                grande), canvas proporcional (mais baixo no mobile p/ matar o vazio)
-                e alvo baixado p/ centralizar o objeto no frame. */}
+            {/* Enquadramento premium calibrado pela projeção exata da câmera three.js
+                (scratchpad/project_framing.py). cameraZ 6.3 → frasco ocupa ~81% da
+                altura do canvas (~45–48% da viewport), SEM corte mesmo com o float.
+                targetY 0.0 → centro do frasco levemente abaixo (−0.08), com 2,25× mais
+                respiro acima que abaixo → ancorado no conteúdo, assimetria elegante.
+                fov é vertical → o mesmo enquadramento vale p/ mobile e desktop. */}
             <Product3D
               modelSrc={product.model}
               fallbackSrc={product.image}
               alt={product.name}
-              cameraZ={3.9}
-              targetY={0.12}
-              heightClass="min-h-[38vh] md:min-h-[60vh]"
+              cameraZ={6.3}
+              targetY={0.0}
+              heightClass="min-h-[56vh] md:min-h-[60vh]"
             />
           </div>
 
