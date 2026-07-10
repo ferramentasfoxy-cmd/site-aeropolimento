@@ -29,6 +29,14 @@ interface Product3DProps {
   modelSrc: string;
   fallbackSrc: string;
   alt: string;
+  /** Distância da câmera no eixo Z. Menor = objeto MAIOR no canvas. Padrão home: 6.6. */
+  cameraZ?: number;
+  /** Alvo vertical da câmera (enquadramento). Padrão: -0.15 (levemente pra baixo). */
+  targetY?: number;
+  /** Tamanho normalizado do modelo em unidades de cena. Padrão: 2.6. */
+  targetSize?: number;
+  /** Classe Tailwind de altura mínima do container do canvas. */
+  heightClass?: string;
 }
 
 // ── Detecção de WebGL (uma vez, client-side) ──
@@ -98,7 +106,7 @@ class WebGLErrorBoundary extends React.Component<
 // ── Modelo: auto-fit + textura preservada + entrada GSAP + turntable ──
 const TARGET_SIZE = 2.6; // altura-alvo normalizada (unidades de cena)
 
-function ProductModel({ modelSrc }: { modelSrc: string }) {
+function ProductModel({ modelSrc, targetSize = TARGET_SIZE }: { modelSrc: string; targetSize?: number }) {
   const { scene } = useGLTF(modelSrc);
   const outerGroupRef = React.useRef<THREE.Group>(null);
   const innerGroupRef = React.useRef<THREE.Group>(null);
@@ -113,7 +121,7 @@ function ProductModel({ modelSrc }: { modelSrc: string }) {
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z) || 1;
-    const scale = TARGET_SIZE / maxDim;
+    const scale = targetSize / maxDim;
 
     clone.scale.setScalar(scale);
     // position NÃO é afetada pela própria escala → multiplicamos manualmente.
@@ -135,7 +143,7 @@ function ProductModel({ modelSrc }: { modelSrc: string }) {
     });
 
     return clone;
-  }, [scene]);
+  }, [scene, targetSize]);
 
   // Entrada cinematográfica: zoom-in girando + assentamento vertical.
   React.useEffect(() => {
@@ -185,7 +193,7 @@ function ProductModel({ modelSrc }: { modelSrc: string }) {
 }
 
 // ── Cena: relight de estúdio + sombra de contato (espelha o Hero) ──
-function Scene({ modelSrc }: { modelSrc: string }) {
+function Scene({ modelSrc, targetY = -0.15, targetSize }: { modelSrc: string; targetY?: number; targetSize?: number }) {
   const controlsRef = React.useRef<OrbitControlsImpl>(null);
 
   return (
@@ -208,14 +216,14 @@ function Scene({ modelSrc }: { modelSrc: string }) {
         enableRotate
         enableDamping
         dampingFactor={0.04}
-        target={[0, -0.15, 0]}
+        target={[0, targetY, 0]}
         minPolarAngle={Math.PI / 2 - 0.3}
         maxPolarAngle={Math.PI / 2 + 0.15}
         makeDefault
       />
 
       <React.Suspense fallback={null}>
-        <ProductModel modelSrc={modelSrc} />
+        <ProductModel modelSrc={modelSrc} targetSize={targetSize} />
       </React.Suspense>
 
       {/* Núcleo de contato — aterra o produto, mas suave (fundos limpos) */}
@@ -245,7 +253,15 @@ function Scene({ modelSrc }: { modelSrc: string }) {
 // ─────────────────────────────────────────────────────────────
 // EXPORT — Product3D com lazy-mount por viewport
 // ─────────────────────────────────────────────────────────────
-export function Product3D({ modelSrc, fallbackSrc, alt }: Product3DProps) {
+export function Product3D({
+  modelSrc,
+  fallbackSrc,
+  alt,
+  cameraZ = 6.6,
+  targetY = -0.15,
+  targetSize = 2.6,
+  heightClass = "min-h-[40vh] md:min-h-[60vh]",
+}: Product3DProps) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [webglAvailable, setWebglAvailable] = React.useState<boolean>(false);
   const [inView, setInView] = React.useState<boolean>(false);
@@ -272,7 +288,7 @@ export function Product3D({ modelSrc, fallbackSrc, alt }: Product3DProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full min-h-[40vh] md:min-h-[60vh] transform-gpu"
+      className={`relative w-full h-full ${heightClass} transform-gpu`}
       style={{ cursor: show3D ? "grab" : "default" }}
       onMouseDown={(e) => {
         if (show3D) e.currentTarget.style.cursor = "grabbing";
@@ -286,7 +302,7 @@ export function Product3D({ modelSrc, fallbackSrc, alt }: Product3DProps) {
           <Canvas
             shadows
             dpr={[1, 1.5]}
-            camera={{ position: [0, 0.4, 6.6], fov: 32 }}
+            camera={{ position: [0, 0.4, cameraZ], fov: 32 }}
             gl={{
               alpha: true,
               powerPreference: "default",
@@ -296,7 +312,7 @@ export function Product3D({ modelSrc, fallbackSrc, alt }: Product3DProps) {
               toneMappingExposure: 1.1,
             }}
           >
-            <Scene modelSrc={modelSrc} />
+            <Scene modelSrc={modelSrc} targetY={targetY} targetSize={targetSize} />
           </Canvas>
         </WebGLErrorBoundary>
       ) : (
