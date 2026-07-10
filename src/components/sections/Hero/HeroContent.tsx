@@ -70,9 +70,10 @@ export function HeroContent() {
       {/* Subhead */}
       <p className="hero-subhead text-subhead max-w-xl mb-5 md:mb-9">{t.hero.subtitle}</p>
 
-      {/* CTAs — no mobile saem do fluxo de altura (absolute) p/ não empurrar o
-          produto; a partir de md voltam ao fluxo normal. */}
-      <div className="flex flex-col sm:flex-row gap-3 md:gap-4 absolute top-full inset-x-0 mt-5 md:static md:mt-0 md:inset-x-auto">
+      {/* CTAs no fluxo normal em toda tela. (Antes eram absolute top-full no
+          mobile p/ não empurrar o produto — mas isso os fazia SOBREPOR o frasco
+          3D. Com o hero em min-h-svh, o produto desce sem cortar.) */}
+      <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mt-2 md:mt-0">
         <Link
           href="#contato"
           aria-label={t.hero.ctaPrimaryAria}

@@ -84,12 +84,15 @@ export function BlogSection() {
         <div className="blog-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
           {posts.map((post) => (
             <Link key={post.slug} href={`/blog/${post.slug}/`} className="blog-card group cursor-pointer bg-white border border-gray-100 flex flex-col h-full hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 rounded-sm overflow-hidden">
-              {/* Box da Imagem */}
-              <div className="relative w-full h-[240px] overflow-hidden bg-gray-200">
-                <Image 
-                  src={post.image} 
-                  alt={post.title} 
-                  fill 
+              {/* Box da Imagem — aspect 16:9 fixo: as capas são desenhadas em
+                  1600×900 com marca nas bordas; usar altura fixa recortava ~12%
+                  de cada lado no mobile (cortava o wordmark e o número). */}
+              <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-200">
+                <Image
+                  src={post.image}
+                  alt={post.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
                   className="object-cover transition-transform duration-[1.5s] group-hover:scale-105"
                 />
                 <div className="absolute top-4 left-4 bg-[var(--color-text-primary)] text-white px-3 py-1 font-mono text-[9px] uppercase tracking-widest z-10 rounded-sm">

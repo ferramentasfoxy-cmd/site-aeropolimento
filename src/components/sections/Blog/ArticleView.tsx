@@ -126,7 +126,7 @@ export function ArticleView({ slug }: { slug: string }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {related.map((post) => (
               <Link key={post.slug} href={`/blog/${post.slug}/`} className="group flex flex-col bg-white border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-500 rounded-sm overflow-hidden">
-                <div className="relative w-full h-[160px] overflow-hidden bg-gray-200">
+                <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-200">
                   <Image src={post.image} alt={post.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="object-cover transition-transform duration-[1.5s] group-hover:scale-105" />
                 </div>
                 <div className="p-6 flex flex-col flex-grow">

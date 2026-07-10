@@ -38,7 +38,7 @@ export function BlogIndex() {
               href={`/blog/${post.slug}/`}
               className="group cursor-pointer bg-white border border-gray-100 flex flex-col h-full hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 rounded-sm overflow-hidden"
             >
-              <div className="relative w-full h-[220px] overflow-hidden bg-gray-200">
+              <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-200">
                 <Image
                   src={post.image}
                   alt={post.title}

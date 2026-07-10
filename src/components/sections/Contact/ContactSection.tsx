@@ -178,7 +178,7 @@ export function ContactSection() {
           </div>
 
           {/* Área Interativa Direita - Tabs e Forms */}
-          <div className="p-10 md:p-14 bg-white flex flex-col items-start relative overflow-hidden">
+          <div className="p-6 sm:p-8 md:p-14 bg-white flex flex-col items-start relative overflow-hidden">
              
              {/* Formulário de contato direto */}
              <div className="w-full h-full">

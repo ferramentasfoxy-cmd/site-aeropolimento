@@ -36,7 +36,7 @@ export function Hero() {
       ref={container}
       id="hero"
       aria-labelledby="hero-h1-line-1"
-      className="relative h-svh md:h-auto md:min-h-[800px] overflow-hidden bg-[var(--color-surface-base)]"
+      className="relative min-h-svh md:h-auto md:min-h-[800px] overflow-hidden bg-[var(--color-surface-base)]"
     >
       {/* ── Fundo = respiro de luz (sem grade blueprint) ──
           Base off-white (--color-surface-base) + respiro radial no produto +
@@ -71,7 +71,7 @@ export function Hero() {
             Integração ao plano = sombra ambiente (ContactShadows 3D) + leve
             reflexo de piso fosco premium (sheen elíptico discreto na base).
             O grid já está mascarado aqui (respiro), então o sheen não o corta. */}
-        <div className="relative flex-1 flex items-center justify-center [container-type:size] lg:flex-none lg:block lg:self-stretch lg:min-h-[680px]">
+        <div className="relative h-[42vh] min-h-[280px] flex items-center justify-center [container-type:size] lg:h-auto lg:min-h-[680px] lg:flex-none lg:block lg:self-stretch">
           {/* Reflexo/sheen de piso fosco — bem sutil, só sob a base */}
           <div
             className="absolute inset-0 pointer-events-none bg-[radial-gradient(22%_6%_at_50%_80%,rgba(255,255,255,0.5)_0%,rgba(255,255,255,0)_76%)]"
