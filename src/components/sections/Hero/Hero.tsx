@@ -36,7 +36,7 @@ export function Hero() {
       ref={container}
       id="hero"
       aria-labelledby="hero-h1-line-1"
-      className="relative min-h-svh md:h-auto md:min-h-[800px] overflow-hidden bg-[var(--color-surface-base)]"
+      className="relative h-svh md:h-auto md:min-h-[640px] overflow-hidden bg-[var(--color-surface-base)]"
     >
       {/* ── Fundo = respiro de luz (sem grade blueprint) ──
           Base off-white (--color-surface-base) + respiro radial no produto +
@@ -61,7 +61,7 @@ export function Hero() {
 
       {/* Content grid — container largo (max-1536) p/ menos margem lateral;
           texto ancorado no topo (não no centro); coluna do produto maior. */}
-      <div className="mx-auto w-full max-w-[1536px] px-[clamp(1.5rem,4vw,4rem)] relative h-full flex flex-col lg:grid lg:grid-cols-[1fr_1.05fr] gap-4 md:gap-10 lg:gap-16 lg:items-stretch pt-28 md:pt-32 pb-24 md:pb-16">
+      <div className="mx-auto w-full max-w-[1536px] px-[clamp(1.5rem,4vw,4rem)] relative h-full flex flex-col lg:grid lg:grid-cols-[1fr_1.05fr] gap-4 md:gap-10 lg:gap-16 lg:items-stretch pt-24 md:pt-28 pb-8 md:pb-12">
         {/* Text column — natural first = esquerda desktop / topo mobile */}
         <div className="flex flex-col justify-center lg:pt-6">
           <HeroContent />
@@ -71,7 +71,7 @@ export function Hero() {
             Integração ao plano = sombra ambiente (ContactShadows 3D) + leve
             reflexo de piso fosco premium (sheen elíptico discreto na base).
             O grid já está mascarado aqui (respiro), então o sheen não o corta. */}
-        <div className="relative h-[42vh] min-h-[280px] flex items-center justify-center [container-type:size] lg:h-auto lg:min-h-[680px] lg:flex-none lg:block lg:self-stretch">
+        <div className="relative flex-1 min-h-0 flex items-center justify-center [container-type:size] lg:flex-none lg:min-h-[600px] lg:block lg:self-stretch">
           {/* Reflexo/sheen de piso fosco — bem sutil, só sob a base */}
           <div
             className="absolute inset-0 pointer-events-none bg-[radial-gradient(22%_6%_at_50%_80%,rgba(255,255,255,0.5)_0%,rgba(255,255,255,0)_76%)]"
