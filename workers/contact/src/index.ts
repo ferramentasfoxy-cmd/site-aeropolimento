@@ -25,21 +25,17 @@
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { z } from 'zod'
+import { EmailMessage } from 'cloudflare:email'
+import { createMimeMessage } from 'mimetext'
 
-// Binding de envio nativo da Cloudflare (Email Sending, API por objeto).
-interface EmailSendBinding {
-  send(message: {
-    to: string | string[]
-    from: { email: string; name?: string }
-    replyTo?: string
-    subject: string
-    html: string
-    text: string
-  }): Promise<{ messageId: string }>
+// Binding legado de e-mail (Cloudflare Email Routing — plano grátis). Envia via
+// MIME para um endereço de DESTINO VERIFICADO no Email Routing da conta.
+interface EmailRoutingBinding {
+  send(message: EmailMessage): Promise<void>
 }
 
 type Bindings = {
-  EMAIL: EmailSendBinding
+  EMAIL: EmailRoutingBinding
   CONTACT_TO_EMAIL: string
   RESELLER_TO_EMAIL?: string
   EMAIL_FROM: string
@@ -218,19 +214,19 @@ app.post('/api/contact', async (c) => {
 
   const { subject, html, text, replyTo } = buildEmail(payload)
 
-  // 6. Envio via Cloudflare Email Sending
+  // 6. Envio via Cloudflare Email Routing (MIME). O destino (to) precisa estar
+  //    VERIFICADO no Email Routing da conta; o remetente é do domínio próprio.
   try {
-    await c.env.EMAIL.send({
-      to,
-      from: { email: c.env.EMAIL_FROM, name: c.env.EMAIL_FROM_NAME || 'Site Aeropolimento' },
-      replyTo,
-      subject,
-      html,
-      text,
-    })
+    const mime = createMimeMessage()
+    mime.setSender({ name: c.env.EMAIL_FROM_NAME || 'Site Aeropolimento', addr: c.env.EMAIL_FROM })
+    mime.setRecipient(to)
+    mime.setSubject(subject)
+    mime.setHeader('Reply-To', replyTo)
+    mime.addMessage({ contentType: 'text/plain', data: text })
+    mime.addMessage({ contentType: 'text/html', data: html })
+    await c.env.EMAIL.send(new EmailMessage(c.env.EMAIL_FROM, to, mime.asRaw()))
   } catch (err) {
-    const code = (err as { code?: string; message?: string })?.code
-    console.error('[contact] Falha no envio (Email Sending)', code, (err as { message?: string })?.message)
+    console.error('[contact] Falha no envio (Email Routing)', (err as { message?: string })?.message)
     return c.json({ ok: false, error: 'Não foi possível enviar agora' }, 502)
   }
 

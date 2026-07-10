@@ -13,8 +13,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "hono": "^4.12.14",
     "@hono/zod-validator": "^0.7.6",
+    "hono": "^4.12.14",
+    "mimetext": "^3.0.28",
     "zod": "^3.25.76"
   },
   "devDependencies": {

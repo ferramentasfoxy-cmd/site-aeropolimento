@@ -6,11 +6,12 @@ compatibility_flags = ["nodejs_compat"]
 [observability]
 enabled = true
 
-# Envio de e-mail nativo da Cloudflare (Email Sending). Sem API key: a autorização
-# vem do domínio onboardado na conta (Compute & AI > Email Service > Email Sending,
-# ou `wrangler email sending enable aeropolimentoprodutos.com.br`).
+# Envio via Cloudflare Email Routing (plano grátis). `destination_address` é o
+# endereço de DESTINO que precisa estar VERIFICADO no Email Routing da conta
+# (Dashboard: domínio > Email > Email Routing > Destination addresses).
 [[send_email]]
 name = "EMAIL"
+destination_address = "aeropolimentoprodutos@gmail.com"
 
 # Variáveis públicas (não-secretas).
 [vars]
